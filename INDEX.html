@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKEO YOUTUBE | Official Social Hub</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Orbitron, Rajdhani & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@700;800;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#09090b',
+                        surface: '#111115',
+                        card: '#18181f',
+                        crimson: '#e60023',
+                        neonred: '#ff1e42',
+                        darkred: '#4a000b',
+                    },
+                    fontFamily: {
+                        display: ['Orbitron', 'sans-serif'],
+                        gaming: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #09090b;
+            color: #f3f4f6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(230, 0, 35, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(230, 0, 35, 0.07) 1px, transparent 1px);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 18px rgba(255, 30, 66, 0.65);
+        }
+
+        .social-btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 30, 66, 0.22);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px) scale(1.01);
+            border-color: #ff1e42;
+            box-shadow: 0 10px 28px -8px rgba(230, 0, 35, 0.55);
+        }
+
+        .social-btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased cyber-grid relative flex flex-col items-center justify-center p-4 sm:p-6 selection:bg-neonred selection:text-white">
+
+    <!-- Ambient Crimson Glow -->
+    <div class="fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[540px] h-[340px] sm:h-[540px] bg-crimson/15 rounded-full blur-[120px] pointer-events-none z-0"></div>
+
+    <!-- Top Right Discreet Owner Lock / Mode Switcher -->
+    <div class="fixed top-4 right-4 z-30 flex items-center gap-2">
+        <!-- Quick Preview Toggle (Visible only when unlocked) -->
+        <button id="previewToggleBtn" onclick="togglePreviewMode()" class="hidden px-3.5 py-2 rounded-xl bg-surface/90 backdrop-blur-md border border-neonred/40 text-xs font-gaming font-bold uppercase tracking-wider text-white hover:bg-neonred transition-all shadow-lg flex items-center gap-2">
+            <i id="previewToggleIcon" class="fas fa-eye"></i>
+            <span id="previewToggleText">Visitor Preview</span>
+        </button>
+
+        <!-- Owner Lock / Unlock Button -->
+        <button id="ownerLockBtn" onclick="handleOwnerButtonClick()" title="Owner Edit Mode" class="w-10 h-10 rounded-xl bg-surface/80 backdrop-blur-md border border-white/10 hover:border-neonred/60 text-gray-400 hover:text-neonred flex items-center justify-center transition-all shadow-lg">
+            <i id="ownerLockIcon" class="fas fa-lock text-sm"></i>
+        </button>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="relative z-10 w-full max-w-md mx-auto my-auto py-8">
+
+        <!-- ========================================================= -->
+        <!-- 1. PUBLIC VISITOR VIEW (What Others See)                  -->
+        <!-- ========================================================= -->
+        <section id="visitorView" class="bg-surface/90 backdrop-blur-xl rounded-3xl border border-neonred/25 p-6 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.85)] relative overflow-hidden">
+            
+            <!-- Top Accent Bar -->
+            <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-darkred via-neonred to-darkred"></div>
+
+            <!-- Live Preview Banner (Shown only when owner previews visitor view) -->
+            <div id="previewBanner" class="hidden mb-5 px-3 py-2 rounded-xl bg-neonred/15 border border-neonred/40 flex items-center justify-between text-xs font-gaming font-bold uppercase tracking-wider text-neonred">
+                <span><i class="fas fa-eye mr-1.5"></i> Viewing As Public Visitor</span>
+                <button onclick="togglePreviewMode()" class="underline hover:text-white">Back to Editor</button>
+            </div>
+
+            <!-- Profile Header & Anime Duck Emblem -->
+            <div class="flex flex-col items-center text-center">
+                <!-- Red & Black Anime Duck SVG Emblem / Custom Logo Container -->
+                <div class="relative w-28 h-28 sm:w-32 sm:h-32 mb-4">
+                    <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-crimson to-neonred blur-md opacity-40"></div>
+                    <div id="publicLogoContainer" class="relative w-full h-full rounded-full bg-obsidian border-2 border-neonred p-1.5 shadow-xl flex items-center justify-center overflow-hidden">
+                        <!-- Rendered dynamically via JS (Default Anime Duck SVG or Custom Image) -->
+                    </div>
+                </div>
+
+                <!-- Display Name & Verified Tag -->
+                <div class="flex items-center justify-center gap-2">
+                    <h1 id="publicDisplayName" class="font-display font-black text-2xl sm:text-3xl tracking-wider text-white text-glow">
+                        AKEO YOUTUBE
+                    </h1>
+                    <span class="w-5 h-5 rounded-full bg-neonred text-white flex items-center justify-center text-[10px]" title="Official Creator">
+                        <i class="fas fa-check"></i>
+                    </span>
+                </div>
+
+                <!-- Bio -->
+                <p id="publicBio" class="text-gray-400 text-sm sm:text-base mt-2 max-w-xs leading-relaxed">
+                    Gaming • Viral Clips • Unfiltered Entertainment. Welcome to the flock!
+                </p>
+            </div>
+
+            <!-- Interactive Social Link Buttons Container -->
+            <div id="publicLinksList" class="mt-7 space-y-3.5">
+                <!-- Buttons rendered dynamically via JS -->
+            </div>
+
+            <!-- Subtle Footer -->
+            <div class="mt-8 pt-4 border-t border-white/5 text-center">
+                <span class="font-gaming font-bold text-xs tracking-widest uppercase text-gray-500">
+                    OFFICIAL HUB • <span class="text-neonred">AKEO</span>
+                </span>
+            </div>
+        </section>
+
+        <!-- ========================================================= -->
+        <!-- 2. OWNER EDIT MODE (Unlocked via PIN)                     -->
+        <!-- ========================================================= -->
+        <section id="ownerEditorView" class="hidden bg-surface/95 backdrop-blur-xl rounded-3xl border border-neonred/40 p-6 sm:p-8 shadow-[0_20px_60px_rgba(230,0,35,0.25)] relative">
+            <div class="flex items-center justify-between pb-4 mb-6 border-b border-white/10">
+                <div>
+                    <span class="font-gaming font-bold text-xs tracking-widest uppercase text-neonred">Owner Dashboard</span>
+                    <h2 class="font-display font-bold text-xl text-white">EDIT PROFILE & LINKS</h2>
+                </div>
+                <button onclick="lockOwnerMode()" class="px-3 py-1.5 rounded-lg bg-card hover:bg-neonred/20 border border-white/10 text-xs font-gaming font-bold uppercase text-gray-300 hover:text-neonred transition-colors">
+                    <i class="fas fa-lock mr-1"></i> Lock
+                </button>
+            </div>
+
+            <form id="ownerForm" class="space-y-4">
+                <!-- Channel Logo Customization Section -->
+                <div class="p-3.5 rounded-xl bg-obsidian border border-white/10 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="font-gaming font-bold text-xs uppercase tracking-widest text-neonred">Channel Logo</span>
+                        <button type="button" onclick="resetLogoToDefault()" class="text-[11px] font-gaming font-bold uppercase text-gray-400 hover:text-neonred transition-colors flex items-center gap-1">
+                            <i class="fas fa-rotate-left"></i> Reset to Anime Duck
+                        </button>
+                    </div>
+
+                    <div class="flex items-center gap-3.5">
+                        <!-- Live Logo Preview Circle -->
+                        <div id="editorLogoPreview" class="w-16 h-16 shrink-0 rounded-full bg-surface border-2 border-neonred/70 p-1 flex items-center justify-center overflow-hidden shadow-md">
+                            <!-- Live preview rendered via JS -->
+                        </div>
+
+                        <div class="flex-1 space-y-2">
+                            <!-- Upload Image File Button -->
+                            <label class="w-full py-2 px-3 rounded-lg bg-surface hover:bg-card border border-neonred/40 text-white font-gaming font-bold text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2 transition-colors">
+                                <i class="fas fa-upload text-neonred"></i>
+                                <span>Upload Image File</span>
+                                <input type="file" id="logoFileInput" accept="image/*" class="hidden" onchange="handleLogoFileUpload(event)">
+                            </label>
+
+                            <!-- Direct Image URL Input -->
+                            <input type="text" id="editLogoUrl" placeholder="Or paste direct image URL (https://...)" oninput="handleLogoUrlInput(this.value)" class="w-full px-3 py-1.5 rounded-lg bg-surface border border-white/10 focus:border-neonred focus:outline-none text-xs text-gray-200">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Channel Display Name -->
+                <div>
+                    <label class="block font-gaming font-bold text-xs uppercase tracking-wider text-gray-300 mb-1">Display Name</label>
+                    <input type="text" id="editName" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-white/10 focus:border-neonred focus:outline-none text-white text-sm">
+                </div>
+
+                <!-- Channel Bio -->
+                <div>
+                    <label class="block font-gaming font-bold text-xs uppercase tracking-wider text-gray-300 mb-1">Channel Bio</label>
+                    <textarea id="editBio" rows="2" class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-white/10 focus:border-neonred focus:outline-none text-white text-sm"></textarea>
+                </div>
+
+                <!-- Social Platforms Configuration -->
+                <div class="pt-2 space-y-3">
+                    <div class="font-gaming font-bold text-xs uppercase tracking-widest text-neonred">Social Platforms & Visibility</div>
+
+                    <!-- YouTube -->
+                    <div class="p-3.5 rounded-xl bg-obsidian border border-white/10 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-gaming font-bold text-sm text-white flex items-center gap-2">
+                                <i class="fab fa-youtube text-neonred"></i> YouTube URL
+                            </span>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="visYoutube" class="sr-only peer">
+                                <div class="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:bg-neonred relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
+                            </label>
+                        </div>
+                        <input type="text" id="urlYoutube" placeholder="https://youtube.com/@YourChannel" class="w-full px-3 py-2 rounded-lg bg-surface border border-white/10 focus:border-neonred focus:outline-none text-xs text-gray-200">
+                    </div>
+
+                    <!-- Facebook -->
+                    <div class="p-3.5 rounded-xl bg-obsidian border border-white/10 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-gaming font-bold text-sm text-white flex items-center gap-2">
+                                <i class="fab fa-facebook text-neonred"></i> Facebook URL
+                            </span>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="visFacebook" class="sr-only peer">
+                                <div class="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:bg-neonred relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
+                            </label>
+                        </div>
+                        <input type="text" id="urlFacebook" placeholder="https://facebook.com/YourPage" class="w-full px-3 py-2 rounded-lg bg-surface border border-white/10 focus:border-neonred focus:outline-none text-xs text-gray-200">
+                    </div>
+
+                    <!-- Instagram -->
+                    <div class="p-3.5 rounded-xl bg-obsidian border border-white/10 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-gaming font-bold text-sm text-white flex items-center gap-2">
+                                <i class="fab fa-instagram text-neonred"></i> Instagram URL
+                            </span>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="visInstagram" class="sr-only peer">
+                                <div class="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:bg-neonred relative after:content-[''] after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
+                            </label>
+                        </div>
+                        <input type="text" id="urlInstagram" placeholder="https://instagram.com/YourHandle" class="w-full px-3 py-2 rounded-lg bg-surface border border-white/10 focus:border-neonred focus:outline-none text-xs text-gray-200">
+                    </div>
+
+                    <!-- Discord -->
+                    <div class="p-3.5 rounded-xl bg-obsidian border border-white/10 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-gaming font-bold text-sm text-white flex items-center gap-2">
+                                <i class="fab fa-discord text-neonred"></i> Discord Link or Username/Tag
+                            </span>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="visDiscord" class="sr-only peer">
+                                <div class="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:bg-neonred relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
+                            </label>
+                        </div>
+                        <input type="text" id="urlDiscord" placeholder="https://discord.gg/invite OR akeo#0001" class="w-full px-3 py-2 rounded-lg bg-surface border border-white/10 focus:border-neonred focus:outline-none text-xs text-gray-200">
+                        <p class="text-[11px] text-gray-500">Tip: Enter an invite URL to open Discord, or just your username to copy it on click.</p>
+                    </div>
+                </div>
+
+                <!-- Security / Change PIN -->
+                <div class="p-3.5 rounded-xl bg-obsidian/70 border border-white/5 flex items-center justify-between gap-3">
+                    <div>
+                        <div class="font-gaming font-bold text-xs uppercase text-gray-300">Owner Access PIN</div>
+                        <div class="text-[11px] text-gray-500">Default is 1234</div>
+                    </div>
+                    <input type="password" id="editPin" maxlength="8" placeholder="New PIN" class="w-28 px-3 py-1.5 rounded-lg bg-surface border border-white/10 focus:border-neonred focus:outline-none text-xs text-white text-center tracking-widest">
+                </div>
+
+                <!-- Save & Share Actions -->
+                <div class="pt-2 space-y-2.5">
+                    <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-crimson to-neonred hover:from-neonred hover:to-crimson text-white font-display font-bold text-xs tracking-wider uppercase shadow-lg shadow-neonred/30 transition-all active:scale-98">
+                        <i class="fas fa-floppy-disk mr-1.5"></i> Save Changes Locally
+                    </button>
+
+                    <button type="button" onclick="copyShareableLink()" class="w-full py-3 rounded-xl bg-obsidian hover:bg-card border border-neonred/40 text-white font-gaming font-bold text-sm tracking-wider uppercase transition-all flex items-center justify-center gap-2">
+                        <i class="fas fa-share-nodes text-neonred"></i> Copy Shareable Visitor Link
+                    </button>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- ========================================================= -->
+    <!-- PIN UNLOCK MODAL                                          -->
+    <!-- ========================================================= -->
+    <div id="pinModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4">
+        <div class="bg-surface border border-neonred/50 rounded-2xl max-w-xs w-full p-6 shadow-2xl text-center">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-neonred/15 border border-neonred flex items-center justify-center text-neonred">
+                <i class="fas fa-shield-halved text-xl"></i>
+            </div>
+            <h3 class="font-display font-bold text-lg text-white">OWNER ACCESS</h3>
+            <p class="text-xs text-gray-400 mt-1 mb-4">Enter PIN to edit AKEO YOUTUBE links<br><span class="text-gray-500">(Default PIN: 1234)</span></p>
+
+            <form id="pinForm" class="space-y-3">
+                <input type="password" id="pinInput" maxlength="8" placeholder="••••" required class="w-full px-4 py-3 rounded-xl bg-obsidian border border-white/15 focus:border-neonred focus:outline-none text-center font-display text-lg tracking-[0.4em] text-white">
+                <p id="pinError" class="hidden text-xs text-neonred font-semibold">Incorrect PIN. Try again.</p>
+                <div class="flex gap-2 pt-1">
+                    <button type="button" onclick="closePinModal()" class="flex-1 py-2.5 rounded-xl bg-card text-gray-300 hover:text-white font-gaming font-bold text-sm uppercase">
+                        Cancel
+                    </button>
+                    <button type="submit" class="flex-1 py-2.5 rounded-xl bg-neonred text-white font-gaming font-bold text-sm uppercase shadow-lg shadow-neonred/30">
+                        Unlock
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-obsidian border border-neonred text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 whitespace-nowrap">
+            <i class="fas fa-bolt text-neonred"></i>
+            <span id="toastMessage" class="font-gaming font-bold text-sm tracking-wide">Copied!</span>
+        </div>
+    </div>
+
+    <script>
+        // Storage Keys
+        const CONFIG_STORAGE_KEY = 'akeo_hub_config_v1';
+        const PIN_STORAGE_KEY = 'akeo_hub_pin_v1';
+
+        // Default Red & Black Anime Duck Emblem SVG
+        const DEFAULT_DUCK_SVG = `
+            <svg class="w-full h-full" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="150" cy="150" r="134" stroke="#ff1e42" stroke-width="3" stroke-dasharray="14 8" opacity="0.6"/>
+                <path d="M75 250L95 192L150 212L205 192L225 250H75Z" fill="#141419" stroke="#ff1e42" stroke-width="3"/>
+                <path d="M98 192L126 226H174L202 192" fill="#2b0309" stroke="#e60023" stroke-width="2.5"/>
+                <path d="M88 125L65 84L105 97L115 54L145 87L175 49L185 94L228 79L205 125" fill="url(#duckHair)" stroke="#09090b" stroke-width="3" stroke-linejoin="round"/>
+                <path d="M92 135C92 98 118 82 150 82C182 82 208 98 208 135C208 172 182 195 150 195C118 195 92 172 92 135Z" fill="url(#duckHead)" stroke="#09090b" stroke-width="3"/>
+                <path d="M84 140C84 95 112 68 150 68C188 68 216 95 216 140" stroke="#1f1f26" stroke-width="10" stroke-linecap="round"/>
+                <rect x="70" y="118" width="18" height="44" rx="8" fill="#111115" stroke="#ff1e42" stroke-width="3"/>
+                <rect x="212" y="118" width="18" height="44" rx="8" fill="#111115" stroke="#ff1e42" stroke-width="3"/>
+                <circle cx="79" cy="140" r="4" fill="#ff1e42"/>
+                <circle cx="221" cy="140" r="4" fill="#ff1e42"/>
+                <path d="M104 122L138 134" stroke="#09090b" stroke-width="6" stroke-linecap="round"/>
+                <path d="M196 122L162 134" stroke="#09090b" stroke-width="6" stroke-linecap="round"/>
+                <path d="M108 132L136 138L128 148L110 144Z" fill="#ffffff"/>
+                <circle cx="124" cy="140" r="5" fill="#e60023"/>
+                <circle cx="126" cy="138" r="2" fill="#ffffff"/>
+                <path d="M192 132L164 138L172 148L190 144Z" fill="#ffffff"/>
+                <circle cx="176" cy="140" r="5" fill="#e60023"/>
+                <circle cx="174" cy="138" r="2" fill="#ffffff"/>
+                <path d="M105 162C105 150 195 150 195 162C205 174 185 188 150 188C115 188 95 174 105 162Z" fill="url(#duckBill)" stroke="#09090b" stroke-width="3"/>
+                <path d="M114 167C132 173 168 173 186 167" stroke="#09090b" stroke-width="3" stroke-linecap="round"/>
+                <defs>
+                    <linearGradient id="duckHair" x1="150" y1="49" x2="150" y2="125" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#ff1e42"/>
+                        <stop offset="1" stop-color="#800013"/>
+                    </linearGradient>
+                    <linearGradient id="duckHead" x1="150" y1="82" x2="150" y2="195" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#b8001c"/>
+                        <stop offset="1" stop-color="#380008"/>
+                    </linearGradient>
+                    <linearGradient id="duckBill" x1="150" y1="150" x2="150" y2="188" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#ff3b5c"/>
+                        <stop offset="1" stop-color="#b8001c"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        `;
+
+        // Default Profile Data
+        const defaultConfig = {
+            logo: '',
+            name: 'AKEO YOUTUBE',
+            bio: 'Gaming • Viral Clips • Unfiltered Entertainment. Welcome to the flock!',
+            links: {
+                youtube: { enabled: true, value: 'https://youtube.com/@AkeoYouTube' },
+                facebook: { enabled: true, value: 'https://facebook.com' },
+                instagram: { enabled: true, value: 'https://instagram.com' },
+                discord: { enabled: true, value: 'akeo_duck' }
+            }
+        };
+
+        let currentConfig = JSON.parse(JSON.stringify(defaultConfig));
+        let draftLogoValue = '';
+        let isUnlocked = false;
+        let isPreviewingVisitor = false;
+
+        // Render Logo Helper (Supports custom image URL/DataURL with automatic fallback to Anime Duck SVG)
+        function renderLogoIntoContainer(containerEl, logoSrc) {
+            if (!containerEl) return;
+            const trimmed = (logoSrc || '').trim();
+            if (!trimmed) {
+                containerEl.classList.add('p-1.5');
+                containerEl.classList.remove('p-0');
+                containerEl.innerHTML = DEFAULT_DUCK_SVG;
+                return;
+            }
+
+            containerEl.classList.remove('p-1.5');
+            containerEl.classList.add('p-0');
+            containerEl.innerHTML = '';
+
+            const img = document.createElement('img');
+            img.src = trimmed;
+            img.alt = 'Channel Logo';
+            img.className = 'w-full h-full object-cover rounded-full';
+            img.onerror = function() {
+                containerEl.classList.add('p-1.5');
+                containerEl.classList.remove('p-0');
+                containerEl.innerHTML = DEFAULT_DUCK_SVG;
+            };
+            containerEl.appendChild(img);
+        }
+
+        // 1. Load Configuration (Priority: URL Hash -> LocalStorage -> Default)
+        function initApp() {
+            const hash = window.location.hash;
+            if (hash && hash.startsWith('#profile=')) {
+                try {
+                    const encoded = hash.replace('#profile=', '');
+                    const decodedJson = decodeURIComponent(escape(atob(encoded)));
+                    const sharedData = JSON.parse(decodedJson);
+                    if (sharedData && sharedData.name && sharedData.links) {
+                        currentConfig = sharedData;
+                    }
+                } catch (err) {
+                    console.warn('Invalid share link payload, falling back to saved config.');
+                    loadFromLocalStorage();
+                }
+            } else {
+                loadFromLocalStorage();
+            }
+
+            renderVisitorView();
+            populateEditorForm();
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem(CONFIG_STORAGE_KEY);
+            if (saved) {
+                try {
+                    currentConfig = JSON.parse(saved);
+                } catch (e) {
+                    currentConfig = JSON.parse(JSON.stringify(defaultConfig));
+                }
+            }
+        }
+
+        function getStoredPin() {
+            return localStorage.getItem(PIN_STORAGE_KEY) || '1234';
+        }
+
+        // 2. Render Public Visitor View
+        function renderVisitorView() {
+            renderLogoIntoContainer(document.getElementById('publicLogoContainer'), currentConfig.logo);
+            document.getElementById('publicDisplayName').textContent = currentConfig.name || 'AKEO YOUTUBE';
+            document.getElementById('publicBio').textContent = currentConfig.bio || '';
+
+            const container = document.getElementById('publicLinksList');
+            container.innerHTML = '';
+
+            const platforms = [
+                {
+                    key: 'youtube',
+                    label: 'YouTube',
+                    sub: 'Watch Videos & Shorts',
+                    icon: 'fab fa-youtube',
+                    data: currentConfig.links.youtube
+                },
+                {
+                    key: 'facebook',
+                    label: 'Facebook',
+                    sub: 'Follow Page & Streams',
+                    icon: 'fab fa-facebook-f',
+                    data: currentConfig.links.facebook
+                },
+                {
+                    key: 'instagram',
+                    label: 'Instagram',
+                    sub: 'Reels & Daily Updates',
+                    icon: 'fab fa-instagram',
+                    data: currentConfig.links.instagram
+                },
+                {
+                    key: 'discord',
+                    label: 'Discord',
+                    sub: isUrl(currentConfig.links.discord?.value) ? 'Join The Duck Nest' : `Tag: ${currentConfig.links.discord?.value || 'Not set'}`,
+                    icon: 'fab fa-discord',
+                    data: currentConfig.links.discord
+                }
+            ];
+
+            let activeCount = 0;
+
+            platforms.forEach(item => {
+                if (!item.data || !item.data.enabled || !item.data.value.trim()) return;
+                activeCount++;
+
+                const val = item.data.value.trim();
+                const isLink = isUrl(val);
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'social-btn w-full p-4 rounded-2xl bg-card/90 hover:bg-card flex items-center justify-between group text-left';
+                
+                btn.onclick = () => {
+                    if (isLink) {
+                        const formattedUrl = val.startsWith('http://') || val.startsWith('https://') ? val : `https://${val}`;
+                        window.open(formattedUrl, '_blank', 'noopener,noreferrer');
+                    } else {
+                        copyTextToClipboard(val);
+                        showToast(`Copied Discord tag: ${val}`);
+                    }
+                };
+
+                btn.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-obsidian border border-neonred/30 group-hover:bg-neonred group-hover:border-neonred text-neonred group-hover:text-white flex items-center justify-center text-xl transition-colors">
+                            <i class="${item.icon}"></i>
+                        </div>
+                        <div>
+                            <div class="font-display font-bold text-base text-white group-hover:text-neonred transition-colors">${item.label}</div>
+                            <div class="text-xs text-gray-400">${item.sub}</div>
+                        </div>
+                    </div>
+                    <div class="w-9 h-9 rounded-lg bg-obsidian/60 text-gray-400 group-hover:text-white flex items-center justify-center text-xs transition-colors">
+                        <i class="fas ${isLink ? 'fa-arrow-up-right-from-square' : 'fa-copy'}"></i>
+                    </div>
+                `;
+
+                container.appendChild(btn);
+            });
+
+            if (activeCount === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-6 px-4 rounded-2xl bg-obsidian/60 border border-white/5 text-gray-400 text-sm">
+                        No public links active right now.
+                    </div>
+                `;
+            }
+        }
+
+        function isUrl(str) {
+            if (!str) return false;
+            const trimmed = str.trim().toLowerCase();
+            return trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.includes('.com') || trimmed.includes('.gg') || trimmed.includes('.tv') || trimmed.includes('www.');
+        }
+
+        // 3. Populate Owner Form
+        function populateEditorForm() {
+            draftLogoValue = currentConfig.logo || '';
+            const urlInput = document.getElementById('editLogoUrl');
+            urlInput.value = draftLogoValue.startsWith('data:') ? '' : draftLogoValue;
+            renderLogoIntoContainer(document.getElementById('editorLogoPreview'), draftLogoValue);
+
+            document.getElementById('editName').value = currentConfig.name;
+            document.getElementById('editBio').value = currentConfig.bio;
+
+            document.getElementById('visYoutube').checked = currentConfig.links.youtube.enabled;
+            document.getElementById('urlYoutube').value = currentConfig.links.youtube.value;
+
+            document.getElementById('visFacebook').checked = currentConfig.links.facebook.enabled;
+            document.getElementById('urlFacebook').value = currentConfig.links.facebook.value;
+
+            document.getElementById('visInstagram').checked = currentConfig.links.instagram.enabled;
+            document.getElementById('urlInstagram').value = currentConfig.links.instagram.value;
+
+            document.getElementById('visDiscord').checked = currentConfig.links.discord.enabled;
+            document.getElementById('urlDiscord').value = currentConfig.links.discord.value;
+
+            document.getElementById('editPin').value = getStoredPin();
+        }
+
+        // Handle Custom Logo File Upload (Compressed via HTML5 Canvas)
+        function handleLogoFileUpload(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                showToast('Please select a valid image file.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const maxSize = 240;
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    // Center-crop to square and scale down for compact storage
+                    const minSide = Math.min(width, height);
+                    const sx = (width - minSide) / 2;
+                    const sy = (height - minSide) / 2;
+
+                    canvas.width = maxSize;
+                    canvas.height = maxSize;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, maxSize, maxSize);
+
+                    // Export compressed WebP/JPEG data URL
+                    let compressedDataUrl = canvas.toDataURL('image/webp', 0.82);
+                    if (!compressedDataUrl.startsWith('data:image/webp')) {
+                        compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+                    }
+
+                    draftLogoValue = compressedDataUrl;
+                    document.getElementById('editLogoUrl').value = '';
+                    renderLogoIntoContainer(document.getElementById('editorLogoPreview'), draftLogoValue);
+                    showToast('Logo uploaded! Click Save Changes to apply.');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        // Handle Direct Logo URL Input
+        function handleLogoUrlInput(val) {
+            draftLogoValue = val.trim();
+            renderLogoIntoContainer(document.getElementById('editorLogoPreview'), draftLogoValue);
+        }
+
+        // Reset Logo Back to Default Red & Black Anime Duck
+        function resetLogoToDefault() {
+            draftLogoValue = '';
+            document.getElementById('editLogoUrl').value = '';
+            document.getElementById('logoFileInput').value = '';
+            renderLogoIntoContainer(document.getElementById('editorLogoPreview'), '');
+            showToast('Reset to Anime Duck emblem (Save to apply)');
+        }
+
+        // 4. Owner Mode Unlock / Lock / Preview Flow
+        function handleOwnerButtonClick() {
+            if (isUnlocked) {
+                lockOwnerMode();
+            } else {
+                document.getElementById('pinInput').value = '';
+                document.getElementById('pinError').classList.add('hidden');
+                document.getElementById('pinModal').classList.remove('hidden');
+                document.getElementById('pinModal').classList.add('flex');
+                setTimeout(() => document.getElementById('pinInput').focus(), 100);
+            }
+        }
+
+        function closePinModal() {
+            document.getElementById('pinModal').classList.add('hidden');
+            document.getElementById('pinModal').classList.remove('flex');
+        }
+
+        document.getElementById('pinForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const entered = document.getElementById('pinInput').value;
+            if (entered === getStoredPin()) {
+                closePinModal();
+                unlockOwnerMode();
+            } else {
+                document.getElementById('pinError').classList.remove('hidden');
+                document.getElementById('pinInput').value = '';
+                document.getElementById('pinInput').focus();
+            }
+        });
+
+        function unlockOwnerMode() {
+            isUnlocked = true;
+            isPreviewingVisitor = false;
+            populateEditorForm();
+            updateViewVisibility();
+            showToast('Owner Mode Unlocked');
+        }
+
+        function lockOwnerMode() {
+            isUnlocked = false;
+            isPreviewingVisitor = false;
+            updateViewVisibility();
+            showToast('Locked to Public Visitor View');
+        }
+
+        function togglePreviewMode() {
+            if (!isUnlocked) return;
+            isPreviewingVisitor = !isPreviewingVisitor;
+            updateViewVisibility();
+        }
+
+        function updateViewVisibility() {
+            const visitorView = document.getElementById('visitorView');
+            const ownerEditorView = document.getElementById('ownerEditorView');
+            const previewToggleBtn = document.getElementById('previewToggleBtn');
+            const previewBanner = document.getElementById('previewBanner');
+            const lockIcon = document.getElementById('ownerLockIcon');
+            const lockBtn = document.getElementById('ownerLockBtn');
+
+            if (!isUnlocked) {
+                // Default Public Visitor Mode
+                visitorView.classList.remove('hidden');
+                ownerEditorView.classList.add('hidden');
+                previewToggleBtn.classList.add('hidden');
+                previewBanner.classList.add('hidden');
+                lockIcon.className = 'fas fa-lock text-sm';
+                lockBtn.classList.remove('border-neonred', 'text-neonred');
+            } else {
+                // Owner Unlocked
+                previewToggleBtn.classList.remove('hidden');
+                lockIcon.className = 'fas fa-lock-open text-sm';
+                lockBtn.classList.add('border-neonred', 'text-neonred');
+
+                if (isPreviewingVisitor) {
+                    visitorView.classList.remove('hidden');
+                    ownerEditorView.classList.add('hidden');
+                    previewBanner.classList.remove('hidden');
+                    document.getElementById('previewToggleText').textContent = 'Back to Editor';
+                    document.getElementById('previewToggleIcon').className = 'fas fa-pen-to-square';
+                } else {
+                    visitorView.classList.add('hidden');
+                    ownerEditorView.classList.remove('hidden');
+                    previewBanner.classList.add('hidden');
+                    document.getElementById('previewToggleText').textContent = 'Visitor Preview';
+                    document.getElementById('previewToggleIcon').className = 'fas fa-eye';
+                }
+            }
+        }
+
+        // 5. Save Owner Edits to LocalStorage
+        document.getElementById('ownerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            currentConfig = {
+                logo: draftLogoValue || '',
+                name: document.getElementById('editName').value.trim() || 'AKEO YOUTUBE',
+                bio: document.getElementById('editBio').value.trim(),
+                links: {
+                    youtube: {
+                        enabled: document.getElementById('visYoutube').checked,
+                        value: document.getElementById('urlYoutube').value.trim()
+                    },
+                    facebook: {
+                        enabled: document.getElementById('visFacebook').checked,
+                        value: document.getElementById('urlFacebook').value.trim()
+                    },
+                    instagram: {
+                        enabled: document.getElementById('visInstagram').checked,
+                        value: document.getElementById('urlInstagram').value.trim()
+                    },
+                    discord: {
+                        enabled: document.getElementById('visDiscord').checked,
+                        value: document.getElementById('urlDiscord').value.trim()
+                    }
+                }
+            };
+
+            const newPin = document.getElementById('editPin').value.trim();
+            if (newPin.length >= 4) {
+                localStorage.setItem(PIN_STORAGE_KEY, newPin);
+            }
+
+            localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(currentConfig));
+            renderVisitorView();
+            showToast('Saved! Changes updated for visitors.');
+        });
+
+        // 6. Export Config into Shareable Visitor Link
+        function copyShareableLink() {
+            // Save latest form values first
+            document.getElementById('ownerForm').dispatchEvent(new Event('submit'));
+
+            const sharePayload = JSON.parse(JSON.stringify(currentConfig));
+            let omittedLargeLogo = false;
+
+            // Keep URL length practical if an uploaded data URL is too large
+            if (sharePayload.logo && sharePayload.logo.startsWith('data:') && sharePayload.logo.length > 14000) {
+                sharePayload.logo = '';
+                omittedLargeLogo = true;
+            }
+
+            const jsonStr = JSON.stringify(sharePayload);
+            const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+            const baseUrl = window.location.href.split('#')[0];
+            const shareUrl = `${baseUrl}#profile=${encoded}`;
+
+            copyTextToClipboard(shareUrl);
+            if (omittedLargeLogo) {
+                showToast('Link copied! (Use an image URL to include custom logo in links)');
+            } else {
+                showToast('Shareable Visitor Link copied to clipboard!');
+            }
+        }
+
+        // Reliable Clipboard Helper
+        function copyTextToClipboard(text) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            tempInput.style.position = 'fixed';
+            tempInput.style.opacity = '0';
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+        }
+
+        // Toast Helper
+        let toastTimer;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Close PIN modal on outside click
+        document.getElementById('pinModal').addEventListener('click', function(e) {
+            if (e.target === this) closePinModal();
+        });
+
+        // Initialize on load
+        initApp();
+    </script>
+</body>
+</html>
