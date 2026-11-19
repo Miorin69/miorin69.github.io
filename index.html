@@ -1015,10 +1015,6 @@
                         class="px-3 py-1 rounded-lg accent-bg hover:brightness-110 text-slate-950 font-mono-tech text-[11px] font-bold cursor-pointer">
                         ⬇ CARD PNG
                     </button>
-                    <button type="button" onclick="window.print()"
-                        class="px-3 py-1 rounded-lg accent-soft hover:brightness-125 accent-border border font-mono-tech text-[11px] font-bold accent-text cursor-pointer">
-                        PRINT / PDF
-                    </button>
                     <button type="button" onclick="closeModal('cv-modal')" aria-label="Close CV Modal"
                         class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-slate-300 hover:text-white flex items-center justify-center cursor-pointer">
                         ✕
@@ -1863,20 +1859,19 @@
             const leftLines = [
                 ['EMAIL    :', 'aakrishtthapa@gmail.com'],
                 ['LINKEDIN :', 'linkedin.com/in/aakrisht-thapa-b28639228'],
-                ['YOUTUBE  :', 'youtube.com/@AkeoYoutube'],
-                ['INSTAGRAM:', '@aakrishtthapa'],
-                ['FACEBOOK :', 'Aakrisht Thapa'],
-                ['DISCORD  :', '@.doctorissadist']
+                ['LOCATION :', 'Kalimpong, West Bengal, India'],
+                ['ORG      :', 'NIC Kalimpong (MeitY) / Xeam Ventures'],
+                ['DEGREE   :', 'B.Tech in Computer Science & Engg.']
             ];
             leftLines.forEach(([label, val], idx) => {
-                const y = 345 + idx * 34;
+                const y = 350 + idx * 38;
                 g.fillStyle = currentTheme.accent;
                 g.fillText(label, 60, y);
                 g.fillStyle = '#f1f5f9';
                 g.fillText(val, 185, y);
             });
 
-            // Right Column: Gaming Telemetry Summary
+            // Right Column: Core Networking & Infrastructure Expertise
             g.fillStyle = `rgba(${currentTheme.rgb}, 0.1)`;
             g.fillRect(645, 325, 345, 215);
             g.strokeStyle = `rgba(${currentTheme.rgb}, 0.35)`;
@@ -1884,15 +1879,15 @@
 
             g.fillStyle = currentTheme.accent;
             g.font = 'bold 16px "JetBrains Mono", monospace';
-            g.fillText('GAMING TELEMETRY // AKEO', 665, 355);
+            g.fillText('CORE EXPERTISE // NOC', 665, 355);
 
             g.font = '15px "JetBrains Mono", monospace';
             const rightLines = [
-                'MLBB : 156854879 (Mythic ★109)',
-                'eFTBL: ASEQ-130-130-755',
-                'CoC  : #2JQUR0JJL',
-                'CR   : #J2VJ9G0',
-                'STEAM: AkeoGaming'
+                '> CISCO Routers & Switching',
+                '> LAN / WAN & NICNET Ops',
+                '> IP Addressing & Subnetting',
+                '> Structured Cabling & Fiber',
+                '> Network Security & Recovery'
             ];
             rightLines.forEach((line, idx) => {
                 g.fillStyle = '#e2e8f0';
