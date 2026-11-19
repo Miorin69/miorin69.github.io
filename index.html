@@ -1029,7 +1029,7 @@
             <!-- Scrollable CV Content -->
             <div id="cv-printable-area" class="p-5 sm:p-8 overflow-y-auto space-y-6 text-slate-200 leading-relaxed">
 
-                <!-- CV Header with PIN-Protected Location & Phone -->
+                <!-- CV Header with Redacted Private Fields -->
                 <div class="p-4 sm:p-5 rounded-2xl bg-black/55 accent-border border space-y-4">
                     <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                         <div>
@@ -1041,8 +1041,9 @@
                             </p>
                             <div class="mt-2 flex flex-wrap items-center gap-2 text-xs">
                                 <span class="font-mono-tech text-slate-400">Location:</span>
-                                <span id="cv-location-value" class="px-2 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 font-mono-tech text-rose-300 text-[10px]">
-                                    [REDACTED FOR PRIVACY]
+                                <span class="text-slate-200 font-medium">Kalimpong, West Bengal, India</span>
+                                <span class="px-2 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 font-mono-tech text-rose-300 text-[10px]">
+                                    [STREET ADDRESS OMITTED]
                                 </span>
                             </div>
                         </div>
@@ -1053,8 +1054,8 @@
                             </div>
                             <div>
                                 <span class="text-slate-400">Phone:</span>
-                                <span id="cv-phone-value" class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">
-                                    [REDACTED FOR PRIVACY]
+                                <span class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">
+                                    [AVAILABLE UPON VERIFIED REQUEST]
                                 </span>
                             </div>
                             <div>
@@ -1064,30 +1065,16 @@
                         </div>
                     </div>
 
-                    <!-- PIN Unlock / Re-lock Bar -->
+                    <!-- OPSEC Privacy Status Banner -->
                     <div class="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2.5">
                         <div class="flex items-center gap-2 font-mono-tech text-[11px]">
-                            <span id="cv-lock-badge" class="px-2 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 font-bold">
-                                🔒 PRIVATE FIELDS LOCKED
+                            <span class="px-2 py-0.5 rounded accent-soft accent-border border accent-text font-bold">
+                                🛡️ ZERO-EXPOSURE OPSEC ACTIVE
                             </span>
                         </div>
-
-                        <!-- Unlocked Input Controls -->
-                        <div id="cv-pin-form" class="flex items-center gap-2">
-                            <input id="cv-pin-input" type="password" inputmode="numeric" maxlength="4" placeholder="4-DIGIT PIN"
-                                onkeydown="if(event.key==='Enter') unlockCvSensitive()"
-                                class="w-28 px-2.5 py-1 rounded-lg bg-black/80 border border-white/20 focus:border-white outline-none font-mono-tech text-xs text-white text-center tracking-widest" />
-                            <button type="button" onclick="unlockCvSensitive()"
-                                class="px-3 py-1 rounded-lg accent-bg hover:brightness-110 text-slate-950 font-mono-tech text-[11px] font-bold cursor-pointer">
-                                UNLOCK PIN
-                            </button>
-                        </div>
-
-                        <!-- Re-Lock Control (Shown when unlocked) -->
-                        <button id="cv-relock-btn" type="button" onclick="lockCvSensitive()"
-                            class="hidden px-3 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-200 font-mono-tech text-[11px] font-bold cursor-pointer">
-                            🔒 RE-LOCK DATA
-                        </button>
+                        <span class="font-mono-tech text-[10px] text-slate-400">
+                            Sensitive PII stripped from source &bull; Request full PDF via Email
+                        </span>
                     </div>
                 </div>
 
@@ -1161,7 +1148,7 @@
                                     <td class="p-2.5 border border-white/10">Surendra Institute of Engineering and Management, Siliguri (MAKAUT)</td>
                                     <td class="p-2.5 border border-white/10 font-mono-tech">2021</td>
                                     <td class="p-2.5 border border-white/10 font-mono-tech">
-                                        <span id="cv-dgpa-value" class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">
+                                        <span class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">
                                             [CONFIDENTIAL]
                                         </span>
                                     </td>
@@ -1171,7 +1158,7 @@
                                     <td class="p-2.5 border border-white/10">Dr. Graham's Homes, Kalimpong</td>
                                     <td class="p-2.5 border border-white/10 font-mono-tech">2017</td>
                                     <td class="p-2.5 border border-white/10 font-mono-tech">
-                                        <span id="cv-isc-value" class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">
+                                        <span class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">
                                             [CONFIDENTIAL]
                                         </span>
                                     </td>
@@ -1181,7 +1168,7 @@
                                     <td class="p-2.5 border border-white/10">St. Xavier's School, Pedong, Kalimpong</td>
                                     <td class="p-2.5 border border-white/10 font-mono-tech">2014</td>
                                     <td class="p-2.5 border border-white/10 font-mono-tech">
-                                        <span id="cv-icse-value" class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">
+                                        <span class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">
                                             [CONFIDENTIAL]
                                         </span>
                                     </td>
@@ -1229,7 +1216,7 @@
                         <div class="font-bold uppercase tracking-wider accent-text mb-1">06 // Personal Details &amp; Hobbies</div>
                         <div>
                             <span class="text-slate-400">DOB:</span>
-                            <span id="cv-dob-value" class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">[CONFIDENTIAL]</span>
+                            <span class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">[CONFIDENTIAL]</span>
                             &bull; <span class="text-slate-400">Nationality:</span> <span class="text-white">Indian</span>
                         </div>
                         <div class="text-slate-300"><span class="text-slate-400">Interests:</span> Cooking, Esports, Reading, Music, Football, Gym</div>
@@ -1950,88 +1937,8 @@
         });
 
         /* =====================================================================
-           6. CV PIN UNLOCK / RE-LOCK (PIN: 6295) & MLBB HERO SKILL ANIMATIONS
+           6. MLBB HERO SKILL ANIMATIONS
         ===================================================================== */
-        const CV_PIN = '6295';
-
-        function unlockCvSensitive() {
-            const input = document.getElementById('cv-pin-input');
-            if (!input) return;
-            if (input.value.trim() === CV_PIN) {
-                const locEl = document.getElementById('cv-location-value');
-                const phoneEl = document.getElementById('cv-phone-value');
-                const dgpaEl = document.getElementById('cv-dgpa-value');
-                const iscEl = document.getElementById('cv-isc-value');
-                const icseEl = document.getElementById('cv-icse-value');
-                const dobEl = document.getElementById('cv-dob-value');
-                const badgeEl = document.getElementById('cv-lock-badge');
-
-                locEl.textContent = 'Algarah Bazar, Reshi Road, Lava Block, Kalimpong - 734314';
-                locEl.className = 'px-2 py-0.5 rounded accent-soft accent-border border font-mono-tech accent-text text-[11px] font-semibold';
-
-                phoneEl.textContent = '+91 6295235371';
-                phoneEl.className = 'px-1.5 py-0.5 rounded accent-soft accent-border border accent-text text-[11px] font-semibold';
-
-                dgpaEl.textContent = 'DGPA: 8.03';
-                dgpaEl.className = 'accent-text font-bold text-xs sm:text-sm';
-
-                iscEl.textContent = '74.25%';
-                iscEl.className = 'accent-text font-bold text-xs sm:text-sm';
-
-                icseEl.textContent = '82.8%';
-                icseEl.className = 'accent-text font-bold text-xs sm:text-sm';
-
-                dobEl.textContent = '23rd Sept 1999';
-                dobEl.className = 'text-white font-semibold';
-
-                badgeEl.textContent = '🔓 PRIVATE FIELDS UNLOCKED';
-                badgeEl.className = 'px-2 py-0.5 rounded accent-soft accent-border border accent-text font-bold';
-
-                document.getElementById('cv-pin-form').classList.add('hidden');
-                document.getElementById('cv-relock-btn').classList.remove('hidden');
-                input.value = '';
-                showToast('PIN verified // Private CV details unlocked');
-            } else {
-                input.value = '';
-                showToast('Access denied // Invalid PIN');
-            }
-        }
-
-        function lockCvSensitive() {
-            const locEl = document.getElementById('cv-location-value');
-            const phoneEl = document.getElementById('cv-phone-value');
-            const dgpaEl = document.getElementById('cv-dgpa-value');
-            const iscEl = document.getElementById('cv-isc-value');
-            const icseEl = document.getElementById('cv-icse-value');
-            const dobEl = document.getElementById('cv-dob-value');
-            const badgeEl = document.getElementById('cv-lock-badge');
-
-            locEl.textContent = '[REDACTED FOR PRIVACY]';
-            locEl.className = 'px-2 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 font-mono-tech text-rose-300 text-[10px]';
-
-            phoneEl.textContent = '[REDACTED FOR PRIVACY]';
-            phoneEl.className = 'px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]';
-
-            dgpaEl.textContent = '[CONFIDENTIAL]';
-            dgpaEl.className = 'px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]';
-
-            iscEl.textContent = '[CONFIDENTIAL]';
-            iscEl.className = 'px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]';
-
-            icseEl.textContent = '[CONFIDENTIAL]';
-            icseEl.className = 'px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]';
-
-            dobEl.textContent = '[CONFIDENTIAL]';
-            dobEl.className = 'px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]';
-
-            badgeEl.textContent = '🔒 PRIVATE FIELDS LOCKED';
-            badgeEl.className = 'px-2 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 font-bold';
-
-            document.getElementById('cv-relock-btn').classList.add('hidden');
-            document.getElementById('cv-pin-form').classList.remove('hidden');
-            showToast('Private CV fields re-locked');
-        }
-
         const HERO_SKILLS = {
             martis: {
                 title: "MARTIS // ASHURA'S WRATH & DECIMATION",
