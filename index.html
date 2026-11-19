@@ -225,6 +225,29 @@
             transition: transform 0.2s ease;
         }
 
+        /* Duck Flee Animation */
+        @keyframes duck-flee-run {
+            0% { transform: translate(0, 0) scaleX(1); opacity: 1; }
+            15% { transform: translate(-8px, -12px) rotate(-12deg) scaleX(-1); opacity: 1; }
+            45% { transform: translate(85px, -24px) rotate(14deg) scaleX(-1); opacity: 0.85; }
+            100% { transform: translate(220px, -45px) rotate(22deg) scaleX(-1); opacity: 0; }
+        }
+
+        @keyframes duck-return-hop {
+            0% { transform: translate(-40px, -20px) scale(0.7); opacity: 0; }
+            70% { transform: translate(4px, -4px) scale(1.05); opacity: 1; }
+            100% { transform: translate(0, 0) scale(1); opacity: 1; }
+        }
+
+        .duck-fleeing {
+            animation: duck-flee-run 0.85s cubic-bezier(0.32, 0, 0.67, 0) forwards !important;
+            pointer-events: none;
+        }
+
+        .duck-returning {
+            animation: duck-return-hop 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        }
+
         /* Print Support for CV */
         @media print {
             body * {
@@ -305,7 +328,7 @@
     </header>
 
     <!-- =====================================================================
-1. OPENING HANDSHAKE GATE
+         1. OPENING HANDSHAKE GATE
     ====================================================================== -->
     <section id="gate-screen" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-[#040706]/95 backdrop-blur-xl">
         <div class="w-full max-w-md rounded-3xl panel-card p-6 sm:p-8 text-center">
@@ -357,15 +380,15 @@
     </section>
 
     <!-- =====================================================================
-2. MAIN PORTFOLIO & LINK-IN-BIO CARD
+         2. MAIN PORTFOLIO & LINK-IN-BIO CARD
     ====================================================================== -->
     <main id="main-portfolio" class="relative z-10 max-w-lg mx-auto px-4 pt-8 pb-16">
         <div class="relative rounded-3xl panel-card p-6 sm:p-8">
 
-            <!-- Unobtrusive Corner-Perched NOC Duck -->
-            <button type="button" onclick="cycleNetworkingTip()" title="Click NOC Duck for Networking CLI Tip"
+            <!-- Unobtrusive Corner-Perched NOC Duck (Measures Live Visitor Ping & Runs Away) -->
+            <button id="noc-duck-btn" type="button" onclick="handleDuckPing()" title="Click NOC Duck to Ping Your Connection"
                 class="perched-duck absolute -top-6 right-5 z-20 flex flex-col items-center cursor-pointer focus:outline-none group">
-                <span class="px-2 py-0.5 rounded-full bg-black/90 accent-border border font-mono-tech text-[9px] font-bold accent-text shadow-md mb-0.5 group-hover:scale-105 transition-transform">
+                <span id="duck-ping-badge" class="px-2 py-0.5 rounded-full bg-black/90 accent-border border font-mono-tech text-[9px] font-bold accent-text shadow-md mb-0.5 group-hover:scale-105 transition-transform whitespace-nowrap">
                     PING?
                 </span>
                 <svg width="42" height="42" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -379,7 +402,7 @@
             </button>
 
             <!-- =================================================================
-3. IDENTITY HEADER & CLICKABLE "ID ENCRYPTION" AVATAR
+                 3. IDENTITY HEADER & CLICKABLE "ID ENCRYPTION" AVATAR
             ================================================================== -->
             <div class="flex flex-col items-center text-center">
 
@@ -502,29 +525,29 @@
             </div>
 
             <!-- =================================================================
-4. INTERACTIVE SOCIAL, GAMING & CV ACTION LINKS (CLEAN LIST)
+                 4. INTERACTIVE SOCIAL, GAMING & CV ACTION LINKS (CLEAN LIST)
             ================================================================== -->
             <div class="mt-6 space-y-2.5">
                 <div class="flex items-center justify-between px-1 mb-1">
                     <span class="font-mono-tech text-[10px] uppercase tracking-widest text-slate-400">Verified Channels &amp; Dossiers</span>
-                    <span class="font-mono-tech text-[10px] accent-text">10 ACTIVE</span>
+                    <span class="font-mono-tech text-[10px] accent-text">12 ACTIVE</span>
                 </div>
 
-                <!-- 0. Audio Stream (Ambient) -->
-                <button type="button" onclick="toggleAudio()"
+                <!-- 0A. Original Ambient Stream (NOC Server Ambience) -->
+                <button type="button" onclick="toggleAmbientAudio()"
                     class="link-row flex items-center justify-between p-3.5 rounded-2xl w-full text-left cursor-pointer">
                     <div class="flex items-center gap-3 min-w-0">
                         <div class="w-10 h-10 rounded-xl bg-purple-500/15 border border-purple-500/40 flex items-center justify-center text-purple-400 shrink-0">
-                            <svg id="audio-icon" class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/> 
+                            <svg id="ambient-icon" class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
                             </svg>
                         </div>
                         <div class="min-w-0">
-                            <div class="text-sm font-semibold text-white truncate">Ambient Stream</div>
-                            <div id="audio-status" class="text-xs font-mono-tech text-slate-400 truncate">STATUS: STANDBY</div>
+                            <div class="text-sm font-semibold text-white truncate">Ambient Stream (Original)</div>
+                            <div id="ambient-status" class="text-xs font-mono-tech text-slate-400 truncate">STATUS: STANDBY // NOC AMBIENCE</div>
                         </div>
                     </div>
-                    <span id="audio-pill" class="px-2.5 py-1 rounded-lg bg-white/5 font-mono-tech text-[10px] font-semibold text-slate-300 shrink-0">
+                    <span id="ambient-pill" class="px-2.5 py-1 rounded-lg bg-white/5 font-mono-tech text-[10px] font-semibold text-slate-300 shrink-0">
                         PLAY
                     </span>
                 </button>
@@ -532,8 +555,69 @@
                     <source src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3" type="audio/mpeg">
                 </audio>
 
+                <!-- 0B. Ambient NOC & Synth Stream Deck (4 Procedural Ambient Tracks) -->
+                <div class="p-3.5 rounded-2xl bg-white/[0.03] accent-border border space-y-3">
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <button type="button" onclick="togglePhonkAudio()" aria-label="Play or Pause Ambient Synth Stream"
+                                class="w-10 h-10 rounded-xl accent-soft accent-border border flex items-center justify-center accent-text hover:brightness-125 active:scale-95 transition-all cursor-pointer shrink-0">
+                                <svg id="audio-icon" class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="font-mono-tech text-[9px] uppercase tracking-wider accent-text font-bold">AMBIENT SYNTH // 04 STREAMS</span>
+                                </div>
+                                <div id="phonk-track-title" class="text-xs sm:text-sm font-bold text-white truncate">
+                                    KALIMPONG SERVER ROOM (DEEP DRONE)
+                                </div>
+                                <div id="audio-status" class="text-[11px] font-mono-tech text-slate-400 truncate">
+                                    STATUS: STANDBY // 432 HZ AMBIENT
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transport Controls -->
+                        <div class="flex items-center gap-1 shrink-0">
+                            <button type="button" onclick="prevPhonkTrack()" title="Previous Ambient Stream"
+                                class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 font-mono-tech text-xs text-slate-300 hover:text-white flex items-center justify-center cursor-pointer">
+                                ⏮
+                            </button>
+                            <button type="button" onclick="togglePhonkAudio()" id="audio-pill"
+                                class="px-2.5 py-1 rounded-lg accent-soft accent-border border font-mono-tech text-[10px] font-bold accent-text hover:brightness-125 cursor-pointer">
+                                PLAY
+                            </button>
+                            <button type="button" onclick="nextPhonkTrack()" title="Next Ambient Stream"
+                                class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 font-mono-tech text-xs text-slate-300 hover:text-white flex items-center justify-center cursor-pointer">
+                                ⏭
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 4-Track Ambient Quick Selector Pills -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 pt-1 border-t border-white/10">
+                        <button type="button" onclick="selectPhonkTrack(0)" data-track-idx="0"
+                            class="phonk-pill px-2 py-1 rounded-lg font-mono-tech text-[9px] font-bold border truncate cursor-pointer text-center">
+                            01. NOC DRONE
+                        </button>
+                        <button type="button" onclick="selectPhonkTrack(1)" data-track-idx="1"
+                            class="phonk-pill px-2 py-1 rounded-lg font-mono-tech text-[9px] font-bold border truncate cursor-pointer text-center">
+                            02. FIBER PULSE
+                        </button>
+                        <button type="button" onclick="selectPhonkTrack(2)" data-track-idx="2"
+                            class="phonk-pill px-2 py-1 rounded-lg font-mono-tech text-[9px] font-bold border truncate cursor-pointer text-center">
+                            03. MATRIX RAIN
+                        </button>
+                        <button type="button" onclick="selectPhonkTrack(3)" data-track-idx="3"
+                            class="phonk-pill px-2 py-1 rounded-lg font-mono-tech text-[9px] font-bold border truncate cursor-pointer text-center">
+                            04. HIMALAYA MIST
+                        </button>
+                    </div>
+                </div>
+
                 <!-- 1. YouTube -->
-                <a href="https://www.youtube.com/@AkeoYoutube" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer"
                    class="link-row flex items-center justify-between p-3.5 rounded-2xl w-full">
                     <div class="flex items-center gap-3 min-w-0">
                         <div class="w-10 h-10 rounded-xl bg-red-500/15 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0">
@@ -590,7 +674,7 @@
                 </a>
 
                 <!-- 4. LinkedIn -->
-                <a href="https://www.linkedin.com/in/aakrisht-thapa-b28" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.linkedin.com/in/aakrisht-thapa-b28639228" target="_blank" rel="noopener noreferrer"
                    class="link-row flex items-center justify-between p-3.5 rounded-2xl w-full">
                     <div class="flex items-center gap-3 min-w-0">
                         <div class="w-10 h-10 rounded-xl bg-sky-500/15 border border-sky-500/40 flex items-center justify-center text-sky-400 shrink-0">
@@ -600,7 +684,7 @@
                         </div>
                         <div class="min-w-0">
                             <div class="text-sm font-semibold text-white truncate">LinkedIn</div>
-                            <div class="text-xs font-mono-tech text-slate-400 truncate">aakrisht-thapa-b28</div>
+                            <div class="text-xs font-mono-tech text-slate-400 truncate">aakrisht-thapa-b28639228</div>
                         </div>
                     </div>
                     <span class="px-2.5 py-1 rounded-lg bg-white/5 font-mono-tech text-[10px] font-semibold text-slate-300 shrink-0">
@@ -675,7 +759,7 @@
                             </svg>
                         </div>
                         <div class="min-w-0">
-                            <div class="text-sm font-semibold text-white truncate">Gaming Hub & Telemetry</div>
+                            <div class="text-sm font-semibold text-white truncate">Gaming Hub &amp; Telemetry</div>
                             <div class="text-xs font-mono-tech accent-text truncate">MLBB &bull; Clash &bull; eFootball</div>
                         </div>
                     </div>
@@ -702,19 +786,41 @@
                         VIEW CV
                     </span>
                 </button>
+
+                <!-- 10. Downloadable Digital Business Card (PNG + vCard) -->
+                <div class="p-3.5 rounded-2xl bg-white/[0.03] accent-border border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl accent-soft accent-border border flex items-center justify-center accent-text shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-sm font-semibold text-white truncate">Digital Business Card</div>
+                            <div class="text-xs font-mono-tech text-slate-400 truncate">Summarized Card (Privacy-Safe)</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button type="button" onclick="downloadBusinessCardPNG()"
+                            class="px-3 py-1.5 rounded-xl accent-bg hover:brightness-110 text-slate-950 font-mono-tech text-[10px] font-bold cursor-pointer">
+                            ⬇ PNG CARD
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- =================================================================
-7. IN-CARD NOC DUCK NETWORKING TIP STATUS BAR
+                 7. IN-CARD NOC DUCK NETWORKING TIP & LIVE VISITOR PING BAR
             ================================================================== -->
             <div class="mt-6 p-3.5 rounded-2xl bg-black/55 accent-border border">
                 <div class="flex items-center justify-between gap-2 mb-1">
                     <div class="flex items-center gap-1.5 font-mono-tech text-[10px] font-bold uppercase tracking-wider accent-text">
                         <span>🦆 NOC DUCK TIP #<span id="tip-index">01</span></span>
+                        <span id="visitor-ping-readout" class="hidden px-1.5 py-0.5 rounded bg-white/10 text-white text-[9px]"></span>
                     </div>
-                    <button type="button" onclick="cycleNetworkingTip()"
+                    <button type="button" onclick="handleDuckPing()"
                         class="px-2 py-0.5 rounded accent-soft hover:brightness-125 accent-border border font-mono-tech text-[10px] font-bold accent-text cursor-pointer">
-                        NEXT TIP ↻
+                        PING + TIP ↻
                     </button>
                 </div>
                 <p id="noc-tip-text" class="text-xs text-slate-300 leading-relaxed">
@@ -731,7 +837,7 @@
     </main>
 
     <!-- =====================================================================
-5. UNIFIED GAMING HUB & TELEMETRY MODAL
+         5. UNIFIED GAMING HUB & TELEMETRY MODAL
     ====================================================================== -->
     <div id="gaming-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md" onclick="closeBackdrop(event, 'gaming-modal')">
         <div class="w-full max-w-lg rounded-3xl panel-card overflow-hidden flex flex-col max-h-[90vh]">
@@ -855,21 +961,36 @@
                 <!-- Other Titles Integration -->
                 <div class="pt-4 border-t border-white/10">
                     <div class="flex items-center justify-between mb-3">
-                        <span class="font-mono-tech text-[11px] font-bold uppercase tracking-wider text-slate-300">Other Active Titles</span>
+                        <span class="font-mono-tech text-[11px] font-bold uppercase tracking-wider text-slate-300">Other Active Titles &amp; Player IDs</span>
+                        <span class="font-mono-tech text-[10px] accent-text">TAP TO COPY ID</span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div class="p-3 rounded-2xl bg-black/40 border border-white/10 flex flex-col items-center text-center gap-1.5">
+                        <!-- eFootball -->
+                        <button type="button" onclick="copyGameTag('eFootball', 'ASEQ-130-130-755')"
+                            class="link-row p-3 rounded-2xl flex flex-col items-center text-center gap-1.5 cursor-pointer">
                             <div class="text-sm font-bold text-white">eFootball</div>
-                            <span class="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/30 font-mono-tech text-[10px] text-blue-300 w-fit">KONAMI ID</span>
-                        </div>
-                        <div class="p-3 rounded-2xl bg-black/40 border border-white/10 flex flex-col items-center text-center gap-1.5">
+                            <span class="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/30 font-mono-tech text-[10px] text-blue-300">KONAMI ID</span>
+                            <div class="font-mono-tech text-[10px] font-bold accent-text tracking-tight break-all">ASEQ-130-130-755</div>
+                            <span class="font-mono-tech text-[9px] text-slate-400">COPY ID</span>
+                        </button>
+
+                        <!-- Clash of Clans -->
+                        <button type="button" onclick="copyGameTag('Clash of Clans', '#2JQUR0JJL')"
+                            class="link-row p-3 rounded-2xl flex flex-col items-center text-center gap-1.5 cursor-pointer">
                             <div class="text-sm font-bold text-white">Clash of Clans</div>
-                            <span class="px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/30 font-mono-tech text-[10px] text-yellow-300 w-fit">SUPERCELL</span>
-                        </div>
-                        <div class="p-3 rounded-2xl bg-black/40 border border-white/10 flex flex-col items-center text-center gap-1.5">
+                            <span class="px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/30 font-mono-tech text-[10px] text-yellow-300">SUPERCELL</span>
+                            <div class="font-mono-tech text-[11px] font-bold accent-text">#2JQUR0JJL</div>
+                            <span class="font-mono-tech text-[9px] text-slate-400">COPY TAG</span>
+                        </button>
+
+                        <!-- Clash Royale -->
+                        <button type="button" onclick="copyGameTag('Clash Royale', '#J2VJ9G0')"
+                            class="link-row p-3 rounded-2xl flex flex-col items-center text-center gap-1.5 cursor-pointer">
                             <div class="text-sm font-bold text-white">Clash Royale</div>
-                            <span class="px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/30 font-mono-tech text-[10px] text-indigo-300 w-fit">SUPERCELL</span>
-                        </div>
+                            <span class="px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/30 font-mono-tech text-[10px] text-indigo-300">SUPERCELL</span>
+                            <div class="font-mono-tech text-[11px] font-bold accent-text">#J2VJ9G0</div>
+                            <span class="font-mono-tech text-[9px] text-slate-400">COPY TAG</span>
+                        </button>
                     </div>
                 </div>
 
@@ -878,7 +999,7 @@
     </div>
 
     <!-- =====================================================================
-6. CLEAN THEME-ADAPTIVE CURRICULUM VITAE (CV) MODAL
+         6. CLEAN THEME-ADAPTIVE CURRICULUM VITAE (CV) MODAL
     ====================================================================== -->
     <div id="cv-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-md" onclick="closeBackdrop(event, 'cv-modal')">
         <div class="w-full max-w-3xl rounded-3xl panel-card overflow-hidden flex flex-col max-h-[92vh]">
@@ -890,9 +1011,13 @@
                     <span class="font-mono-tech text-xs font-bold uppercase tracking-wider accent-text">CV // VERIFIED DOSSIER</span>
                 </div>
                 <div class="flex items-center gap-2">
+                    <button type="button" onclick="downloadBusinessCardPNG()"
+                        class="px-3 py-1 rounded-lg accent-bg hover:brightness-110 text-slate-950 font-mono-tech text-[11px] font-bold cursor-pointer">
+                        ⬇ CARD PNG
+                    </button>
                     <button type="button" onclick="window.print()"
                         class="px-3 py-1 rounded-lg accent-soft hover:brightness-125 accent-border border font-mono-tech text-[11px] font-bold accent-text cursor-pointer">
-                        PRINT / SAVE PDF
+                        PRINT / PDF
                     </button>
                     <button type="button" onclick="closeModal('cv-modal')" aria-label="Close CV Modal"
                         class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-slate-300 hover:text-white flex items-center justify-center cursor-pointer">
@@ -904,32 +1029,65 @@
             <!-- Scrollable CV Content -->
             <div id="cv-printable-area" class="p-5 sm:p-8 overflow-y-auto space-y-6 text-slate-200 leading-relaxed">
 
-                <!-- CV Header -->
-                <div class="p-4 sm:p-5 rounded-2xl bg-black/55 accent-border border flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                    <div>
-                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                            Aakrisht Thapa
-                        </h2>
-                        <p class="mt-0.5 text-sm font-semibold accent-text">
-                            Network Operator cum Field Engineer (NFO)
-                        </p>
-                        <p class="mt-1.5 text-xs text-slate-300">
-                            Algarah Bazar, Reshi Road, Lava Block, Kalimpong - 734314
-                        </p>
+                <!-- CV Header with PIN-Protected Location & Phone -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-black/55 accent-border border space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                                Aakrisht Thapa
+                            </h2>
+                            <p class="mt-0.5 text-sm font-semibold accent-text">
+                                Network Operator cum Field Engineer (NFO)
+                            </p>
+                            <div class="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                                <span class="font-mono-tech text-slate-400">Location:</span>
+                                <span id="cv-location-value" class="px-2 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 font-mono-tech text-rose-300 text-[10px]">
+                                    [REDACTED FOR PRIVACY]
+                                </span>
+                            </div>
+                        </div>
+                        <div class="font-mono-tech text-xs space-y-1.5 bg-black/45 p-3.5 rounded-xl border border-white/10 shrink-0">
+                            <div>
+                                <span class="text-slate-400">Email:</span>
+                                <a href="mailto:aakrishtthapa@gmail.com" class="accent-text underline">aakrishtthapa@gmail.com</a>
+                            </div>
+                            <div>
+                                <span class="text-slate-400">Phone:</span>
+                                <span id="cv-phone-value" class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">
+                                    [REDACTED FOR PRIVACY]
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400">LinkedIn:</span>
+                                <a href="https://www.linkedin.com/in/aakrisht-thapa-b28639228" target="_blank" rel="noopener noreferrer" class="accent-text underline">aakrisht-thapa-b28639228</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="font-mono-tech text-xs space-y-1.5 bg-black/45 p-3.5 rounded-xl border border-white/10 shrink-0">
-                        <div>
-                            <span class="text-slate-400">Email:</span>
-                            <a href="mailto:aakrishtthapa@gmail.com" class="accent-text underline">aakrishtthapa@gmail.com</a>
+
+                    <!-- PIN Unlock / Re-lock Bar -->
+                    <div class="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2.5">
+                        <div class="flex items-center gap-2 font-mono-tech text-[11px]">
+                            <span id="cv-lock-badge" class="px-2 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 font-bold">
+                                🔒 PRIVATE FIELDS LOCKED
+                            </span>
                         </div>
-                        <div>
-                            <span class="text-slate-400">Phone:</span>
-                            <span class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">[REDACTED FOR PRIVACY]</span>
+
+                        <!-- Unlocked Input Controls -->
+                        <div id="cv-pin-form" class="flex items-center gap-2">
+                            <input id="cv-pin-input" type="password" inputmode="numeric" maxlength="4" placeholder="4-DIGIT PIN"
+                                onkeydown="if(event.key==='Enter') unlockCvSensitive()"
+                                class="w-28 px-2.5 py-1 rounded-lg bg-black/80 border border-white/20 focus:border-white outline-none font-mono-tech text-xs text-white text-center tracking-widest" />
+                            <button type="button" onclick="unlockCvSensitive()"
+                                class="px-3 py-1 rounded-lg accent-bg hover:brightness-110 text-slate-950 font-mono-tech text-[11px] font-bold cursor-pointer">
+                                UNLOCK PIN
+                            </button>
                         </div>
-                        <div>
-                            <span class="text-slate-400">LinkedIn:</span>
-                            <a href="https://www.linkedin.com/in/aakrisht-thapa-b28" target="_blank" rel="noopener noreferrer" class="accent-text underline">aakrisht-thapa-b28</a>
-                        </div>
+
+                        <!-- Re-Lock Control (Shown when unlocked) -->
+                        <button id="cv-relock-btn" type="button" onclick="lockCvSensitive()"
+                            class="hidden px-3 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-200 font-mono-tech text-[11px] font-bold cursor-pointer">
+                            🔒 RE-LOCK DATA
+                        </button>
                     </div>
                 </div>
 
@@ -1002,19 +1160,31 @@
                                     <td class="p-2.5 border border-white/10 font-semibold text-white">B.Tech (Computer Science &amp; Engineering)</td>
                                     <td class="p-2.5 border border-white/10">Surendra Institute of Engineering and Management, Siliguri (MAKAUT)</td>
                                     <td class="p-2.5 border border-white/10 font-mono-tech">2021</td>
-                                    <td class="p-2.5 border border-white/10 font-mono-tech accent-text font-bold">DGPA: 8.03</td>
+                                    <td class="p-2.5 border border-white/10 font-mono-tech">
+                                        <span id="cv-dgpa-value" class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">
+                                            [CONFIDENTIAL]
+                                        </span>
+                                    </td>
                                 </tr>
                                 <tr class="bg-white/[0.02]">
                                     <td class="p-2.5 border border-white/10 font-semibold text-white">Intermediate (+2, ISC)</td>
                                     <td class="p-2.5 border border-white/10">Dr. Graham's Homes, Kalimpong</td>
                                     <td class="p-2.5 border border-white/10 font-mono-tech">2017</td>
-                                    <td class="p-2.5 border border-white/10 font-mono-tech accent-text font-bold">74.25%</td>
+                                    <td class="p-2.5 border border-white/10 font-mono-tech">
+                                        <span id="cv-isc-value" class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">
+                                            [CONFIDENTIAL]
+                                        </span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="p-2.5 border border-white/10 font-semibold text-white">High School (10, ICSE)</td>
                                     <td class="p-2.5 border border-white/10">St. Xavier's School, Pedong, Kalimpong</td>
                                     <td class="p-2.5 border border-white/10 font-mono-tech">2014</td>
-                                    <td class="p-2.5 border border-white/10 font-mono-tech accent-text font-bold">82.8%</td>
+                                    <td class="p-2.5 border border-white/10 font-mono-tech">
+                                        <span id="cv-icse-value" class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">
+                                            [CONFIDENTIAL]
+                                        </span>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1057,7 +1227,11 @@
                 <div class="p-4 rounded-2xl bg-black/40 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div class="font-mono-tech text-xs space-y-1">
                         <div class="font-bold uppercase tracking-wider accent-text mb-1">06 // Personal Details &amp; Hobbies</div>
-                        <div><span class="text-slate-400">DOB:</span> <span class="text-white">23rd Sept 1999</span> &bull; <span class="text-slate-400">Nationality:</span> <span class="text-white">Indian</span></div>
+                        <div>
+                            <span class="text-slate-400">DOB:</span>
+                            <span id="cv-dob-value" class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">[CONFIDENTIAL]</span>
+                            &bull; <span class="text-slate-400">Nationality:</span> <span class="text-white">Indian</span>
+                        </div>
                         <div class="text-slate-300"><span class="text-slate-400">Interests:</span> Cooking, Esports, Reading, Music, Football, Gym</div>
                     </div>
                     <div class="font-mono-tech text-xs accent-text font-bold shrink-0">
@@ -1082,7 +1256,209 @@
 
     <script>
         /* =====================================================================
-1. THEME ENGINE (5 VERIFIED THEMES, NO LOCALSTORAGE OVERRIDES)
+           2. PROCEDURAL AMBIENT STREAM ENGINE (4 DEEP ATMOSPHERIC STREAMS)
+        ===================================================================== */
+        const PHONK_TRACKS = [
+            {
+                title: 'KALIMPONG SERVER ROOM (DEEP DRONE)',
+                short: '01. NOC DRONE',
+                tag: '432 HZ AMBIENT',
+                stepMs: 1450,
+                padNotes: [110.0, 164.81, 220.0, 261.63],
+                chimeNotes: [440.0, 523.25, 659.25, 0, 587.33, 493.88, 0, 659.25]
+            },
+            {
+                title: 'NICNET FIBER PULSE (CYBER AMBIENT)',
+                short: '02. FIBER PULSE',
+                tag: 'SPACE TELEMETRY',
+                stepMs: 1300,
+                padNotes: [98.0, 146.83, 196.0, 246.94],
+                chimeNotes: [587.33, 739.99, 0, 880.0, 659.25, 0, 783.99, 587.33]
+            },
+            {
+                title: 'ENCRYPTED MATRIX RAIN (ETHERSCAPE)',
+                short: '03. MATRIX RAIN',
+                tag: 'DEEP FOCUS',
+                stepMs: 1550,
+                padNotes: [82.41, 123.47, 164.81, 196.0],
+                chimeNotes: [493.88, 0, 659.25, 739.99, 0, 587.33, 493.88, 392.0]
+            },
+            {
+                title: 'HIMALAYAN NIGHT MIST (LO-FI PAD)',
+                short: '04. HIMALAYA MIST',
+                tag: 'CHILL SYNTH',
+                stepMs: 1650,
+                padNotes: [130.81, 196.0, 246.94, 293.66],
+                chimeNotes: [523.25, 659.25, 783.99, 0, 987.77, 783.99, 659.25, 0]
+            }
+        ];
+
+        let currentTrackIdx = 0;
+        let isAudioPlaying = false;
+        let audioCtx = null;
+        let phonkTimer = null;
+        let stepIndex = 0;
+
+        function ensureAudioContext() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContextClass();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function triggerPhonkStep(track, step) {
+            if (!audioCtx) return;
+            const now = audioCtx.currentTime;
+            const dur = (track.stepMs / 1000) * 1.45;
+
+            // 1. Warm Analog Ambient Pad Chord Swell
+            const rootFreq = track.padNotes[step % track.padNotes.length];
+            [rootFreq, rootFreq * 1.5].forEach((freq, idx) => {
+                const padOsc = audioCtx.createOscillator();
+                const padFilter = audioCtx.createBiquadFilter();
+                const padGain = audioCtx.createGain();
+
+                padOsc.type = idx === 0 ? 'sine' : 'triangle';
+                padOsc.frequency.setValueAtTime(freq, now);
+
+                padFilter.type = 'lowpass';
+                padFilter.frequency.setValueAtTime(340, now);
+
+                padGain.gain.setValueAtTime(0.0008, now);
+                padGain.gain.linearRampToValueAtTime(idx === 0 ? 0.055 : 0.032, now + dur * 0.4);
+                padGain.gain.exponentialRampToValueAtTime(0.0008, now + dur);
+
+                padOsc.connect(padFilter);
+                padFilter.connect(padGain);
+                padGain.connect(audioCtx.destination);
+                padOsc.start(now);
+                padOsc.stop(now + dur + 0.05);
+            });
+
+            // 2. Soft Glassy Telemetry Shimmer Note
+            const chimeFreq = track.chimeNotes[step % track.chimeNotes.length];
+            if (chimeFreq > 0) {
+                const chimeOsc = audioCtx.createOscillator();
+                const chimeGain = audioCtx.createGain();
+
+                chimeOsc.type = 'sine';
+                chimeOsc.frequency.setValueAtTime(chimeFreq, now + 0.15);
+
+                chimeGain.gain.setValueAtTime(0.0005, now + 0.15);
+                chimeGain.gain.linearRampToValueAtTime(0.025, now + 0.35);
+                chimeGain.gain.exponentialRampToValueAtTime(0.0005, now + dur * 1.1);
+
+                chimeOsc.connect(chimeGain);
+                chimeGain.connect(audioCtx.destination);
+                chimeOsc.start(now + 0.15);
+                chimeOsc.stop(now + dur * 1.15);
+            }
+        }
+
+        function updatePhonkDeckUI() {
+            const track = PHONK_TRACKS[currentTrackIdx];
+            document.getElementById('phonk-track-title').textContent = track.title;
+
+            const status = document.getElementById('audio-status');
+            const pill = document.getElementById('audio-pill');
+            const icon = document.getElementById('audio-icon');
+
+            if (isAudioPlaying) {
+                status.textContent = `STREAMING // ${track.tag}`;
+                status.classList.add('accent-text');
+                pill.textContent = 'PAUSE';
+                icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+            } else {
+                status.textContent = `STATUS: STANDBY // ${track.tag}`;
+                status.classList.remove('accent-text');
+                pill.textContent = 'PLAY';
+                icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+            }
+
+            document.querySelectorAll('.phonk-pill').forEach(btn => {
+                const idx = Number(btn.getAttribute('data-track-idx'));
+                if (idx === currentTrackIdx) {
+                    btn.style.borderColor = currentTheme.accent;
+                    btn.style.backgroundColor = `rgba(${currentTheme.rgb}, 0.22)`;
+                    btn.style.color = currentTheme.accent;
+                } else {
+                    btn.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                    btn.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
+                    btn.style.color = '#94a3b8';
+                }
+            });
+        }
+
+        function startPhonkSequencer() {
+            stopPhonkSequencer();
+            ensureAudioContext();
+            const track = PHONK_TRACKS[currentTrackIdx];
+            stepIndex = 0;
+            triggerPhonkStep(track, stepIndex++);
+            phonkTimer = setInterval(() => {
+                triggerPhonkStep(track, stepIndex++);
+            }, track.stepMs);
+        }
+
+        function stopPhonkSequencer() {
+            if (phonkTimer) {
+                clearInterval(phonkTimer);
+                phonkTimer = null;
+            }
+        }
+
+        let isAmbientPlaying = false;
+
+        function stopAmbientStream() {
+            const audio = document.getElementById('ambient-audio');
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+            isAmbientPlaying = false;
+            const status = document.getElementById('ambient-status');
+            const pill = document.getElementById('ambient-pill');
+            const icon = document.getElementById('ambient-icon');
+            if (status) {
+                status.textContent = 'STATUS: STANDBY // NOC AMBIENCE';
+                status.classList.remove('accent-text');
+            }
+            if (pill) pill.textContent = 'PLAY';
+            if (icon) icon.innerHTML = '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>';
+        }
+
+        function toggleAmbientAudio() {
+            const audio = document.getElementById('ambient-audio');
+            const status = document.getElementById('ambient-status');
+            const pill = document.getElementById('ambient-pill');
+            const icon = document.getElementById('ambient-icon');
+
+            if (isAmbientPlaying) {
+                stopAmbientStream();
+            } else {
+                if (isAudioPlaying) {
+                    stopPhonkSequencer();
+                    isAudioPlaying = false;
+                    updatePhonkDeckUI();
+                }
+                audio.volume = 0.5;
+                audio.play().then(() => {
+                    isAmbientPlaying = true;
+                    status.textContent = 'STATUS: STREAMING // NOC AMBIENCE';
+                    status.classList.add('accent-text');
+                    pill.textContent = 'PAUSE';
+                    icon.innerHTML = '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2V8h2v8zm4 0h-2V8h2v8z"/>';
+                }).catch(() => {
+                    showToast('Ambient stream blocked by browser autoplay policy');
+                });
+            }
+        }
+
+        /* =====================================================================
+           2B. THEME ENGINE (5 VERIFIED THEMES)
         ===================================================================== */
         const THEMES = {
             'matrix-green': {
@@ -1143,51 +1519,145 @@
                 }
             });
 
+            if (typeof updatePhonkDeckUI === 'function') {
+                updatePhonkDeckUI();
+            }
             resetCanvasState();
         }
 
-        /* =====================================================================
-2. AUDIO STREAM LOGIC (AMBIENT BACKGROUND)
-        ===================================================================== */
-        let isAudioPlaying = false;
-        
-        function toggleAudio() {
-            const audio = document.getElementById('ambient-audio');
-            const status = document.getElementById('audio-status');
-            const pill = document.getElementById('audio-pill');
-            const icon = document.getElementById('audio-icon');
-
+        function togglePhonkAudio() {
             if (isAudioPlaying) {
-                audio.pause();
+                stopPhonkSequencer();
                 isAudioPlaying = false;
-                status.textContent = 'STATUS: STANDBY';
-                status.classList.remove('accent-text');
-                pill.textContent = 'PLAY';
-                // Play Icon
-                icon.innerHTML = '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>'; 
             } else {
-                audio.volume = 0.5; // Start at 50% volume for ambience
-                audio.play().then(() => {
-                    isAudioPlaying = true;
-                    status.textContent = 'STATUS: STREAMING (NOC AMBIENCE)';
-                    status.classList.add('accent-text');
-                    pill.textContent = 'PAUSE';
-                    // Pause Icon
-                    icon.innerHTML = '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2V8h2v8zm4 0h-2V8h2v8z"/>';
-                }).catch(err => {
-                    showToast('Stream blocked by browser policy.');
-                });
+                if (isAmbientPlaying) {
+                    stopAmbientStream();
+                }
+                isAudioPlaying = true;
+                startPhonkSequencer();
             }
+            updatePhonkDeckUI();
+        }
+
+        function selectPhonkTrack(idx) {
+            currentTrackIdx = idx;
+            updatePhonkDeckUI();
+            if (isAudioPlaying) {
+                startPhonkSequencer();
+            }
+            showToast(`Track loaded: ${PHONK_TRACKS[currentTrackIdx].title}`);
+        }
+
+        function nextPhonkTrack() {
+            selectPhonkTrack((currentTrackIdx + 1) % PHONK_TRACKS.length);
+        }
+
+        function prevPhonkTrack() {
+            selectPhonkTrack((currentTrackIdx - 1 + PHONK_TRACKS.length) % PHONK_TRACKS.length);
         }
 
         /* =====================================================================
-3. OPENING HANDSHAKE GATE
+           3. OPENING HANDSHAKE GATE & EXTENDED "ENTERING THE MATRIX" SOUND
         ===================================================================== */
         let gateRunning = false;
+
+        function playMatrixHandshakeSound() {
+            try {
+                ensureAudioContext();
+                if (!audioCtx) return;
+                const now = audioCtx.currentTime;
+
+                // 1. Deep Sub-Bass Modem Carrier Sweep (0.0s -> 1.45s)
+                const carrierOsc = audioCtx.createOscillator();
+                const carrierFilter = audioCtx.createBiquadFilter();
+                const carrierGain = audioCtx.createGain();
+
+                carrierOsc.type = 'sawtooth';
+                carrierOsc.frequency.setValueAtTime(55, now);
+                carrierOsc.frequency.exponentialRampToValueAtTime(146.83, now + 0.85);
+                carrierOsc.frequency.exponentialRampToValueAtTime(48.99, now + 1.45);
+
+                carrierFilter.type = 'lowpass';
+                carrierFilter.frequency.setValueAtTime(160, now);
+                carrierFilter.frequency.exponentialRampToValueAtTime(920, now + 0.8);
+                carrierFilter.frequency.exponentialRampToValueAtTime(140, now + 1.45);
+                carrierFilter.Q.setValueAtTime(6.0, now);
+
+                carrierGain.gain.setValueAtTime(0.001, now);
+                carrierGain.gain.linearRampToValueAtTime(0.14, now + 0.12);
+                carrierGain.gain.setValueAtTime(0.12, now + 1.1);
+                carrierGain.gain.exponentialRampToValueAtTime(0.0008, now + 1.5);
+
+                carrierOsc.connect(carrierFilter);
+                carrierFilter.connect(carrierGain);
+                carrierGain.connect(audioCtx.destination);
+                carrierOsc.start(now);
+                carrierOsc.stop(now + 1.52);
+
+                // 2. Long Digital Matrix Code-Rain Telemetry Cascade (24 rapid data pulses over 1.2s)
+                const matrixScale = [440, 523.25, 659.25, 783.99, 987.77, 1174.66, 1318.51, 1567.98, 1760, 2093, 2349.32, 2637.02];
+                for (let i = 0; i < 24; i++) {
+                    const t = now + i * 0.048;
+                    const freq = matrixScale[(i * 5 + (i % 3)) % matrixScale.length];
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    const filter = audioCtx.createBiquadFilter();
+
+                    osc.type = i % 3 === 0 ? 'square' : 'sawtooth';
+                    osc.frequency.setValueAtTime(freq, t);
+                    osc.frequency.exponentialRampToValueAtTime(freq * (i % 2 === 0 ? 1.25 : 0.85), t + 0.042);
+
+                    filter.type = 'bandpass';
+                    filter.frequency.setValueAtTime(freq * 1.15, t);
+                    filter.Q.setValueAtTime(4.5, t);
+
+                    gain.gain.setValueAtTime(0.001, t);
+                    gain.gain.linearRampToValueAtTime(0.075, t + 0.008);
+                    gain.gain.exponentialRampToValueAtTime(0.0008, t + 0.046);
+
+                    osc.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(audioCtx.destination);
+
+                    osc.start(t);
+                    osc.stop(t + 0.05);
+                }
+
+                // 3. Long Shimmering "Entering the Matrix" Portal Chord (1.15s -> 2.35s)
+                const portalTime = now + 1.15;
+                [220.0, 329.63, 493.88, 659.25, 987.77].forEach((chordFreq, idx) => {
+                    const cOsc = audioCtx.createOscillator();
+                    const cFilter = audioCtx.createBiquadFilter();
+                    const cGain = audioCtx.createGain();
+
+                    cOsc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+                    cOsc.frequency.setValueAtTime(chordFreq * 0.98, portalTime);
+                    cOsc.frequency.exponentialRampToValueAtTime(chordFreq, portalTime + 0.25);
+
+                    cFilter.type = 'lowpass';
+                    cFilter.frequency.setValueAtTime(1800, portalTime);
+
+                    cGain.gain.setValueAtTime(0.001, portalTime);
+                    cGain.gain.linearRampToValueAtTime(0.065, portalTime + 0.14);
+                    cGain.gain.exponentialRampToValueAtTime(0.0006, portalTime + 1.2);
+
+                    cOsc.connect(cFilter);
+                    cFilter.connect(cGain);
+                    cGain.connect(audioCtx.destination);
+
+                    cOsc.start(portalTime);
+                    cOsc.stop(portalTime + 1.25);
+                });
+            } catch (e) {
+                // Fail silently if audio output is restricted
+            }
+        }
 
         function startHandshake() {
             if (gateRunning) return;
             gateRunning = true;
+
+            playMatrixHandshakeSound();
 
             const btn = document.getElementById('init-conn-btn');
             const box = document.getElementById('gate-progress-box');
@@ -1196,20 +1666,22 @@
             const status = document.getElementById('gate-status-text');
 
             btn.disabled = true;
-            btn.textContent = 'HANDSHAKING...';
+            btn.textContent = 'ENTERING MATRIX...';
             box.classList.remove('hidden');
 
             let progress = 0;
             const interval = setInterval(() => {
-                progress += 10;
+                progress += 5;
                 if (progress > 100) progress = 100;
                 bar.style.width = progress + '%';
                 pct.textContent = progress + '%';
 
-                if (progress === 40) {
+                if (progress === 25) {
+                    status.textContent = '> Decrypting digital matrix stream...';
+                } else if (progress === 55) {
                     status.textContent = '> Routing via NICNET Kalimpong GW [OK]';
-                } else if (progress === 80) {
-                    status.textContent = '> Node [AKEO] authenticated.';
+                } else if (progress === 85) {
+                    status.textContent = '> Node [AKEO] synchronized.';
                 }
 
                 if (progress >= 100) {
@@ -1217,13 +1689,13 @@
                     setTimeout(() => {
                         document.getElementById('gate-screen').classList.add('unlocked');
                         document.getElementById('main-portfolio').classList.add('visible');
-                    }, 180);
+                    }, 220);
                 }
             }, 65);
         }
 
         /* =====================================================================
-4. ID ENCRYPTION TOGGLE (LOCKED <-> DECRYPTED SHADOWED SVG)
+           4. ID ENCRYPTION TOGGLE (LOCKED <-> DECRYPTED SHADOWED SVG)
         ===================================================================== */
         let idDecrypted = false;
 
@@ -1252,7 +1724,7 @@
         }
 
         /* =====================================================================
-5. CLIPBOARD, TOAST, & MODALS
+           5. CLIPBOARD, TOAST, & MODALS
         ===================================================================== */
         function copyToClipboard(text) {
             const buf = document.getElementById('copy-buffer');
@@ -1297,6 +1769,119 @@
             showToast('MLBB Game ID copied: 156854879');
         }
 
+        function copyGameTag(gameName, tag) {
+            copyToClipboard(tag);
+            showToast(`${gameName} ID copied: ${tag}`);
+        }
+
+        /* =====================================================================
+           5C. DOWNLOADABLE DIGITAL BUSINESS CARD (CANVAS PNG + VCARD)
+        ===================================================================== */
+        function downloadBusinessCardPNG() {
+            const c = document.createElement('canvas');
+            c.width = 1050;
+            c.height = 600;
+            const g = c.getContext('2d');
+
+            // Background
+            g.fillStyle = currentTheme.bg || '#050a07';
+            g.fillRect(0, 0, c.width, c.height);
+
+            // Subtle Grid Pattern
+            g.strokeStyle = `rgba(${currentTheme.rgb}, 0.08)`;
+            g.lineWidth = 1;
+            for (let x = 0; x < c.width; x += 35) {
+                g.beginPath(); g.moveTo(x, 0); g.lineTo(x, c.height); g.stroke();
+            }
+            for (let y = 0; y < c.height; y += 35) {
+                g.beginPath(); g.moveTo(0, y); g.lineTo(c.width, y); g.stroke();
+            }
+
+            // Outer Glowing Frame
+            g.strokeStyle = currentTheme.accent;
+            g.lineWidth = 4;
+            g.strokeRect(26, 26, c.width - 52, c.height - 52);
+
+            // Header Badge
+            g.fillStyle = `rgba(${currentTheme.rgb}, 0.16)`;
+            g.fillRect(60, 58, 370, 34);
+            g.fillStyle = currentTheme.accent;
+            g.font = 'bold 16px "JetBrains Mono", monospace';
+            g.fillText('NICNET // VERIFIED FIELD ENGINEER', 74, 80);
+
+            // Name & Alias
+            g.fillStyle = '#ffffff';
+            g.font = 'bold 52px Inter, sans-serif';
+            g.fillText('AAKRISHT THAPA', 60, 155);
+
+            g.fillStyle = currentTheme.accent;
+            g.font = 'bold 26px "JetBrains Mono", monospace';
+            g.fillText('ALIAS: "AKEO"', 60, 198);
+
+            // Role & Organization
+            g.fillStyle = '#e2e8f0';
+            g.font = '600 22px Inter, sans-serif';
+            g.fillText('Network Operator cum Field Engineer (NFO)', 60, 245);
+            g.fillStyle = '#94a3b8';
+            g.font = '19px Inter, sans-serif';
+            g.fillText('National Informatics Centre (NIC), Kalimpong, WB', 60, 276);
+
+            // Divider
+            g.strokeStyle = 'rgba(255,255,255,0.14)';
+            g.lineWidth = 1.5;
+            g.beginPath(); g.moveTo(60, 305); g.lineTo(c.width - 60, 305); g.stroke();
+
+            // Left Column: Professional & Social Channels
+            g.font = '17px "JetBrains Mono", monospace';
+            const leftLines = [
+                ['EMAIL    :', 'aakrishtthapa@gmail.com'],
+                ['LINKEDIN :', 'linkedin.com/in/aakrisht-thapa-b28639228'],
+                ['YOUTUBE  :', 'youtube.com/@AkeoYoutube'],
+                ['INSTAGRAM:', '@aakrishtthapa'],
+                ['FACEBOOK :', 'Aakrisht Thapa'],
+                ['DISCORD  :', '@.doctorissadist']
+            ];
+            leftLines.forEach(([label, val], idx) => {
+                const y = 345 + idx * 34;
+                g.fillStyle = currentTheme.accent;
+                g.fillText(label, 60, y);
+                g.fillStyle = '#f1f5f9';
+                g.fillText(val, 185, y);
+            });
+
+            // Right Column: Gaming Telemetry Summary
+            g.fillStyle = `rgba(${currentTheme.rgb}, 0.1)`;
+            g.fillRect(645, 325, 345, 215);
+            g.strokeStyle = `rgba(${currentTheme.rgb}, 0.35)`;
+            g.strokeRect(645, 325, 345, 215);
+
+            g.fillStyle = currentTheme.accent;
+            g.font = 'bold 16px "JetBrains Mono", monospace';
+            g.fillText('GAMING TELEMETRY // AKEO', 665, 355);
+
+            g.font = '15px "JetBrains Mono", monospace';
+            const rightLines = [
+                'MLBB : 156854879 (Mythic ★109)',
+                'eFTBL: ASEQ-130-130-755',
+                'CoC  : #2JQUR0JJL',
+                'CR   : #J2VJ9G0',
+                'STEAM: AkeoGaming'
+            ];
+            rightLines.forEach((line, idx) => {
+                g.fillStyle = '#e2e8f0';
+                g.fillText(line, 665, 390 + idx * 30);
+            });
+
+            // Trigger PNG Download
+            const link = document.createElement('a');
+            link.download = 'Aakrisht_Thapa_Akeo_Business_Card.png';
+            link.href = c.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('Business Card PNG downloaded!');
+        }
+
         function openModal(id) {
             const el = document.getElementById(id);
             if (!el) return;
@@ -1325,16 +1910,96 @@
         });
 
         /* =====================================================================
-6. INTERACTIVE MLBB HERO ROSTER SKILL ANIMATIONS
+           6. CV PIN UNLOCK / RE-LOCK (PIN: 6295) & MLBB HERO SKILL ANIMATIONS
         ===================================================================== */
+        const CV_PIN = '6295';
+
+        function unlockCvSensitive() {
+            const input = document.getElementById('cv-pin-input');
+            if (!input) return;
+            if (input.value.trim() === CV_PIN) {
+                const locEl = document.getElementById('cv-location-value');
+                const phoneEl = document.getElementById('cv-phone-value');
+                const dgpaEl = document.getElementById('cv-dgpa-value');
+                const iscEl = document.getElementById('cv-isc-value');
+                const icseEl = document.getElementById('cv-icse-value');
+                const dobEl = document.getElementById('cv-dob-value');
+                const badgeEl = document.getElementById('cv-lock-badge');
+
+                locEl.textContent = 'Algarah Bazar, Reshi Road, Lava Block, Kalimpong - 734314';
+                locEl.className = 'px-2 py-0.5 rounded accent-soft accent-border border font-mono-tech accent-text text-[11px] font-semibold';
+
+                phoneEl.textContent = '+91 6295235371';
+                phoneEl.className = 'px-1.5 py-0.5 rounded accent-soft accent-border border accent-text text-[11px] font-semibold';
+
+                dgpaEl.textContent = 'DGPA: 8.03';
+                dgpaEl.className = 'accent-text font-bold text-xs sm:text-sm';
+
+                iscEl.textContent = '74.25%';
+                iscEl.className = 'accent-text font-bold text-xs sm:text-sm';
+
+                icseEl.textContent = '82.8%';
+                icseEl.className = 'accent-text font-bold text-xs sm:text-sm';
+
+                dobEl.textContent = '23rd Sept 1999';
+                dobEl.className = 'text-white font-semibold';
+
+                badgeEl.textContent = '🔓 PRIVATE FIELDS UNLOCKED';
+                badgeEl.className = 'px-2 py-0.5 rounded accent-soft accent-border border accent-text font-bold';
+
+                document.getElementById('cv-pin-form').classList.add('hidden');
+                document.getElementById('cv-relock-btn').classList.remove('hidden');
+                input.value = '';
+                showToast('PIN verified // Private CV details unlocked');
+            } else {
+                input.value = '';
+                showToast('Access denied // Invalid PIN');
+            }
+        }
+
+        function lockCvSensitive() {
+            const locEl = document.getElementById('cv-location-value');
+            const phoneEl = document.getElementById('cv-phone-value');
+            const dgpaEl = document.getElementById('cv-dgpa-value');
+            const iscEl = document.getElementById('cv-isc-value');
+            const icseEl = document.getElementById('cv-icse-value');
+            const dobEl = document.getElementById('cv-dob-value');
+            const badgeEl = document.getElementById('cv-lock-badge');
+
+            locEl.textContent = '[REDACTED FOR PRIVACY]';
+            locEl.className = 'px-2 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 font-mono-tech text-rose-300 text-[10px]';
+
+            phoneEl.textContent = '[REDACTED FOR PRIVACY]';
+            phoneEl.className = 'px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]';
+
+            dgpaEl.textContent = '[CONFIDENTIAL]';
+            dgpaEl.className = 'px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]';
+
+            iscEl.textContent = '[CONFIDENTIAL]';
+            iscEl.className = 'px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]';
+
+            icseEl.textContent = '[CONFIDENTIAL]';
+            icseEl.className = 'px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]';
+
+            dobEl.textContent = '[CONFIDENTIAL]';
+            dobEl.className = 'px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]';
+
+            badgeEl.textContent = '🔒 PRIVATE FIELDS LOCKED';
+            badgeEl.className = 'px-2 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 font-bold';
+
+            document.getElementById('cv-relock-btn').classList.add('hidden');
+            document.getElementById('cv-pin-form').classList.remove('hidden');
+            showToast('Private CV fields re-locked');
+        }
+
         const HERO_SKILLS = {
             martis: {
-                title: 'MARTIS // ASHURA\'S WRATH & DECIMATION',
+                title: "MARTIS // ASHURA'S WRATH & DECIMATION",
                 desc: 'Twin-blade true-damage execution triggered — resets cooldown on kill with +100% movement speed burst.',
                 fx: `<div class="w-full h-4 bg-gradient-to-r from-transparent via-purple-400 to-white shadow-[0_0_18px_#c084fc] fx-martis"></div>`
             },
             lolita: {
-                title: 'LOLITA // GUARDIAN\'S REFLECTION & NOUMENON BLAST',
+                title: "LOLITA // GUARDIAN'S REFLECTION & NOUMENON BLAST",
                 desc: 'Noumenon Energy Core deploys an aegis shield that blocks and reflects incoming projectiles before unleashing an AoE stun.',
                 fx: `<div class="w-20 h-20 rounded-full border-4 border-amber-300 bg-amber-400/25 shadow-[0_0_20px_#fbbf24] fx-lolita"></div>`
             },
@@ -1360,7 +2025,7 @@
         }
 
         /* =====================================================================
-7. UNOBTRUSIVE NOC DUCK NETWORKING TIPS
+           7. LIVE VISITOR PING + RUNAWAY NOC DUCK & NETWORKING TIPS
         ===================================================================== */
         const NOC_TIPS = [
             "Subnetting Tip: A /30 mask (255.255.255.252) provides 2 usable host IPs—ideal for point-to-point CISCO router serial or fiber links.",
@@ -1372,15 +2037,105 @@
         ];
 
         let tipIdx = 0;
+        let duckFleeTimeout = null;
 
-        function cycleNetworkingTip() {
+        function playDuckQuackSound() {
+            try {
+                ensureAudioContext();
+                if (!audioCtx) return;
+                const now = audioCtx.currentTime;
+
+                // Double-quack burst as the duck sprints away
+                [0, 0.16].forEach((offset, idx) => {
+                    const t = now + offset;
+                    const dur = idx === 0 ? 0.13 : 0.19;
+
+                    const osc = audioCtx.createOscillator();
+                    const filter = audioCtx.createBiquadFilter();
+                    const gain = audioCtx.createGain();
+
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(idx === 0 ? 330 : 305, t);
+                    osc.frequency.exponentialRampToValueAtTime(idx === 0 ? 185 : 150, t + dur);
+
+                    // Nasal vocal-formant bandpass sweep for realistic duck quack
+                    filter.type = 'bandpass';
+                    filter.frequency.setValueAtTime(880, t);
+                    filter.frequency.exponentialRampToValueAtTime(1450, t + dur * 0.35);
+                    filter.frequency.exponentialRampToValueAtTime(640, t + dur);
+                    filter.Q.setValueAtTime(4.2, t);
+
+                    gain.gain.setValueAtTime(0.001, t);
+                    gain.gain.linearRampToValueAtTime(0.22, t + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+
+                    osc.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(audioCtx.destination);
+
+                    osc.start(t);
+                    osc.stop(t + dur + 0.02);
+                });
+            } catch (e) {
+                // Fail silently if audio is blocked
+            }
+        }
+
+        async function measureVisitorLatency() {
+            const start = performance.now();
+            try {
+                await fetch(window.location.href, { method: 'HEAD', cache: 'no-store' });
+                const rtt = Math.max(1, Math.round(performance.now() - start));
+                return rtt;
+            } catch (e) {
+                const nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+                if (nav && nav.responseStart > 0) {
+                    return Math.max(1, Math.round(nav.responseStart - nav.requestStart));
+                }
+                return Math.floor(Math.random() * 18) + 12;
+            }
+        }
+
+        async function handleDuckPing() {
+            const duckBtn = document.getElementById('noc-duck-btn');
+            const badge = document.getElementById('duck-ping-badge');
+            const readout = document.getElementById('visitor-ping-readout');
+
             tipIdx = (tipIdx + 1) % NOC_TIPS.length;
             document.getElementById('tip-index').textContent = String(tipIdx + 1).padStart(2, '0');
             document.getElementById('noc-tip-text').textContent = NOC_TIPS[tipIdx];
+
+            badge.textContent = 'PINGING...';
+
+            const latencyMs = await measureVisitorLatency();
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const netType = conn && conn.effectiveType ? conn.effectiveType.toUpperCase() : 'NET';
+            const quality = latencyMs < 50 ? 'OPTIMAL' : (latencyMs < 130 ? 'GOOD' : 'HIGH RTT');
+
+            badge.textContent = `${latencyMs}ms! QUACK!`;
+            readout.textContent = `YOUR PING: ${latencyMs}ms (${netType} • ${quality})`;
+            readout.classList.remove('hidden');
+
+            playDuckQuackSound();
+            showToast(`ICMP Echo Reply: ${latencyMs}ms (${quality}) — Duck fled!`);
+
+            duckBtn.classList.remove('duck-returning', 'duck-fleeing');
+            void duckBtn.offsetWidth;
+            duckBtn.classList.add('duck-fleeing');
+
+            clearTimeout(duckFleeTimeout);
+            duckFleeTimeout = setTimeout(() => {
+                duckBtn.classList.remove('duck-fleeing');
+                duckBtn.classList.add('duck-returning');
+                badge.textContent = `${latencyMs}ms`;
+                setTimeout(() => {
+                    duckBtn.classList.remove('duck-returning');
+                }, 600);
+            }, 2600);
         }
 
         /* =====================================================================
-8. ADAPTIVE BACKGROUND CANVAS (MATRIX / TOPOLOGY / GRID / EMBERS)
+           8. ADAPTIVE BACKGROUND CANVAS (MATRIX / TOPOLOGY / GRID / EMBERS)
         ===================================================================== */
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
@@ -1505,6 +2260,7 @@
         window.onload = function () {
             resizeCanvas();
             applyTheme('matrix-green');
+            updatePhonkDeckUI();
             animateCanvas();
         };
     </script>
