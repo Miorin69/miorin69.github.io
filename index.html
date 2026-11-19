@@ -1,972 +1,1512 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AKEO YOUTUBE | Official Social Hub</title>
-    <!-- Tailwind CSS -->
+    <title>Aakrisht Thapa (Akeo) | Network Field Engineer — NIC Kalimpong</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Orbitron, Rajdhani & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@700;800;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        obsidian: '#09090b',
-                        surface: '#111115',
-                        card: '#18181f',
-                        crimson: 'var(--accent-dark)',
-                        neonred: 'var(--accent)',
-                        darkred: 'var(--accent-deep)',
-                    },
-                    fontFamily: {
-                        display: ['Orbitron', 'sans-serif'],
-                        gaming: ['Rajdhani', 'sans-serif'],
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --accent: #ef4444;
-            --accent-dark: #b91c1c;
-            --accent-deep: #450a0a;
-            --accent-glow: rgba(239, 68, 68, 0.55);
-            --accent-soft: rgba(239, 68, 68, 0.14);
-            --accent-grid: rgba(239, 68, 68, 0.08);
-            --accent-border: rgba(239, 68, 68, 0.28);
+            --accent: #00ff66;
+            --accent-secondary: #10b981;
+            --accent-rgb: 0, 255, 102;
+            --bg: #050a07;
+            --panel: rgba(9, 17, 13, 0.88);
+            --panel-solid: #0a130e;
+            --border: rgba(0, 255, 102, 0.28);
+            --glow: rgba(0, 255, 102, 0.28);
+        }
+
+        [data-theme="matrix-green"] {
+            --accent: #00ff66;
+            --accent-secondary: #34d399;
+            --accent-rgb: 0, 255, 102;
+            --bg: #050a07;
+            --panel: rgba(9, 17, 13, 0.88);
+            --panel-solid: #0a130e;
+            --border: rgba(0, 255, 102, 0.32);
+            --glow: rgba(0, 255, 102, 0.3);
+        }
+
+        [data-theme="network-red"] {
+            --accent: #ff2a4b;
+            --accent-secondary: #fb7185;
+            --accent-rgb: 255, 42, 75;
+            --bg: #0b0507;
+            --panel: rgba(20, 9, 13, 0.88);
+            --panel-solid: #15090d;
+            --border: rgba(255, 42, 75, 0.34);
+            --glow: rgba(255, 42, 75, 0.32);
+        }
+
+        [data-theme="cyber-blue"] {
+            --accent: #00b8ff;
+            --accent-secondary: #38bdf8;
+            --accent-rgb: 0, 184, 255;
+            --bg: #050911;
+            --panel: rgba(9, 16, 29, 0.88);
+            --panel-solid: #09111e;
+            --border: rgba(0, 184, 255, 0.34);
+            --glow: rgba(0, 184, 255, 0.32);
+        }
+
+        [data-theme="stealth-obsidian"] {
+            --accent: #ffffff;
+            --accent-secondary: #a1a1aa;
+            --accent-rgb: 255, 255, 255;
+            --bg: #070709;
+            --panel: rgba(15, 15, 19, 0.9);
+            --panel-solid: #101014;
+            --border: rgba(255, 255, 255, 0.22);
+            --glow: rgba(255, 255, 255, 0.18);
+        }
+
+        [data-theme="mlbb-mythic"] {
+            --accent: #f59e0b;
+            --accent-secondary: #ef4444;
+            --accent-rgb: 245, 158, 11;
+            --bg: #0c0806;
+            --panel: rgba(22, 13, 10, 0.9);
+            --panel-solid: #170d0a;
+            --border: rgba(245, 158, 11, 0.36);
+            --glow: rgba(245, 158, 11, 0.32);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #09090b;
-            color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: #f1f5f9;
             min-height: 100vh;
             overflow-x: hidden;
+            transition: background-color 0.4s ease;
         }
 
-        .cyber-grid {
-            background-size: 40px 40px;
-            background-image: 
-                linear-gradient(to right, var(--accent-grid) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--accent-grid) 1px, transparent 1px);
+        .font-mono-tech {
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        .text-glow {
-            text-shadow: 0 0 18px var(--accent-glow);
+        .accent-text {
+            color: var(--accent);
+            transition: color 0.3s ease;
         }
 
-        .card-glow {
-            border-color: var(--accent-border) !important;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 35px -10px var(--accent-soft);
+        .accent-bg {
+            background-color: var(--accent);
+            transition: background-color 0.3s ease;
         }
 
-        .social-btn {
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid var(--accent-border);
+        .accent-soft {
+            background-color: rgba(var(--accent-rgb), 0.12);
+            transition: background-color 0.3s ease;
         }
 
-        .social-btn:hover {
-            transform: translateY(-3px) scale(1.01);
+        .accent-border {
+            border-color: var(--border);
+            transition: border-color 0.3s ease;
+        }
+
+        .panel-card {
+            background: var(--panel);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--border);
+            box-shadow: 0 24px 55px -12px rgba(0, 0, 0, 0.85), 0 0 32px -10px var(--glow);
+            transition: background 0.4s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .link-row {
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            transition: transform 0.22s ease, border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .link-row:hover {
+            transform: translateY(-2px);
             border-color: var(--accent);
-            box-shadow: 0 10px 28px -8px var(--accent-glow);
+            background: rgba(var(--accent-rgb), 0.09);
+            box-shadow: 0 8px 22px -6px var(--glow);
         }
 
-        .social-btn:active {
-            transform: scale(0.98);
+        .link-row:active {
+            transform: scale(0.99);
         }
 
-        .swatch-btn {
-            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        /* Gate Transition */
+        #gate-screen {
+            transition: opacity 0.55s ease, transform 0.55s ease, visibility 0.55s;
         }
 
-        .swatch-btn:hover {
-            transform: scale(1.15);
+        #gate-screen.unlocked {
+            opacity: 0;
+            transform: scale(1.03);
+            visibility: hidden;
+            pointer-events: none;
         }
 
-        .swatch-btn.active-swatch {
-            transform: scale(1.18);
-            box-shadow: 0 0 0 2px #09090b, 0 0 0 4px #ffffff;
+        #main-portfolio {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
+        }
+
+        #main-portfolio.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Avatar Radar & Glitch */
+        @keyframes scan-sweep {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(240%); }
+        }
+
+        .radar-sweep {
+            animation: scan-sweep 3s linear infinite;
+            background: linear-gradient(to bottom, transparent, rgba(var(--accent-rgb), 0.45), transparent);
+        }
+
+        @keyframes glitch-snap {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(-2px, 1px); }
+            50% { transform: translate(2px, -1px); }
+            75% { transform: translate(-1px, -1px); }
+        }
+
+        .avatar-glitch {
+            animation: glitch-snap 0.28s ease-in-out;
+        }
+
+        /* Hero Skill Animations */
+        @keyframes slash-fx {
+            0% { transform: translate(-120%, -120%) rotate(35deg); opacity: 0; }
+            35% { opacity: 1; }
+            100% { transform: translate(140%, 140%) rotate(35deg); opacity: 0; }
+        }
+
+        @keyframes shield-fx {
+            0% { transform: scale(0.35); opacity: 0.95; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+
+        @keyframes dragon-fx {
+            0% { transform: translateX(-90%) skewX(-18deg); opacity: 0; }
+            35% { opacity: 1; }
+            100% { transform: translateX(130%) skewX(-18deg); opacity: 0; }
+        }
+
+        .fx-martis { animation: slash-fx 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .fx-lolita { animation: shield-fx 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .fx-chou { animation: dragon-fx 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        /* Corner Perched Duck Bob */
+        @keyframes duck-idle {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-4px) rotate(-3deg); }
+        }
+
+        .perched-duck:hover svg {
+            transform: scale(1.12) rotate(-6deg);
+        }
+
+        .perched-duck svg {
+            animation: duck-idle 2.6s ease-in-out infinite;
+            transition: transform 0.2s ease;
+        }
+
+        /* Print Support for CV */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #cv-printable-area, #cv-printable-area * {
+                visibility: visible;
+            }
+            #cv-printable-area {
+                position: fixed;
+                inset: 0;
+                background: #0b0f17 !important;
+                color: #f8fafc !important;
+                padding: 24px !important;
+                overflow: visible !important;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(var(--accent-rgb), 0.45);
+            border-radius: 9999px;
         }
     </style>
 </head>
-<body class="font-sans antialiased cyber-grid relative flex flex-col items-center justify-center p-4 sm:p-6 selection:bg-neonred selection:text-white">
+<body data-theme="matrix-green" class="antialiased">
 
-    <!-- Ambient Dynamic Theme Glow -->
-    <div id="ambientAura" style="background-color: var(--accent-soft);" class="fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[540px] h-[340px] sm:h-[540px] rounded-full blur-[120px] pointer-events-none z-0 transition-colors duration-300"></div>
+    <!-- Background Canvas -->
+    <canvas id="bg-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
 
-    <!-- Top Right Discreet Owner Lock / Mode Switcher -->
-    <div class="fixed top-4 right-4 z-30 flex items-center gap-2">
-        <!-- Quick Preview Toggle (Visible only when unlocked) -->
-        <button id="previewToggleBtn" onclick="togglePreviewMode()" class="hidden px-3.5 py-2 rounded-xl bg-surface/90 backdrop-blur-md border border-neonred/40 text-xs font-gaming font-bold uppercase tracking-wider text-white hover:bg-neonred transition-all shadow-lg flex items-center gap-2">
-            <i id="previewToggleIcon" class="fas fa-eye"></i>
-            <span id="previewToggleText">Visitor Preview</span>
-        </button>
-
-        <!-- Owner Lock / Unlock Button -->
-        <button id="ownerLockBtn" onclick="handleOwnerButtonClick()" title="Owner Edit Mode" class="w-10 h-10 rounded-xl bg-surface/80 backdrop-blur-md border border-white/10 hover:border-neonred/60 text-gray-400 hover:text-neonred flex items-center justify-center transition-all shadow-lg">
-            <i id="ownerLockIcon" class="fas fa-lock text-sm"></i>
-        </button>
-    </div>
-
-    <!-- MAIN CONTAINER -->
-    <main class="relative z-10 w-full max-w-md mx-auto my-auto py-8">
-
-        <!-- ========================================================= -->
-        <!-- 1. PUBLIC VISITOR VIEW (What Others See)                  -->
-        <!-- ========================================================= -->
-        <section id="visitorView" class="bg-surface/90 backdrop-blur-xl rounded-3xl border card-glow p-6 sm:p-8 relative overflow-hidden transition-all duration-300">
-            
-            <!-- Top Accent Bar -->
-            <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-darkred via-neonred to-darkred"></div>
-
-            <!-- Live Preview Banner (Shown only when owner previews visitor view) -->
-            <div id="previewBanner" class="hidden mb-5 px-3 py-2 rounded-xl bg-neonred/15 border border-neonred/40 flex items-center justify-between text-xs font-gaming font-bold uppercase tracking-wider text-neonred">
-                <span><i class="fas fa-eye mr-1.5"></i> Viewing As Public Visitor</span>
-                <button onclick="togglePreviewMode()" class="underline hover:text-white">Back to Editor</button>
+    <!-- =====================================================================
+         TOP BAR: NON-EDITABLE PUBLIC VIEW + 5-THEME SWITCHER
+    ====================================================================== -->
+    <header class="sticky top-0 z-30 w-full backdrop-blur-xl bg-black/60 border-b border-white/10">
+        <div class="max-w-3xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full accent-bg animate-pulse"></span>
+                <span class="font-mono-tech text-[11px] uppercase tracking-wider text-slate-300">
+                    NIC-KALIMPONG // <span id="theme-name-display" class="accent-text font-semibold">Terminal Green</span>
+                </span>
             </div>
 
-            <!-- Profile Header & Anime Duck Emblem -->
+            <div class="flex items-center gap-1.5" role="group" aria-label="Theme Switcher">
+                <button type="button" onclick="applyTheme('matrix-green')" data-theme-opt="matrix-green"
+                    class="theme-pill px-2.5 py-1 rounded-lg font-mono-tech text-[10px] font-bold border transition-all cursor-pointer"
+                    title="Terminal Green (Matrix)">
+                    MATRIX
+                </button>
+                <button type="button" onclick="applyTheme('network-red')" data-theme-opt="network-red"
+                    class="theme-pill px-2.5 py-1 rounded-lg font-mono-tech text-[10px] font-bold border transition-all cursor-pointer"
+                    title="Network Red (NOC Crimson)">
+                    RED
+                </button>
+                <button type="button" onclick="applyTheme('cyber-blue')" data-theme-opt="cyber-blue"
+                    class="theme-pill px-2.5 py-1 rounded-lg font-mono-tech text-[10px] font-bold border transition-all cursor-pointer"
+                    title="Cyber NOC Blue">
+                    BLUE
+                </button>
+                <button type="button" onclick="applyTheme('stealth-obsidian')" data-theme-opt="stealth-obsidian"
+                    class="theme-pill px-2.5 py-1 rounded-lg font-mono-tech text-[10px] font-bold border transition-all cursor-pointer"
+                    title="Stealth Obsidian">
+                    STEALTH
+                </button>
+                <button type="button" onclick="applyTheme('mlbb-mythic')" data-theme-opt="mlbb-mythic"
+                    class="theme-pill px-2.5 py-1 rounded-lg font-mono-tech text-[10px] font-bold border transition-all cursor-pointer"
+                    title="MLBB Mythic Gold">
+                    MYTHIC
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- =====================================================================
+1. OPENING HANDSHAKE GATE
+    ====================================================================== -->
+    <section id="gate-screen" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-[#040706]/95 backdrop-blur-xl">
+        <div class="w-full max-w-md rounded-3xl panel-card p-6 sm:p-8 text-center">
+            <!-- Terminal Window Dots -->
+            <div class="flex items-center justify-between pb-4 mb-6 border-b border-white/10">
+                <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                </div>
+                <span class="font-mono-tech text-[11px] tracking-widest text-slate-400">SSH // NODE_01</span>
+            </div>
+
+            <!-- Shield Icon -->
+            <div class="mx-auto mb-5 w-16 h-16 rounded-2xl accent-soft accent-border border flex items-center justify-center">
+                <svg class="w-8 h-8 accent-text" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" />
+                </svg>
+            </div>
+
+            <p class="font-mono-tech text-[11px] uppercase tracking-[0.2em] accent-text mb-1.5">Encrypted Identity Gateway</p>
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">AAKRISHT THAPA</h1>
+            <div class="mt-1.5 inline-block px-2.5 py-0.5 rounded-md accent-soft accent-border border font-mono-tech text-xs font-bold accent-text">
+                ALIAS: "AKEO"
+            </div>
+            <p class="mt-3 text-xs sm:text-sm text-slate-400 leading-relaxed">
+                Network Field Engineer<br>
+                <span class="text-slate-300 font-medium">National Informatics Centre (NIC), Kalimpong</span>
+            </p>
+
+            <!-- Handshake Progress Panel -->
+            <div id="gate-progress-box" class="hidden mt-6 text-left bg-black/70 border border-white/10 rounded-2xl p-3.5 font-mono-tech text-[11px] space-y-1.5">
+                <div id="gate-status-text" class="accent-text">&gt; Establishing encrypted packet tunnel...</div>
+                <div class="flex items-center justify-between text-slate-400 text-[10px]">
+                    <span>NICNET_KALIMPONG_GW</span>
+                    <span id="gate-percent">0%</span>
+                </div>
+                <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div id="gate-bar" class="h-full accent-bg w-0 transition-all duration-150 ease-out"></div>
+                </div>
+            </div>
+
+            <button id="init-conn-btn" type="button" onclick="startHandshake()"
+                class="mt-6 w-full py-3.5 px-5 rounded-2xl font-mono-tech text-xs sm:text-sm font-bold tracking-wider uppercase text-slate-950 accent-bg hover:brightness-110 active:scale-[0.98] transition-all cursor-pointer shadow-lg">
+                [ INITIALIZE CONNECTION ]
+            </button>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+2. MAIN PORTFOLIO & LINK-IN-BIO CARD
+    ====================================================================== -->
+    <main id="main-portfolio" class="relative z-10 max-w-lg mx-auto px-4 pt-8 pb-16">
+        <div class="relative rounded-3xl panel-card p-6 sm:p-8">
+
+            <!-- Unobtrusive Corner-Perched NOC Duck -->
+            <button type="button" onclick="cycleNetworkingTip()" title="Click NOC Duck for Networking CLI Tip"
+                class="perched-duck absolute -top-6 right-5 z-20 flex flex-col items-center cursor-pointer focus:outline-none group">
+                <span class="px-2 py-0.5 rounded-full bg-black/90 accent-border border font-mono-tech text-[9px] font-bold accent-text shadow-md mb-0.5 group-hover:scale-105 transition-transform">
+                    PING?
+                </span>
+                <svg width="42" height="42" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="25" cy="31" rx="14" ry="10" fill="#facc15" stroke="#090d16" stroke-width="2.2"/>
+                    <path d="M18 30 Q25 26 32 31 Q26 36 18 32 Z" fill="#eab308"/>
+                    <circle cx="17" cy="18" r="8.5" fill="#fde047" stroke="#090d16" stroke-width="2.2"/>
+                    <path d="M9 18 C4 18, 4 22, 10 22 L13 21 L13 18 Z" fill="#f97316" stroke="#090d16" stroke-width="1.8"/>
+                    <rect x="11" y="14" width="10" height="4.5" rx="1.5" fill="#090d16" stroke="var(--accent)" stroke-width="1.3"/>
+                    <circle cx="14.5" cy="16.2" r="1" fill="var(--accent)"/>
+                </svg>
+            </button>
+
+            <!-- =================================================================
+3. IDENTITY HEADER & CLICKABLE "ID ENCRYPTION" AVATAR
+            ================================================================== -->
             <div class="flex flex-col items-center text-center">
-                <!-- Red & Black Anime Duck SVG Emblem / Custom Logo Container -->
-                <div class="relative w-28 h-28 sm:w-32 sm:h-32 mb-4">
-                    <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-crimson to-neonred blur-md opacity-40"></div>
-                    <div id="publicLogoContainer" class="relative w-full h-full rounded-full bg-obsidian border-2 border-neonred p-1.5 shadow-xl flex items-center justify-center overflow-hidden">
-                        <!-- Rendered dynamically via JS (Default Anime Duck SVG or Custom Image) -->
+
+                <!-- Pill Toggle Button -->
+                <button type="button" onclick="toggleIdEncryption()"
+                    class="px-3.5 py-1.5 rounded-full accent-soft accent-border border font-mono-tech text-[11px] font-bold tracking-wider uppercase accent-text hover:brightness-125 active:scale-95 transition-all cursor-pointer flex items-center gap-2">
+                    <span id="enc-dot" class="w-2 h-2 rounded-full accent-bg animate-pulse"></span>
+                    <span id="enc-pill-label">ID ENCRYPTION: LOCKED</span>
+                </button>
+
+                <!-- Centered 112px x 112px Rounded-Square Avatar Frame -->
+                <div id="avatar-box" onclick="toggleIdEncryption()" role="button" tabindex="0" aria-label="Toggle Identity Encryption"
+                    style="width: 112px; height: 112px; border: 2px solid var(--accent);"
+                    class="mt-4 rounded-2xl bg-black/85 overflow-hidden relative cursor-pointer shadow-lg flex items-center justify-center group">
+
+                    <!-- LOCKED STATE: Encrypted Biometric Lock Sigil -->
+                    <div id="avatar-locked" class="w-full h-full flex flex-col items-center justify-center p-2 relative">
+                        <div class="w-12 h-12 rounded-xl accent-soft accent-border border flex items-center justify-center mb-1.5 group-hover:scale-105 transition-transform">
+                            <svg class="w-6 h-6 accent-text animate-pulse" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <span class="font-mono-tech text-[9px] tracking-widest uppercase text-slate-400">SHA-256</span>
+                        <span class="font-mono-tech text-[8px] accent-text mt-0.5">TAP TO DECRYPT</span>
+                    </div>
+
+                    <!-- DECRYPTED STATE: Shadowed Scanline Anime Silhouette SVG -->
+                    <div id="avatar-decrypted" class="hidden w-full h-full relative bg-[#060b09]">
+                        <svg viewBox="0 0 120 120" class="w-full h-full block" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="akeoBackdrop" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.45"/>
+                                    <stop offset="100%" stop-color="#050807" stop-opacity="0.95"/>
+                                </linearGradient>
+                                <linearGradient id="shadowSkin" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#1b2028"/>
+                                    <stop offset="65%" stop-color="#2a313b"/>
+                                    <stop offset="100%" stop-color="#14181f"/>
+                                </linearGradient>
+                                <linearGradient id="glassesGlare" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.48"/>
+                                    <stop offset="45%" stop-color="#cbd5e1" stop-opacity="0.25"/>
+                                    <stop offset="100%" stop-color="#090d14" stop-opacity="0.72"/>
+                                </linearGradient>
+                                <pattern id="crtScanOverlay" width="120" height="3" patternUnits="userSpaceOnUse">
+                                    <rect width="120" height="1.4" fill="var(--accent)" fill-opacity="0.22"/>
+                                    <rect y="1.4" width="120" height="1.6" fill="#000000" fill-opacity="0.5"/>
+                                </pattern>
+                            </defs>
+
+                            <!-- Theme-Adaptive Glowing Backdrop -->
+                            <rect width="120" height="120" fill="#050807"/>
+                            <rect width="120" height="120" fill="url(#akeoBackdrop)"/>
+
+                            <!-- Chromatic Aberration Edge Fringe -->
+                            <g opacity="0.55" transform="translate(-1.4, 0)">
+                                <path d="M11 120 C15 95, 27 86, 39 82 L35 69 L85 69 L81 82 C93 86, 105 95, 109 120 Z" fill="#ef4444"/>
+                                <path d="M31 46 C27 31, 35 16, 52 13 C55 9, 60 8, 63 12 C78 12, 91 23, 91 40 C95 45, 92 52, 87 55 C86 64, 79 71, 60 74 C41 71, 34 64, 33 55 C28 52, 26 48, 31 46 Z" fill="#ef4444"/>
+                            </g>
+                            <g opacity="0.55" transform="translate(1.4, 0)">
+                                <path d="M11 120 C15 95, 27 86, 39 82 L35 69 L85 69 L81 82 C93 86, 105 95, 109 120 Z" fill="#38bdf8"/>
+                                <path d="M31 46 C27 31, 35 16, 52 13 C55 9, 60 8, 63 12 C78 12, 91 23, 91 40 C95 45, 92 52, 87 55 C86 64, 79 71, 60 74 C41 71, 34 64, 33 55 C28 52, 26 48, 31 46 Z" fill="#38bdf8"/>
+                            </g>
+
+                            <!-- Shadowed Neck, Ears & Jawline -->
+                            <rect x="49" y="66" width="22" height="18" fill="#12161c"/>
+                            <path d="M39 46 L39 61 C39 71, 49 79, 60 81 C71 79, 81 71, 81 61 L81 46 Z" fill="url(#shadowSkin)"/>
+                            <path d="M39 53 C35 53, 35 62, 39 64 Z" fill="#1b2028"/>
+                            <path d="M81 53 C85 53, 85 62, 81 64 Z" fill="#1b2028"/>
+
+                            <!-- Subtle Brow & Nose Bridge Shadow -->
+                            <path d="M44 50 L54 52 M76 50 L66 52" stroke="#080a0d" stroke-width="2.1" stroke-linecap="round"/>
+                            <path d="M60 56 L59 64 L61 65" stroke="#0d1116" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+
+                            <!-- Rectangular Black-Rimmed Glasses with Lens Glare -->
+                            <g>
+                                <rect x="41.5" y="51.5" width="15.5" height="9.5" rx="2" fill="url(#glassesGlare)" stroke="#050709" stroke-width="2.2"/>
+                                <rect x="63" y="51.5" width="15.5" height="9.5" rx="2" fill="url(#glassesGlare)" stroke="#050709" stroke-width="2.2"/>
+                                <line x1="44" y1="53.5" x2="49" y2="58.5" stroke="#ffffff" stroke-opacity="0.32" stroke-width="1.1"/>
+                                <line x1="65.5" y1="53.5" x2="70.5" y2="58.5" stroke="#ffffff" stroke-opacity="0.32" stroke-width="1.1"/>
+                                <path d="M57 54.5 Q60 53 63 54.5" stroke="#050709" stroke-width="2.2" fill="none"/>
+                                <line x1="39" y1="53.5" x2="41.5" y2="54" stroke="#050709" stroke-width="2"/>
+                                <line x1="78.5" y1="54" x2="81" y2="53.5" stroke="#050709" stroke-width="2"/>
+                            </g>
+
+                            <!-- Spiky Dark Anime Hair Silhouette -->
+                            <path d="M34 55
+                                     L29 51 L33 46 L25 43 L33 36 L28 29 L37 26 L36 17 L46 19
+                                     L52 10 L57 15 L64 11 L67 16 L78 14 L77 21 L88 21 L85 29
+                                     L94 33 L88 40 L95 46 L87 51 L83 56
+                                     L80 46 L75 51 L71 43 L66 50 L61 42 L56 50 L51 43 L46 50 L41 44 L37 52 Z"
+                                  fill="#040608"/>
+
+                            <!-- High-Collar Dark Trench Coat -->
+                            <path d="M11 120 C15 95, 27 86, 39 82 L35 69 L49 74 L60 79 L71 74 L85 69 L81 82 C93 86, 105 95, 109 120 Z" fill="#030406"/>
+                            <path d="M36 70 L48 84 L60 80 L72 84 L84 70" stroke="#1e293b" stroke-width="1.3" fill="none"/>
+
+                            <!-- Horizontal CRT Scanline Overlay -->
+                            <rect width="120" height="120" fill="url(#crtScanOverlay)"/>
+                        </svg>
+                        <div class="absolute inset-x-0 h-5 radar-sweep pointer-events-none"></div>
                     </div>
                 </div>
 
-                <!-- Display Name & Verified Tag -->
-                <div class="flex items-center justify-center gap-2">
-                    <h1 id="publicDisplayName" class="font-display font-black text-2xl sm:text-3xl tracking-wider text-white text-glow">
-                        AKEO YOUTUBE
-                    </h1>
-                    <span class="w-5 h-5 rounded-full bg-neonred text-white flex items-center justify-center text-[10px]" title="Official Creator">
-                        <i class="fas fa-check"></i>
+                <!-- Name & "Akeo" Badge -->
+                <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
+                    <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Aakrisht Thapa</h1>
+                    <span class="px-2.5 py-0.5 rounded-lg accent-soft accent-border border font-mono-tech text-xs font-bold accent-text">
+                        "Akeo"
                     </span>
                 </div>
 
-                <!-- Bio -->
-                <p id="publicBio" class="text-gray-400 text-sm sm:text-base mt-2 max-w-xs leading-relaxed">
-                    Gaming • Viral Clips • Unfiltered Entertainment. Welcome to the flock!
+                <!-- Role & NIC Posting -->
+                <p class="mt-2 text-xs sm:text-sm font-semibold accent-text">
+                    Network Field Engineer
+                </p>
+                <p class="mt-0.5 text-xs sm:text-sm text-slate-300">
+                    National Informatics Centre (NIC), Kalimpong
                 </p>
             </div>
 
-            <!-- Interactive Social Link Buttons Container -->
-            <div id="publicLinksList" class="mt-7 space-y-3.5">
-                <!-- Buttons rendered dynamically via JS -->
-            </div>
-
-            <!-- Subtle Footer -->
-            <div class="mt-8 pt-4 border-t border-white/5 text-center">
-                <span class="font-gaming font-bold text-xs tracking-widest uppercase text-gray-500">
-                    OFFICIAL HUB • <span class="text-neonred">AKEO</span>
-                </span>
-            </div>
-        </section>
-
-        <!-- ========================================================= -->
-        <!-- 2. OWNER EDIT MODE (Unlocked via PIN)                     -->
-        <!-- ========================================================= -->
-        <section id="ownerEditorView" class="hidden bg-surface/95 backdrop-blur-xl rounded-3xl border border-neonred/40 p-6 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.85)] relative">
-            <div class="flex items-center justify-between pb-4 mb-6 border-b border-white/10">
-                <div>
-                    <span class="font-gaming font-bold text-xs tracking-widest uppercase text-neonred">Owner Dashboard</span>
-                    <h2 class="font-display font-bold text-xl text-white">EDIT PROFILE & LINKS</h2>
+            <!-- =================================================================
+4. INTERACTIVE SOCIAL, GAMING & CV ACTION LINKS (CLEAN LIST)
+            ================================================================== -->
+            <div class="mt-6 space-y-2.5">
+                <div class="flex items-center justify-between px-1 mb-1">
+                    <span class="font-mono-tech text-[10px] uppercase tracking-widest text-slate-400">Verified Channels &amp; Dossiers</span>
+                    <span class="font-mono-tech text-[10px] accent-text">10 ACTIVE</span>
                 </div>
-                <button onclick="lockOwnerMode()" class="px-3 py-1.5 rounded-lg bg-card hover:bg-neonred/20 border border-white/10 text-xs font-gaming font-bold uppercase text-gray-300 hover:text-neonred transition-colors">
-                    <i class="fas fa-lock mr-1"></i> Lock
+
+                <!-- 0. Audio Stream (Ambient) -->
+                <button type="button" onclick="toggleAudio()"
+                    class="link-row flex items-center justify-between p-3.5 rounded-2xl w-full text-left cursor-pointer">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/15 border border-purple-500/40 flex items-center justify-center text-purple-400 shrink-0">
+                            <svg id="audio-icon" class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/> 
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-sm font-semibold text-white truncate">Ambient Stream</div>
+                            <div id="audio-status" class="text-xs font-mono-tech text-slate-400 truncate">STATUS: STANDBY</div>
+                        </div>
+                    </div>
+                    <span id="audio-pill" class="px-2.5 py-1 rounded-lg bg-white/5 font-mono-tech text-[10px] font-semibold text-slate-300 shrink-0">
+                        PLAY
+                    </span>
+                </button>
+                <audio id="ambient-audio" loop preload="none">
+                    <source src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3" type="audio/mpeg">
+                </audio>
+
+                <!-- 1. YouTube -->
+                <a href="https://www.youtube.com/@AkeoYoutube" target="_blank" rel="noopener noreferrer"
+                   class="link-row flex items-center justify-between p-3.5 rounded-2xl w-full">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-red-500/15 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-sm font-semibold text-white truncate">YouTube</div>
+                            <div class="text-xs font-mono-tech text-slate-400 truncate">@AkeoYoutube</div>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-lg bg-white/5 font-mono-tech text-[10px] font-semibold text-slate-300 shrink-0">
+                        OPEN ↗
+                    </span>
+                </a>
+
+                <!-- 2. Facebook -->
+                <a href="https://www.facebook.com/share/1HjXC1tYQk/" target="_blank" rel="noopener noreferrer"
+                   class="link-row flex items-center justify-between p-3.5 rounded-2xl w-full">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600/15 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 0 0 8.44-9.9c0-5.53-4.5-10.02-10-10.02z"/>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-sm font-semibold text-white truncate">Facebook</div>
+                            <div class="text-xs font-mono-tech text-slate-400 truncate">Aakrisht Thapa</div>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-lg bg-white/5 font-mono-tech text-[10px] font-semibold text-slate-300 shrink-0">
+                        OPEN ↗
+                    </span>
+                </a>
+
+                <!-- 3. Instagram -->
+                <a href="https://www.instagram.com/aakrishtthapa?lqvp=MTdncGR1a2R1c3I5NQ==" target="_blank" rel="noopener noreferrer"
+                   class="link-row flex items-center justify-between p-3.5 rounded-2xl w-full">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-pink-500/15 border border-pink-500/40 flex items-center justify-center text-pink-400 shrink-0">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-sm font-semibold text-white truncate">Instagram</div>
+                            <div class="text-xs font-mono-tech text-slate-400 truncate">@aakrishtthapa</div>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-lg bg-white/5 font-mono-tech text-[10px] font-semibold text-slate-300 shrink-0">
+                        OPEN ↗
+                    </span>
+                </a>
+
+                <!-- 4. LinkedIn -->
+                <a href="https://www.linkedin.com/in/aakrisht-thapa-b28" target="_blank" rel="noopener noreferrer"
+                   class="link-row flex items-center justify-between p-3.5 rounded-2xl w-full">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-sky-500/15 border border-sky-500/40 flex items-center justify-center text-sky-400 shrink-0">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-sm font-semibold text-white truncate">LinkedIn</div>
+                            <div class="text-xs font-mono-tech text-slate-400 truncate">aakrisht-thapa-b28</div>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-lg bg-white/5 font-mono-tech text-[10px] font-semibold text-slate-300 shrink-0">
+                        OPEN ↗
+                    </span>
+                </a>
+                
+                <!-- 5. Spotify -->
+                <a href="https://open.spotify.com/user/31lfz5xjjvw4uwaqtgnickxyxh5y?si=93cVgcIsSM-tbkhcRIF5cg&utm_source=whatsapp&sci=spotify%3Acard-config%3A6kByBMo6vTGLNBe3ngG31c" target="_blank" rel="noopener noreferrer"
+                   class="link-row flex items-center justify-between p-3.5 rounded-2xl w-full">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-green-500/15 border border-green-500/40 flex items-center justify-center text-green-400 shrink-0">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.24 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.84.24 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.781-.18-.6.18-1.2.78-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.239.54-.959.72-1.5.421z"/>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-sm font-semibold text-white truncate">Spotify</div>
+                            <div class="text-xs font-mono-tech text-slate-400 truncate">Aakrisht Thapa</div>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-lg bg-white/5 font-mono-tech text-[10px] font-semibold text-slate-300 shrink-0">
+                        OPEN ↗
+                    </span>
+                </a>
+                
+                <!-- 6. Steam -->
+                <a href="https://steamcommunity.com/profiles/76561199524314780/" target="_blank" rel="noopener noreferrer"
+                   class="link-row flex items-center justify-between p-3.5 rounded-2xl w-full">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-slate-500/15 border border-slate-500/40 flex items-center justify-center text-slate-400 shrink-0">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                <path d="M11.979 0C5.394 0 0 5.38 0 11.961c0 4.673 2.686 8.718 6.602 10.742l1.696-4.908c-.212-.132-.41-.284-.593-.454l-2.482 1.026a.222.222 0 0 1-.295-.145c-.201-.58-.088-1.226.31-1.63l2.457-1.015c-.046-.22-.074-.446-.074-.68 0-1.785 1.455-3.232 3.249-3.232.486 0 .946.111 1.36.305l3.197-4.606c-.035-.145-.054-.296-.054-.45 0-1.298 1.057-2.35 2.361-2.35 1.303 0 2.36 1.052 2.36 2.35 0 1.298-1.057 2.35-2.36 2.35-.918 0-1.713-.523-2.115-1.282l-3.232 4.656a3.237 3.237 0 0 1 .15 1.082c0 1.785-1.455 3.232-3.249 3.232-1.795 0-3.25-1.447-3.25-3.232 0-.251.033-.493.093-.726l-1.928-5.556a11.921 11.921 0 0 1-2.091-2.36l1.32-3.79C6.884 2.825 9.28 1.5 11.98 1.5 17.755 1.5 22.5 6.223 22.5 11.96c0 5.74-4.745 10.463-10.521 10.463a10.457 10.457 0 0 1-5.112-1.326l-1.928-5.556A3.208 3.208 0 0 1 7.21 16.29l1.927 5.556A11.993 11.993 0 0 0 11.979 24c6.585 0 11.979-5.38 11.979-11.961C23.958 5.38 18.564 0 11.979 0z"/>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-sm font-semibold text-white truncate">Steam</div>
+                            <div class="text-xs font-mono-tech text-slate-400 truncate">AkeoGaming</div>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-lg bg-white/5 font-mono-tech text-[10px] font-semibold text-slate-300 shrink-0">
+                        OPEN ↗
+                    </span>
+                </a>
+
+                <!-- 7. Discord (1-Click Copy) -->
+                <button type="button" onclick="copyDiscordHandle()"
+                    class="link-row flex items-center justify-between p-3.5 rounded-2xl w-full text-left cursor-pointer">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/15 border border-indigo-400/40 flex items-center justify-center text-indigo-400 shrink-0">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-sm font-semibold text-white truncate">Discord</div>
+                            <div class="text-xs font-mono-tech text-slate-400 truncate">@.doctorissadist</div>
+                        </div>
+                    </div>
+                    <span id="discord-copy-pill" class="px-2.5 py-1 rounded-lg bg-white/5 font-mono-tech text-[10px] font-semibold text-slate-300 shrink-0">
+                        COPY
+                    </span>
+                </button>
+
+                <!-- 8. Gaming Hub (MLBB, Clash, eFootball) -->
+                <button type="button" onclick="openModal('gaming-modal')"
+                    class="link-row flex items-center justify-between p-3.5 rounded-2xl w-full text-left cursor-pointer accent-border">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl accent-soft accent-border border flex items-center justify-center accent-text shrink-0">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                <path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 9 18.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-sm font-semibold text-white truncate">Gaming Hub & Telemetry</div>
+                            <div class="text-xs font-mono-tech accent-text truncate">MLBB &bull; Clash &bull; eFootball</div>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-lg accent-soft accent-border border font-mono-tech text-[10px] font-bold accent-text shrink-0">
+                        HUB
+                    </span>
+                </button>
+
+                <!-- 9. Curriculum Vitae -->
+                <button type="button" onclick="openModal('cv-modal')"
+                    class="link-row flex items-center justify-between p-3.5 rounded-2xl w-full text-left cursor-pointer accent-border">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl accent-soft accent-border border flex items-center justify-center accent-text shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-sm font-semibold text-white truncate">Curriculum Vitae</div>
+                            <div class="text-xs font-mono-tech accent-text truncate">CV // VERIFIED DOSSIER</div>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-lg accent-soft accent-border border font-mono-tech text-[10px] font-bold accent-text shrink-0">
+                        VIEW CV
+                    </span>
                 </button>
             </div>
 
-            <form id="ownerForm" class="space-y-4">
-                <!-- Channel Logo Customization Section -->
-                <div class="p-3.5 rounded-xl bg-obsidian border border-white/10 space-y-3">
-                    <div class="flex items-center justify-between">
-                        <span class="font-gaming font-bold text-xs uppercase tracking-widest text-neonred">Channel Logo</span>
-                        <button type="button" onclick="resetLogoToDefault()" class="text-[11px] font-gaming font-bold uppercase text-gray-400 hover:text-neonred transition-colors flex items-center gap-1">
-                            <i class="fas fa-rotate-left"></i> Reset to Anime Duck
-                        </button>
+            <!-- =================================================================
+7. IN-CARD NOC DUCK NETWORKING TIP STATUS BAR
+            ================================================================== -->
+            <div class="mt-6 p-3.5 rounded-2xl bg-black/55 accent-border border">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="flex items-center gap-1.5 font-mono-tech text-[10px] font-bold uppercase tracking-wider accent-text">
+                        <span>🦆 NOC DUCK TIP #<span id="tip-index">01</span></span>
                     </div>
-
-                    <div class="flex items-center gap-3.5">
-                        <!-- Live Logo Preview Circle -->
-                        <div id="editorLogoPreview" class="w-16 h-16 shrink-0 rounded-full bg-surface border-2 border-neonred/70 p-1 flex items-center justify-center overflow-hidden shadow-md">
-                            <!-- Live preview rendered via JS -->
-                        </div>
-
-                        <div class="flex-1 space-y-2">
-                            <!-- Upload Image File Button -->
-                            <label class="w-full py-2 px-3 rounded-lg bg-surface hover:bg-card border border-neonred/40 text-white font-gaming font-bold text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2 transition-colors">
-                                <i class="fas fa-upload text-neonred"></i>
-                                <span>Upload Image File</span>
-                                <input type="file" id="logoFileInput" accept="image/*" class="hidden" onchange="handleLogoFileUpload(event)">
-                            </label>
-
-                            <!-- Direct Image URL Input -->
-                            <input type="text" id="editLogoUrl" placeholder="Or paste direct image URL (https://...)" oninput="handleLogoUrlInput(this.value)" class="w-full px-3 py-1.5 rounded-lg bg-surface border border-white/10 focus:border-neonred focus:outline-none text-xs text-gray-200">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Theme Color Switcher Section -->
-                <div class="p-3.5 rounded-xl bg-obsidian border border-white/10 space-y-2.5">
-                    <div class="flex items-center justify-between">
-                        <span class="font-gaming font-bold text-xs uppercase tracking-widest text-neonred">Theme Accent Color</span>
-                        <span id="themeHexLabel" class="font-mono text-[11px] text-gray-400 uppercase">#EF4444</span>
-                    </div>
-
-                    <div class="flex items-center justify-between gap-2 flex-wrap">
-                        <!-- Preset Color Swatches -->
-                        <div id="themeSwatches" class="flex items-center gap-2.5">
-                            <button type="button" data-color="#ef4444" onclick="selectThemeColor('#ef4444')" title="Crimson Red" style="background-color: #ef4444;" class="swatch-btn w-7 h-7 rounded-full border border-white/25 cursor-pointer"></button>
-                            <button type="button" data-color="#3b82f6" onclick="selectThemeColor('#3b82f6')" title="Cyber Blue" style="background-color: #3b82f6;" class="swatch-btn w-7 h-7 rounded-full border border-white/25 cursor-pointer"></button>
-                            <button type="button" data-color="#a855f7" onclick="selectThemeColor('#a855f7')" title="Neon Purple" style="background-color: #a855f7;" class="swatch-btn w-7 h-7 rounded-full border border-white/25 cursor-pointer"></button>
-                            <button type="button" data-color="#10b981" onclick="selectThemeColor('#10b981')" title="Emerald Green" style="background-color: #10b981;" class="swatch-btn w-7 h-7 rounded-full border border-white/25 cursor-pointer"></button>
-                            <button type="button" data-color="#f59e0b" onclick="selectThemeColor('#f59e0b')" title="Solar Gold" style="background-color: #f59e0b;" class="swatch-btn w-7 h-7 rounded-full border border-white/25 cursor-pointer"></button>
-                            <button type="button" data-color="#ec4899" onclick="selectThemeColor('#ec4899')" title="Hot Pink" style="background-color: #ec4899;" class="swatch-btn w-7 h-7 rounded-full border border-white/25 cursor-pointer"></button>
-                        </div>
-
-                        <!-- Custom HTML5 Color Picker -->
-                        <label class="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-surface border border-white/10 hover:border-neonred/50 cursor-pointer transition-colors" title="Pick any custom hex color">
-                            <span class="font-gaming font-bold text-[11px] uppercase text-gray-300">Custom</span>
-                            <input type="color" id="themeColorInput" value="#ef4444" oninput="selectThemeColor(this.value)" class="w-6 h-6 bg-transparent border-0 p-0 cursor-pointer rounded">
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Channel Display Name -->
-                <div>
-                    <label class="block font-gaming font-bold text-xs uppercase tracking-wider text-gray-300 mb-1">Display Name</label>
-                    <input type="text" id="editName" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-white/10 focus:border-neonred focus:outline-none text-white text-sm">
-                </div>
-
-                <!-- Channel Bio -->
-                <div>
-                    <label class="block font-gaming font-bold text-xs uppercase tracking-wider text-gray-300 mb-1">Channel Bio</label>
-                    <textarea id="editBio" rows="2" class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-white/10 focus:border-neonred focus:outline-none text-white text-sm"></textarea>
-                </div>
-
-                <!-- Social Platforms Configuration -->
-                <div class="pt-2 space-y-3">
-                    <div class="font-gaming font-bold text-xs uppercase tracking-widest text-neonred">Social Platforms & Visibility</div>
-
-                    <!-- YouTube -->
-                    <div class="p-3.5 rounded-xl bg-obsidian border border-white/10 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="font-gaming font-bold text-sm text-white flex items-center gap-2">
-                                <i class="fab fa-youtube text-neonred"></i> YouTube URL
-                            </span>
-                            <label class="inline-flex items-center cursor-pointer">
-                                <input type="checkbox" id="visYoutube" class="sr-only peer">
-                                <div class="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:bg-neonred relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
-                            </label>
-                        </div>
-                        <input type="text" id="urlYoutube" placeholder="https://youtube.com/@YourChannel" class="w-full px-3 py-2 rounded-lg bg-surface border border-white/10 focus:border-neonred focus:outline-none text-xs text-gray-200">
-                    </div>
-
-                    <!-- Facebook -->
-                    <div class="p-3.5 rounded-xl bg-obsidian border border-white/10 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="font-gaming font-bold text-sm text-white flex items-center gap-2">
-                                <i class="fab fa-facebook text-neonred"></i> Facebook URL
-                            </span>
-                            <label class="inline-flex items-center cursor-pointer">
-                                <input type="checkbox" id="visFacebook" class="sr-only peer">
-                                <div class="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:bg-neonred relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
-                            </label>
-                        </div>
-                        <input type="text" id="urlFacebook" placeholder="https://facebook.com/YourPage" class="w-full px-3 py-2 rounded-lg bg-surface border border-white/10 focus:border-neonred focus:outline-none text-xs text-gray-200">
-                    </div>
-
-                    <!-- Instagram -->
-                    <div class="p-3.5 rounded-xl bg-obsidian border border-white/10 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="font-gaming font-bold text-sm text-white flex items-center gap-2">
-                                <i class="fab fa-instagram text-neonred"></i> Instagram URL
-                            </span>
-                            <label class="inline-flex items-center cursor-pointer">
-                                <input type="checkbox" id="visInstagram" class="sr-only peer">
-                                <div class="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:bg-neonred relative after:content-[''] after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
-                            </label>
-                        </div>
-                        <input type="text" id="urlInstagram" placeholder="https://instagram.com/YourHandle" class="w-full px-3 py-2 rounded-lg bg-surface border border-white/10 focus:border-neonred focus:outline-none text-xs text-gray-200">
-                    </div>
-
-                    <!-- Discord -->
-                    <div class="p-3.5 rounded-xl bg-obsidian border border-white/10 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="font-gaming font-bold text-sm text-white flex items-center gap-2">
-                                <i class="fab fa-discord text-neonred"></i> Discord Link or Username/Tag
-                            </span>
-                            <label class="inline-flex items-center cursor-pointer">
-                                <input type="checkbox" id="visDiscord" class="sr-only peer">
-                                <div class="w-9 h-5 bg-gray-700 rounded-full peer peer-checked:bg-neonred relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
-                            </label>
-                        </div>
-                        <input type="text" id="urlDiscord" placeholder="https://discord.gg/invite OR akeo#0001" class="w-full px-3 py-2 rounded-lg bg-surface border border-white/10 focus:border-neonred focus:outline-none text-xs text-gray-200">
-                        <p class="text-[11px] text-gray-500">Tip: Enter an invite URL to open Discord, or just your username to copy it on click.</p>
-                    </div>
-                </div>
-
-                <!-- Security / Change PIN -->
-                <div class="p-3.5 rounded-xl bg-obsidian/70 border border-white/5 flex items-center justify-between gap-3">
-                    <div>
-                        <div class="font-gaming font-bold text-xs uppercase text-gray-300">Owner Access PIN</div>
-                        <div class="text-[11px] text-gray-500">Default is 1234</div>
-                    </div>
-                    <input type="password" id="editPin" maxlength="8" placeholder="New PIN" class="w-28 px-3 py-1.5 rounded-lg bg-surface border border-white/10 focus:border-neonred focus:outline-none text-xs text-white text-center tracking-widest">
-                </div>
-
-                <!-- Save & Share Actions -->
-                <div class="pt-2 space-y-2.5">
-                    <button type="submit" style="box-shadow: 0 10px 25px -6px var(--accent-glow);" class="w-full py-3 rounded-xl bg-gradient-to-r from-crimson to-neonred hover:opacity-95 text-white font-display font-bold text-xs tracking-wider uppercase transition-all active:scale-98">
-                        <i class="fas fa-floppy-disk mr-1.5"></i> Save Changes Locally
-                    </button>
-
-                    <button type="button" onclick="copyShareableLink()" class="w-full py-3 rounded-xl bg-obsidian hover:bg-card border border-neonred/40 text-white font-gaming font-bold text-sm tracking-wider uppercase transition-all flex items-center justify-center gap-2">
-                        <i class="fas fa-share-nodes text-neonred"></i> Copy Shareable Visitor Link
+                    <button type="button" onclick="cycleNetworkingTip()"
+                        class="px-2 py-0.5 rounded accent-soft hover:brightness-125 accent-border border font-mono-tech text-[10px] font-bold accent-text cursor-pointer">
+                        NEXT TIP ↻
                     </button>
                 </div>
-            </form>
-        </section>
+                <p id="noc-tip-text" class="text-xs text-slate-300 leading-relaxed">
+                    Subnetting Tip: A /30 mask (255.255.255.252) provides 2 usable host IPs—ideal for point-to-point CISCO router serial or fiber links.
+                </p>
+            </div>
 
+            <!-- Footer -->
+            <footer class="mt-5 pt-4 border-t border-white/10 flex items-center justify-between font-mono-tech text-[10px] text-slate-500">
+                <span>KALIMPONG, WB // IN</span>
+                <span>VERIFIED PUBLIC NODE</span>
+            </footer>
+        </div>
     </main>
 
-    <!-- ========================================================= -->
-    <!-- PIN UNLOCK MODAL                                          -->
-    <!-- ========================================================= -->
-    <div id="pinModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4">
-        <div class="bg-surface border border-neonred/50 rounded-2xl max-w-xs w-full p-6 shadow-2xl text-center">
-            <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-neonred/15 border border-neonred flex items-center justify-center text-neonred">
-                <i class="fas fa-shield-halved text-xl"></i>
-            </div>
-            <h3 class="font-display font-bold text-lg text-white">OWNER ACCESS</h3>
-            <p class="text-xs text-gray-400 mt-1 mb-4">Enter PIN to edit AKEO YOUTUBE links<br><span class="text-gray-500">(Default PIN: 1234)</span></p>
+    <!-- =====================================================================
+5. UNIFIED GAMING HUB & TELEMETRY MODAL
+    ====================================================================== -->
+    <div id="gaming-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md" onclick="closeBackdrop(event, 'gaming-modal')">
+        <div class="w-full max-w-lg rounded-3xl panel-card overflow-hidden flex flex-col max-h-[90vh]">
 
-            <form id="pinForm" class="space-y-3">
-                <input type="password" id="pinInput" maxlength="8" placeholder="••••" required class="w-full px-4 py-3 rounded-xl bg-obsidian border border-white/15 focus:border-neonred focus:outline-none text-center font-display text-lg tracking-[0.4em] text-white">
-                <p id="pinError" class="hidden text-xs text-neonred font-semibold">Incorrect PIN. Try again.</p>
-                <div class="flex gap-2 pt-1">
-                    <button type="button" onclick="closePinModal()" class="flex-1 py-2.5 rounded-xl bg-card text-gray-300 hover:text-white font-gaming font-bold text-sm uppercase">
-                        Cancel
-                    </button>
-                    <button type="submit" class="flex-1 py-2.5 rounded-xl bg-neonred text-white font-gaming font-bold text-sm uppercase shadow-lg shadow-neonred/30">
-                        Unlock
+            <!-- Modal Top Bar -->
+            <div class="px-5 py-3.5 bg-black/60 border-b border-white/10 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full accent-bg"></span>
+                    <span class="font-mono-tech text-xs font-bold uppercase tracking-wider accent-text">GAMING HUB // TELEMETRY</span>
+                </div>
+                <button type="button" onclick="closeModal('gaming-modal')" aria-label="Close Gaming Modal"
+                    class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-slate-300 hover:text-white flex items-center justify-center cursor-pointer">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-5 sm:p-6 space-y-5 overflow-y-auto">
+
+                <!-- MLBB Player Identity & 1-Click Copy Game ID -->
+                <div class="p-4 rounded-2xl bg-black/50 accent-border border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded accent-soft accent-border border font-mono-tech text-[10px] font-bold accent-text">
+                                MLBB SEASON S37
+                            </span>
+                            <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 font-mono-tech text-[10px] text-slate-300">
+                                REGION: SEA
+                            </span>
+                        </div>
+                        <h2 class="mt-1.5 text-2xl font-extrabold tracking-wide text-white">VENI-VIDI-VICI</h2>
+                        <p class="mt-0.5 font-mono-tech text-xs text-slate-400">
+                            Game ID: <span class="accent-text font-bold">156854879</span>
+                        </p>
+                    </div>
+                    <button type="button" onclick="copyMlbbGameId()"
+                        class="px-3.5 py-2 rounded-xl accent-bg hover:brightness-110 text-slate-950 font-mono-tech text-xs font-bold transition-all cursor-pointer shrink-0">
+                        COPY GAME ID
                     </button>
                 </div>
-            </form>
+
+                <!-- 4-Card Core Telemetry Grid (Server ID Strictly Omitted) -->
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div class="p-3 rounded-2xl accent-soft accent-border border">
+                        <div class="font-mono-tech text-[10px] uppercase accent-text">Current Rank</div>
+                        <div class="mt-0.5 text-base font-extrabold text-white font-mono-tech">Legend IV</div>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-black/50 border border-amber-400/35">
+                        <div class="font-mono-tech text-[10px] uppercase text-amber-300">Highest Rank</div>
+                        <div class="mt-0.5 text-base font-extrabold text-amber-200 font-mono-tech">Mythical Glory ★109</div>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-black/50 border border-white/10">
+                        <div class="font-mono-tech text-[10px] uppercase text-slate-400">Total Matches</div>
+                        <div class="mt-0.5 text-base font-extrabold text-white font-mono-tech">15,366</div>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-black/50 border border-white/10">
+                        <div class="font-mono-tech text-[10px] uppercase text-slate-400">Server Region</div>
+                        <div class="mt-0.5 text-base font-extrabold text-white font-mono-tech">SEA</div>
+                    </div>
+                </div>
+
+                <!-- Name-Only Interactive Hero Roster -->
+                <div>
+                    <div class="flex items-center justify-between mb-2.5">
+                        <span class="font-mono-tech text-[11px] font-bold uppercase tracking-wider accent-text">Signature Hero Roster</span>
+                        <span class="font-mono-tech text-[10px] text-slate-400">TAP HERO FOR SKILL</span>
+                    </div>
+
+                    <div class="space-y-2.5">
+                        <!-- Martis -->
+                        <button type="button" onclick="activateHeroSkill('martis')"
+                            class="link-row relative overflow-hidden w-full p-3.5 rounded-2xl flex items-center justify-between gap-3 text-left cursor-pointer">
+                            <div id="skill-fx-martis" class="pointer-events-none absolute inset-0 overflow-hidden"></div>
+                            <div>
+                                <div class="text-sm font-extrabold text-white">Martis</div>
+                                <div class="font-mono-tech text-xs text-slate-400">306 Matches &bull; Fighter / Jungle</div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-lg accent-soft accent-border border font-mono-tech text-[10px] font-bold accent-text shrink-0">
+                                DECIMATION ⚡
+                            </span>
+                        </button>
+
+                        <!-- Lolita -->
+                        <button type="button" onclick="activateHeroSkill('lolita')"
+                            class="link-row relative overflow-hidden w-full p-3.5 rounded-2xl flex items-center justify-between gap-3 text-left cursor-pointer">
+                            <div id="skill-fx-lolita" class="pointer-events-none absolute inset-0 overflow-hidden flex items-center justify-center"></div>
+                            <div>
+                                <div class="text-sm font-extrabold text-white">Lolita</div>
+                                <div class="font-mono-tech text-xs text-slate-400">297 Matches &bull; Tank / Roam</div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-lg accent-soft accent-border border font-mono-tech text-[10px] font-bold accent-text shrink-0">
+                                REFLECTION 🛡️
+                            </span>
+                        </button>
+
+                        <!-- Chou -->
+                        <button type="button" onclick="activateHeroSkill('chou')"
+                            class="link-row relative overflow-hidden w-full p-3.5 rounded-2xl flex items-center justify-between gap-3 text-left cursor-pointer">
+                            <div id="skill-fx-chou" class="pointer-events-none absolute inset-0 overflow-hidden"></div>
+                            <div>
+                                <div class="text-sm font-extrabold text-white">Chou</div>
+                                <div class="font-mono-tech text-xs text-slate-400">283 Matches &bull; Fighter / EXP</div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-lg accent-soft accent-border border font-mono-tech text-[10px] font-bold accent-text shrink-0">
+                                DRAGON KICK 🐉
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Skill Readout Console -->
+                <div class="p-3.5 rounded-2xl bg-black/65 accent-border border mb-4">
+                    <div id="hero-readout-title" class="font-mono-tech text-xs font-bold accent-text">
+                        STANDBY // SELECT A HERO ABOVE
+                    </div>
+                    <p id="hero-readout-desc" class="mt-1 text-xs text-slate-300 leading-relaxed">
+                        Click Martis, Lolita, or Chou to trigger their signature battle combo readout.
+                    </p>
+                </div>
+
+                <!-- Other Titles Integration -->
+                <div class="pt-4 border-t border-white/10">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="font-mono-tech text-[11px] font-bold uppercase tracking-wider text-slate-300">Other Active Titles</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="p-3 rounded-2xl bg-black/40 border border-white/10 flex flex-col items-center text-center gap-1.5">
+                            <div class="text-sm font-bold text-white">eFootball</div>
+                            <span class="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/30 font-mono-tech text-[10px] text-blue-300 w-fit">KONAMI ID</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-black/40 border border-white/10 flex flex-col items-center text-center gap-1.5">
+                            <div class="text-sm font-bold text-white">Clash of Clans</div>
+                            <span class="px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/30 font-mono-tech text-[10px] text-yellow-300 w-fit">SUPERCELL</span>
+                        </div>
+                        <div class="p-3 rounded-2xl bg-black/40 border border-white/10 flex flex-col items-center text-center gap-1.5">
+                            <div class="text-sm font-bold text-white">Clash Royale</div>
+                            <span class="px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/30 font-mono-tech text-[10px] text-indigo-300 w-fit">SUPERCELL</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
-        <div class="bg-obsidian border border-neonred text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 whitespace-nowrap">
-            <i class="fas fa-bolt text-neonred"></i>
-            <span id="toastMessage" class="font-gaming font-bold text-sm tracking-wide">Copied!</span>
+    <!-- =====================================================================
+6. CLEAN THEME-ADAPTIVE CURRICULUM VITAE (CV) MODAL
+    ====================================================================== -->
+    <div id="cv-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-md" onclick="closeBackdrop(event, 'cv-modal')">
+        <div class="w-full max-w-3xl rounded-3xl panel-card overflow-hidden flex flex-col max-h-[92vh]">
+
+            <!-- CV Modal Top Bar -->
+            <div class="px-5 py-3.5 bg-black/70 border-b border-white/10 flex items-center justify-between gap-3 shrink-0">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full accent-bg"></span>
+                    <span class="font-mono-tech text-xs font-bold uppercase tracking-wider accent-text">CV // VERIFIED DOSSIER</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="window.print()"
+                        class="px-3 py-1 rounded-lg accent-soft hover:brightness-125 accent-border border font-mono-tech text-[11px] font-bold accent-text cursor-pointer">
+                        PRINT / SAVE PDF
+                    </button>
+                    <button type="button" onclick="closeModal('cv-modal')" aria-label="Close CV Modal"
+                        class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-slate-300 hover:text-white flex items-center justify-center cursor-pointer">
+                        ✕
+                    </button>
+                </div>
+            </div>
+
+            <!-- Scrollable CV Content -->
+            <div id="cv-printable-area" class="p-5 sm:p-8 overflow-y-auto space-y-6 text-slate-200 leading-relaxed">
+
+                <!-- CV Header -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-black/55 accent-border border flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                            Aakrisht Thapa
+                        </h2>
+                        <p class="mt-0.5 text-sm font-semibold accent-text">
+                            Network Operator cum Field Engineer (NFO)
+                        </p>
+                        <p class="mt-1.5 text-xs text-slate-300">
+                            Algarah Bazar, Reshi Road, Lava Block, Kalimpong - 734314
+                        </p>
+                    </div>
+                    <div class="font-mono-tech text-xs space-y-1.5 bg-black/45 p-3.5 rounded-xl border border-white/10 shrink-0">
+                        <div>
+                            <span class="text-slate-400">Email:</span>
+                            <a href="mailto:aakrishtthapa@gmail.com" class="accent-text underline">aakrishtthapa@gmail.com</a>
+                        </div>
+                        <div>
+                            <span class="text-slate-400">Phone:</span>
+                            <span class="px-1.5 py-0.5 rounded bg-rose-500/15 border border-rose-500/35 text-rose-300 text-[10px]">[REDACTED FOR PRIVACY]</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400">LinkedIn:</span>
+                            <a href="https://www.linkedin.com/in/aakrisht-thapa-b28" target="_blank" rel="noopener noreferrer" class="accent-text underline">aakrisht-thapa-b28</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Career Objective -->
+                <div class="p-4 rounded-2xl bg-black/40 border border-white/10">
+                    <h3 class="font-mono-tech text-xs font-bold uppercase tracking-widest accent-text mb-2">
+                        01 // Career Objective
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-300">
+                        Eager to expand expertise in emerging technologies and their practical applications, seeking a role leveraging existing knowledge while offering continuous learning and professional development.
+                    </p>
+                </div>
+
+                <!-- Work Experience -->
+                <div class="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-3.5">
+                    <h3 class="font-mono-tech text-xs font-bold uppercase tracking-widest accent-text border-b border-white/10 pb-2">
+                        02 // Work Experience
+                    </h3>
+
+                    <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/10">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                            <span class="text-sm font-bold text-white">Network Operator cum Field Engineer (NFO)</span>
+                            <span class="px-2 py-0.5 rounded accent-soft accent-border border font-mono-tech text-[10px] font-bold accent-text w-fit">
+                                01 Aug 2024 – Present
+                            </span>
+                        </div>
+                        <p class="mt-1 text-xs text-slate-300">
+                            <strong class="text-white">Xeam Ventures Pvt Ltd</strong> at <span class="accent-text font-medium">National Informatics Centre (NIC)</span>, Office of the District Magistrate, Kalimpong, West Bengal.
+                        </p>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/10">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                            <span class="text-sm font-bold text-white">Network Operator cum Field Engineer (NFO)</span>
+                            <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 font-mono-tech text-[10px] text-slate-300 w-fit">
+                                13 Mar 2023 – 31 Jul 2024
+                            </span>
+                        </div>
+                        <p class="mt-1 text-xs text-slate-300">
+                            <strong class="text-white">Ebixcash Mobility Software India Limited</strong> at <span class="accent-text font-medium">National Informatics Centre (NIC)</span>, Office of the District Magistrate, Kalimpong, West Bengal.
+                        </p>
+                    </div>
+
+                    <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 pt-1">
+                        <li class="flex items-start gap-2"><span class="accent-text font-mono-tech">&gt;</span><span>Monitored &amp; troubleshot routers and switches for minimal downtime across district nodes.</span></li>
+                        <li class="flex items-start gap-2"><span class="accent-text font-mono-tech">&gt;</span><span>Configured &amp; maintained CISCO routers, structured cabling, and NICNET infrastructure.</span></li>
+                        <li class="flex items-start gap-2"><span class="accent-text font-mono-tech">&gt;</span><span>Diagnosed server/network faults and ensured seamless district-wide connectivity.</span></li>
+                        <li class="flex items-start gap-2"><span class="accent-text font-mono-tech">&gt;</span><span>Managed video conferencing facilities &amp; district website maintenance.</span></li>
+                        <li class="flex items-start gap-2"><span class="accent-text font-mono-tech">&gt;</span><span>Provided critical technical support to the District Magistrate's Office during elections.</span></li>
+                    </ul>
+                </div>
+
+                <!-- Academic Qualifications Table -->
+                <div class="p-4 rounded-2xl bg-black/40 border border-white/10">
+                    <h3 class="font-mono-tech text-xs font-bold uppercase tracking-widest accent-text border-b border-white/10 pb-2 mb-3">
+                        03 // Academic Qualifications
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-white/[0.05] font-mono-tech text-[11px] uppercase accent-text">
+                                    <th class="p-2.5 border border-white/10">Qualification</th>
+                                    <th class="p-2.5 border border-white/10">Institution &amp; Board / University</th>
+                                    <th class="p-2.5 border border-white/10">Year</th>
+                                    <th class="p-2.5 border border-white/10">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-300">
+                                <tr>
+                                    <td class="p-2.5 border border-white/10 font-semibold text-white">B.Tech (Computer Science &amp; Engineering)</td>
+                                    <td class="p-2.5 border border-white/10">Surendra Institute of Engineering and Management, Siliguri (MAKAUT)</td>
+                                    <td class="p-2.5 border border-white/10 font-mono-tech">2021</td>
+                                    <td class="p-2.5 border border-white/10 font-mono-tech accent-text font-bold">DGPA: 8.03</td>
+                                </tr>
+                                <tr class="bg-white/[0.02]">
+                                    <td class="p-2.5 border border-white/10 font-semibold text-white">Intermediate (+2, ISC)</td>
+                                    <td class="p-2.5 border border-white/10">Dr. Graham's Homes, Kalimpong</td>
+                                    <td class="p-2.5 border border-white/10 font-mono-tech">2017</td>
+                                    <td class="p-2.5 border border-white/10 font-mono-tech accent-text font-bold">74.25%</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 border border-white/10 font-semibold text-white">High School (10, ICSE)</td>
+                                    <td class="p-2.5 border border-white/10">St. Xavier's School, Pedong, Kalimpong</td>
+                                    <td class="p-2.5 border border-white/10 font-mono-tech">2014</td>
+                                    <td class="p-2.5 border border-white/10 font-mono-tech accent-text font-bold">82.8%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Projects & Technical Skills -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 rounded-2xl bg-black/40 border border-white/10">
+                        <h3 class="font-mono-tech text-xs font-bold uppercase tracking-widest accent-text border-b border-white/10 pb-2 mb-2.5">
+                            04 // Projects
+                        </h3>
+                        <ul class="space-y-2 text-xs text-slate-300">
+                            <li><strong class="text-white">NICNET – National Informatics Centre MeitY:</strong> Kalimpong District Centre network operations &amp; routing infrastructure.</li>
+                            <li><strong class="text-white">ALACRITY 2020 College Fest Website:</strong> Built &amp; hosted using HTML, CSS, JS, Bootstrap &amp; PHP.</li>
+                            <li><strong class="text-white">Part-Time Job Portal:</strong> Final Year full-stack web application built with MERN Stack.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-black/40 border border-white/10">
+                        <h3 class="font-mono-tech text-xs font-bold uppercase tracking-widest accent-text border-b border-white/10 pb-2 mb-2.5">
+                            05 // Technical Skills
+                        </h3>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="px-2 py-1 rounded-md accent-soft accent-border border font-mono-tech text-[10px] text-white">CISCO Routers &amp; Structured Cabling</span>
+                            <span class="px-2 py-1 rounded-md accent-soft accent-border border font-mono-tech text-[10px] text-white">IP Addressing &amp; Subnetting</span>
+                            <span class="px-2 py-1 rounded-md accent-soft accent-border border font-mono-tech text-[10px] text-white">LAN / WAN Control</span>
+                            <span class="px-2 py-1 rounded-md accent-soft accent-border border font-mono-tech text-[10px] text-white">Network Security &amp; Configuration</span>
+                            <span class="px-2 py-1 rounded-md accent-soft accent-border border font-mono-tech text-[10px] text-white">Network Troubleshooting</span>
+                            <span class="px-2 py-1 rounded-md accent-soft accent-border border font-mono-tech text-[10px] text-white">System Upgrades &amp; Backup Recovery</span>
+                            <span class="px-2 py-1 rounded-md bg-white/5 border border-white/10 font-mono-tech text-[10px] text-slate-300">Java</span>
+                            <span class="px-2 py-1 rounded-md bg-white/5 border border-white/10 font-mono-tech text-[10px] text-slate-300">Web Design (HTML / CSS / JS)</span>
+                            <span class="px-2 py-1 rounded-md bg-white/5 border border-white/10 font-mono-tech text-[10px] text-slate-300">Photoshop / CorelDRAW / Illustrator</span>
+                            <span class="px-2 py-1 rounded-md bg-white/5 border border-white/10 font-mono-tech text-[10px] text-slate-300">AI Tools (Gemini)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Details & Hobbies -->
+                <div class="p-4 rounded-2xl bg-black/40 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="font-mono-tech text-xs space-y-1">
+                        <div class="font-bold uppercase tracking-wider accent-text mb-1">06 // Personal Details &amp; Hobbies</div>
+                        <div><span class="text-slate-400">DOB:</span> <span class="text-white">23rd Sept 1999</span> &bull; <span class="text-slate-400">Nationality:</span> <span class="text-white">Indian</span></div>
+                        <div class="text-slate-300"><span class="text-slate-400">Interests:</span> Cooking, Esports, Reading, Music, Football, Gym</div>
+                    </div>
+                    <div class="font-mono-tech text-xs accent-text font-bold shrink-0">
+                        SIGNED // AAKRISHT THAPA
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- =====================================================================
+         TOAST NOTIFICATION
+    ====================================================================== -->
+    <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-3 transition-all duration-300">
+        <div class="px-4 py-2 rounded-xl bg-black/90 accent-border border shadow-xl flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full accent-bg"></span>
+            <span id="toast-text" class="font-mono-tech text-xs text-white whitespace-nowrap">Copied</span>
+        </div>
+    </div>
+
+    <textarea id="copy-buffer" class="fixed -top-96 left-0 opacity-0 pointer-events-none" readonly></textarea>
 
     <script>
-        // Storage Keys
-        const CONFIG_STORAGE_KEY = 'akeo_hub_config_v1';
-        const PIN_STORAGE_KEY = 'akeo_hub_pin_v1';
-        const DEFAULT_THEME_COLOR = '#ef4444';
-
-        // Dynamic Anime Duck Emblem SVG Generator (Adapts to active theme color)
-        function getAnimeDuckSvg(accentHex = DEFAULT_THEME_COLOR) {
-            const safeHex = normalizeHex(accentHex);
-            const darkHex = shadeHexColor(safeHex, -0.35);
-            const deepHex = shadeHexColor(safeHex, -0.68);
-            const uid = 'duck_' + Math.random().toString(36).substring(2, 8);
-
-            return `
-                <svg class="w-full h-full" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="150" cy="150" r="134" stroke="${safeHex}" stroke-width="3" stroke-dasharray="14 8" opacity="0.65"/>
-                    <path d="M75 250L95 192L150 212L205 192L225 250H75Z" fill="#141419" stroke="${safeHex}" stroke-width="3"/>
-                    <path d="M98 192L126 226H174L202 192" fill="${deepHex}" stroke="${darkHex}" stroke-width="2.5"/>
-                    <path d="M88 125L65 84L105 97L115 54L145 87L175 49L185 94L228 79L205 125" fill="url(#${uid}_hair)" stroke="#09090b" stroke-width="3" stroke-linejoin="round"/>
-                    <path d="M92 135C92 98 118 82 150 82C182 82 208 98 208 135C208 172 182 195 150 195C118 195 92 172 92 135Z" fill="url(#${uid}_head)" stroke="#09090b" stroke-width="3"/>
-                    <path d="M84 140C84 95 112 68 150 68C188 68 216 95 216 140" stroke="#1f1f26" stroke-width="10" stroke-linecap="round"/>
-                    <rect x="70" y="118" width="18" height="44" rx="8" fill="#111115" stroke="${safeHex}" stroke-width="3"/>
-                    <rect x="212" y="118" width="18" height="44" rx="8" fill="#111115" stroke="${safeHex}" stroke-width="3"/>
-                    <circle cx="79" cy="140" r="4" fill="${safeHex}"/>
-                    <circle cx="221" cy="140" r="4" fill="${safeHex}"/>
-                    <path d="M104 122L138 134" stroke="#09090b" stroke-width="6" stroke-linecap="round"/>
-                    <path d="M196 122L162 134" stroke="#09090b" stroke-width="6" stroke-linecap="round"/>
-                    <path d="M108 132L136 138L128 148L110 144Z" fill="#ffffff"/>
-                    <circle cx="124" cy="140" r="5" fill="${darkHex}"/>
-                    <circle cx="126" cy="138" r="2" fill="#ffffff"/>
-                    <path d="M192 132L164 138L172 148L190 144Z" fill="#ffffff"/>
-                    <circle cx="176" cy="140" r="5" fill="${darkHex}"/>
-                    <circle cx="174" cy="138" r="2" fill="#ffffff"/>
-                    <path d="M105 162C105 150 195 150 195 162C205 174 185 188 150 188C115 188 95 174 105 162Z" fill="url(#${uid}_bill)" stroke="#09090b" stroke-width="3"/>
-                    <path d="M114 167C132 173 168 173 186 167" stroke="#09090b" stroke-width="3" stroke-linecap="round"/>
-                    <defs>
-                        <linearGradient id="${uid}_hair" x1="150" y1="49" x2="150" y2="125" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="${safeHex}"/>
-                            <stop offset="1" stop-color="${deepHex}"/>
-                        </linearGradient>
-                        <linearGradient id="${uid}_head" x1="150" y1="82" x2="150" y2="195" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="${darkHex}"/>
-                            <stop offset="1" stop-color="${deepHex}"/>
-                        </linearGradient>
-                        <linearGradient id="${uid}_bill" x1="150" y1="150" x2="150" y2="188" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="${safeHex}"/>
-                            <stop offset="1" stop-color="${darkHex}"/>
-                        </linearGradient>
-                    </defs>
-                </svg>
-            `;
-        }
-
-        // Default Profile Data
-        const defaultConfig = {
-            themeColor: DEFAULT_THEME_COLOR,
-            logo: '',
-            name: 'AKEO YOUTUBE',
-            bio: 'Gaming • Viral Clips • Unfiltered Entertainment. Welcome to the flock!',
-            links: {
-                youtube: { enabled: true, value: 'https://youtube.com/@AkeoYouTube' },
-                facebook: { enabled: true, value: 'https://facebook.com' },
-                instagram: { enabled: true, value: 'https://instagram.com' },
-                discord: { enabled: true, value: 'akeo_duck' }
+        /* =====================================================================
+1. THEME ENGINE (5 VERIFIED THEMES, NO LOCALSTORAGE OVERRIDES)
+        ===================================================================== */
+        const THEMES = {
+            'matrix-green': {
+                name: 'Terminal Green',
+                mode: 'matrix',
+                accent: '#00ff66',
+                rgb: '0, 255, 102',
+                bgFade: 'rgba(5, 10, 7, 0.12)'
+            },
+            'network-red': {
+                name: 'Network Red',
+                mode: 'topology',
+                accent: '#ff2a4b',
+                rgb: '255, 42, 75',
+                bg: '#0b0507'
+            },
+            'cyber-blue': {
+                name: 'Cyber NOC Blue',
+                mode: 'topology',
+                accent: '#00b8ff',
+                rgb: '0, 184, 255',
+                bg: '#050911'
+            },
+            'stealth-obsidian': {
+                name: 'Stealth Obsidian',
+                mode: 'grid',
+                accent: '#ffffff',
+                rgb: '255, 255, 255',
+                bg: '#070709'
+            },
+            'mlbb-mythic': {
+                name: 'MLBB Mythic Gold',
+                mode: 'embers',
+                accent: '#f59e0b',
+                rgb: '245, 158, 11',
+                bg: '#0c0806'
             }
         };
 
-        let currentConfig = JSON.parse(JSON.stringify(defaultConfig));
-        let draftLogoValue = '';
-        let draftThemeColor = DEFAULT_THEME_COLOR;
-        let isUnlocked = false;
-        let isPreviewingVisitor = false;
+        let currentTheme = THEMES['matrix-green'];
 
-        // Hex Color Utilities
-        function normalizeHex(hex) {
-            if (!hex || typeof hex !== 'string') return DEFAULT_THEME_COLOR;
-            let clean = hex.trim();
-            if (!clean.startsWith('#')) clean = '#' + clean;
-            if (/^#[0-9A-Fa-f]{6}$/.test(clean)) return clean.toLowerCase();
-            if (/^#[0-9A-Fa-f]{3}$/.test(clean)) {
-                return ('#' + clean[1] + clean[1] + clean[2] + clean[2] + clean[3] + clean[3]).toLowerCase();
-            }
-            return DEFAULT_THEME_COLOR;
-        }
+        function applyTheme(key) {
+            if (!THEMES[key]) return;
+            currentTheme = THEMES[key];
+            document.body.setAttribute('data-theme', key);
+            document.getElementById('theme-name-display').textContent = currentTheme.name;
 
-        function shadeHexColor(hex, percent) {
-            const clean = normalizeHex(hex).slice(1);
-            const num = parseInt(clean, 16);
-            const amt = Math.round(255 * percent);
-            const r = Math.min(255, Math.max(0, (num >> 16) + amt));
-            const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00ff) + amt));
-            const b = Math.min(255, Math.max(0, (num & 0x0000ff) + amt));
-            return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-        }
-
-        // Apply CSS Custom Properties Globally
-        function applyThemeColor(hex) {
-            const validHex = normalizeHex(hex);
-            const clean = validHex.slice(1);
-            const r = parseInt(clean.slice(0, 2), 16);
-            const g = parseInt(clean.slice(2, 4), 16);
-            const b = parseInt(clean.slice(4, 6), 16);
-
-            const darkHex = shadeHexColor(validHex, -0.28);
-            const deepHex = shadeHexColor(validHex, -0.62);
-
-            const root = document.documentElement;
-            root.style.setProperty('--accent', validHex);
-            root.style.setProperty('--accent-dark', darkHex);
-            root.style.setProperty('--accent-deep', deepHex);
-            root.style.setProperty('--accent-glow', `rgba(${r}, ${g}, ${b}, 0.55)`);
-            root.style.setProperty('--accent-soft', `rgba(${r}, ${g}, ${b}, 0.14)`);
-            root.style.setProperty('--accent-grid', `rgba(${r}, ${g}, ${b}, 0.08)`);
-            root.style.setProperty('--accent-border', `rgba(${r}, ${g}, ${b}, 0.28)`);
-
-            // Sync Editor Swatches & Picker UI if present
-            const colorInput = document.getElementById('themeColorInput');
-            const hexLabel = document.getElementById('themeHexLabel');
-            if (colorInput) colorInput.value = validHex;
-            if (hexLabel) hexLabel.textContent = validHex.toUpperCase();
-
-            document.querySelectorAll('#themeSwatches .swatch-btn').forEach(btn => {
-                if (normalizeHex(btn.dataset.color) === validHex) {
-                    btn.classList.add('active-swatch');
+            document.querySelectorAll('.theme-pill').forEach(btn => {
+                const isMatch = btn.getAttribute('data-theme-opt') === key;
+                if (isMatch) {
+                    btn.style.borderColor = currentTheme.accent;
+                    btn.style.backgroundColor = `rgba(${currentTheme.rgb}, 0.2)`;
+                    btn.style.color = currentTheme.accent;
                 } else {
-                    btn.classList.remove('active-swatch');
+                    btn.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+                    btn.style.backgroundColor = 'rgba(255, 255, 255, 0.04)';
+                    btn.style.color = '#cbd5e1';
                 }
             });
+
+            resetCanvasState();
         }
 
-        // Handle Owner Theme Selection (Live Preview)
-        function selectThemeColor(hex) {
-            draftThemeColor = normalizeHex(hex);
-            applyThemeColor(draftThemeColor);
-            renderLogoIntoContainer(document.getElementById('editorLogoPreview'), draftLogoValue, draftThemeColor);
-            renderLogoIntoContainer(document.getElementById('publicLogoContainer'), draftLogoValue, draftThemeColor);
-        }
+        /* =====================================================================
+2. AUDIO STREAM LOGIC (AMBIENT BACKGROUND)
+        ===================================================================== */
+        let isAudioPlaying = false;
+        
+        function toggleAudio() {
+            const audio = document.getElementById('ambient-audio');
+            const status = document.getElementById('audio-status');
+            const pill = document.getElementById('audio-pill');
+            const icon = document.getElementById('audio-icon');
 
-        // Render Logo Helper (Supports custom image URL/DataURL with automatic fallback to Anime Duck SVG)
-        function renderLogoIntoContainer(containerEl, logoSrc, themeHex = currentConfig.themeColor) {
-            if (!containerEl) return;
-            const trimmed = (logoSrc || '').trim();
-            if (!trimmed) {
-                containerEl.classList.add('p-1.5');
-                containerEl.classList.remove('p-0');
-                containerEl.innerHTML = getAnimeDuckSvg(themeHex);
-                return;
+            if (isAudioPlaying) {
+                audio.pause();
+                isAudioPlaying = false;
+                status.textContent = 'STATUS: STANDBY';
+                status.classList.remove('accent-text');
+                pill.textContent = 'PLAY';
+                // Play Icon
+                icon.innerHTML = '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>'; 
+            } else {
+                audio.volume = 0.5; // Start at 50% volume for ambience
+                audio.play().then(() => {
+                    isAudioPlaying = true;
+                    status.textContent = 'STATUS: STREAMING (NOC AMBIENCE)';
+                    status.classList.add('accent-text');
+                    pill.textContent = 'PAUSE';
+                    // Pause Icon
+                    icon.innerHTML = '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2V8h2v8zm4 0h-2V8h2v8z"/>';
+                }).catch(err => {
+                    showToast('Stream blocked by browser policy.');
+                });
             }
-
-            containerEl.classList.remove('p-1.5');
-            containerEl.classList.add('p-0');
-            containerEl.innerHTML = '';
-
-            const img = document.createElement('img');
-            img.src = trimmed;
-            img.alt = 'Channel Logo';
-            img.className = 'w-full h-full object-cover rounded-full';
-            img.onerror = function() {
-                containerEl.classList.add('p-1.5');
-                containerEl.classList.remove('p-0');
-                containerEl.innerHTML = getAnimeDuckSvg(themeHex);
-            };
-            containerEl.appendChild(img);
         }
 
-        // 1. Load Configuration (Priority: URL Hash -> LocalStorage -> Default)
-        function initApp() {
-            const hash = window.location.hash;
-            if (hash && hash.startsWith('#profile=')) {
-                try {
-                    const encoded = hash.replace('#profile=', '');
-                    const decodedJson = decodeURIComponent(escape(atob(encoded)));
-                    const sharedData = JSON.parse(decodedJson);
-                    if (sharedData && sharedData.name && sharedData.links) {
-                        currentConfig = Object.assign({}, defaultConfig, sharedData);
-                    }
-                } catch (err) {
-                    console.warn('Invalid share link payload, falling back to saved config.');
-                    loadFromLocalStorage();
+        /* =====================================================================
+3. OPENING HANDSHAKE GATE
+        ===================================================================== */
+        let gateRunning = false;
+
+        function startHandshake() {
+            if (gateRunning) return;
+            gateRunning = true;
+
+            const btn = document.getElementById('init-conn-btn');
+            const box = document.getElementById('gate-progress-box');
+            const bar = document.getElementById('gate-bar');
+            const pct = document.getElementById('gate-percent');
+            const status = document.getElementById('gate-status-text');
+
+            btn.disabled = true;
+            btn.textContent = 'HANDSHAKING...';
+            box.classList.remove('hidden');
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                if (progress > 100) progress = 100;
+                bar.style.width = progress + '%';
+                pct.textContent = progress + '%';
+
+                if (progress === 40) {
+                    status.textContent = '> Routing via NICNET Kalimpong GW [OK]';
+                } else if (progress === 80) {
+                    status.textContent = '> Node [AKEO] authenticated.';
                 }
-            } else {
-                loadFromLocalStorage();
-            }
 
-            currentConfig.themeColor = normalizeHex(currentConfig.themeColor || DEFAULT_THEME_COLOR);
-            applyThemeColor(currentConfig.themeColor);
-            renderVisitorView();
-            populateEditorForm();
-        }
-
-        function loadFromLocalStorage() {
-            const saved = localStorage.getItem(CONFIG_STORAGE_KEY);
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    currentConfig = Object.assign({}, defaultConfig, parsed);
-                } catch (e) {
-                    currentConfig = JSON.parse(JSON.stringify(defaultConfig));
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('gate-screen').classList.add('unlocked');
+                        document.getElementById('main-portfolio').classList.add('visible');
+                    }, 180);
                 }
-            }
+            }, 65);
         }
 
-        function getStoredPin() {
-            return localStorage.getItem(PIN_STORAGE_KEY) || '1234';
-        }
+        /* =====================================================================
+4. ID ENCRYPTION TOGGLE (LOCKED <-> DECRYPTED SHADOWED SVG)
+        ===================================================================== */
+        let idDecrypted = false;
 
-        // 2. Render Public Visitor View
-        function renderVisitorView() {
-            const activeColor = normalizeHex(currentConfig.themeColor || DEFAULT_THEME_COLOR);
-            applyThemeColor(activeColor);
-            renderLogoIntoContainer(document.getElementById('publicLogoContainer'), currentConfig.logo, activeColor);
-            document.getElementById('publicDisplayName').textContent = currentConfig.name || 'AKEO YOUTUBE';
-            document.getElementById('publicBio').textContent = currentConfig.bio || '';
+        function toggleIdEncryption() {
+            idDecrypted = !idDecrypted;
+            const lockedEl = document.getElementById('avatar-locked');
+            const decryptedEl = document.getElementById('avatar-decrypted');
+            const labelEl = document.getElementById('enc-pill-label');
+            const boxEl = document.getElementById('avatar-box');
 
-            const container = document.getElementById('publicLinksList');
-            container.innerHTML = '';
+            boxEl.classList.remove('avatar-glitch');
+            void boxEl.offsetWidth;
+            boxEl.classList.add('avatar-glitch');
 
-            const platforms = [
-                {
-                    key: 'youtube',
-                    label: 'YouTube',
-                    sub: 'Watch Videos & Shorts',
-                    icon: 'fab fa-youtube',
-                    data: currentConfig.links.youtube
-                },
-                {
-                    key: 'facebook',
-                    label: 'Facebook',
-                    sub: 'Follow Page & Streams',
-                    icon: 'fab fa-facebook-f',
-                    data: currentConfig.links.facebook
-                },
-                {
-                    key: 'instagram',
-                    label: 'Instagram',
-                    sub: 'Reels & Daily Updates',
-                    icon: 'fab fa-instagram',
-                    data: currentConfig.links.instagram
-                },
-                {
-                    key: 'discord',
-                    label: 'Discord',
-                    sub: isUrl(currentConfig.links.discord?.value) ? 'Join The Duck Nest' : `Tag: ${currentConfig.links.discord?.value || 'Not set'}`,
-                    icon: 'fab fa-discord',
-                    data: currentConfig.links.discord
-                }
-            ];
-
-            let activeCount = 0;
-
-            platforms.forEach(item => {
-                if (!item.data || !item.data.enabled || !item.data.value.trim()) return;
-                activeCount++;
-
-                const val = item.data.value.trim();
-                const isLink = isUrl(val);
-
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'social-btn w-full p-4 rounded-2xl bg-card/90 hover:bg-card flex items-center justify-between group text-left';
-                
-                btn.onclick = () => {
-                    if (isLink) {
-                        const formattedUrl = val.startsWith('http://') || val.startsWith('https://') ? val : `https://${val}`;
-                        window.open(formattedUrl, '_blank', 'noopener,noreferrer');
-                    } else {
-                        copyTextToClipboard(val);
-                        showToast(`Copied Discord tag: ${val}`);
-                    }
-                };
-
-                btn.innerHTML = `
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-xl bg-obsidian border border-neonred/30 group-hover:bg-neonred group-hover:border-neonred text-neonred group-hover:text-white flex items-center justify-center text-xl transition-colors">
-                            <i class="${item.icon}"></i>
-                        </div>
-                        <div>
-                            <div class="font-display font-bold text-base text-white group-hover:text-neonred transition-colors">${item.label}</div>
-                            <div class="text-xs text-gray-400">${item.sub}</div>
-                        </div>
-                    </div>
-                    <div class="w-9 h-9 rounded-lg bg-obsidian/60 text-gray-400 group-hover:text-white flex items-center justify-center text-xs transition-colors">
-                        <i class="fas ${isLink ? 'fa-arrow-up-right-from-square' : 'fa-copy'}"></i>
-                    </div>
-                `;
-
-                container.appendChild(btn);
-            });
-
-            if (activeCount === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-6 px-4 rounded-2xl bg-obsidian/60 border border-white/5 text-gray-400 text-sm">
-                        No public links active right now.
-                    </div>
-                `;
-            }
-        }
-
-        function isUrl(str) {
-            if (!str) return false;
-            const trimmed = str.trim().toLowerCase();
-            return trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.includes('.com') || trimmed.includes('.gg') || trimmed.includes('.tv') || trimmed.includes('www.');
-        }
-
-        // 3. Populate Owner Form
-        function populateEditorForm() {
-            draftLogoValue = currentConfig.logo || '';
-            draftThemeColor = normalizeHex(currentConfig.themeColor || DEFAULT_THEME_COLOR);
-
-            const urlInput = document.getElementById('editLogoUrl');
-            urlInput.value = draftLogoValue.startsWith('data:') ? '' : draftLogoValue;
-            applyThemeColor(draftThemeColor);
-            renderLogoIntoContainer(document.getElementById('editorLogoPreview'), draftLogoValue, draftThemeColor);
-
-            document.getElementById('editName').value = currentConfig.name;
-            document.getElementById('editBio').value = currentConfig.bio;
-
-            document.getElementById('visYoutube').checked = currentConfig.links.youtube.enabled;
-            document.getElementById('urlYoutube').value = currentConfig.links.youtube.value;
-
-            document.getElementById('visFacebook').checked = currentConfig.links.facebook.enabled;
-            document.getElementById('urlFacebook').value = currentConfig.links.facebook.value;
-
-            document.getElementById('visInstagram').checked = currentConfig.links.instagram.enabled;
-            document.getElementById('urlInstagram').value = currentConfig.links.instagram.value;
-
-            document.getElementById('visDiscord').checked = currentConfig.links.discord.enabled;
-            document.getElementById('urlDiscord').value = currentConfig.links.discord.value;
-
-            document.getElementById('editPin').value = getStoredPin();
-        }
-
-        // Handle Custom Logo File Upload (Compressed via HTML5 Canvas)
-        function handleLogoFileUpload(event) {
-            const file = event.target.files && event.target.files[0];
-            if (!file) return;
-
-            if (!file.type.startsWith('image/')) {
-                showToast('Please select a valid image file.');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    const maxSize = 240;
-                    const canvas = document.createElement('canvas');
-                    let width = img.width;
-                    let height = img.height;
-
-                    // Center-crop to square and scale down for compact storage
-                    const minSide = Math.min(width, height);
-                    const sx = (width - minSide) / 2;
-                    const sy = (height - minSide) / 2;
-
-                    canvas.width = maxSize;
-                    canvas.height = maxSize;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, maxSize, maxSize);
-
-                    // Export compressed WebP/JPEG data URL
-                    let compressedDataUrl = canvas.toDataURL('image/webp', 0.82);
-                    if (!compressedDataUrl.startsWith('data:image/webp')) {
-                        compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
-                    }
-
-                    draftLogoValue = compressedDataUrl;
-                    document.getElementById('editLogoUrl').value = '';
-                    renderLogoIntoContainer(document.getElementById('editorLogoPreview'), draftLogoValue, draftThemeColor);
-                    showToast('Logo uploaded! Click Save Changes to apply.');
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-            event.target.value = '';
-        }
-
-        // Handle Direct Logo URL Input
-        function handleLogoUrlInput(val) {
-            draftLogoValue = val.trim();
-            renderLogoIntoContainer(document.getElementById('editorLogoPreview'), draftLogoValue, draftThemeColor);
-        }
-
-        // Reset Logo Back to Default Red & Black Anime Duck
-        function resetLogoToDefault() {
-            draftLogoValue = '';
-            document.getElementById('editLogoUrl').value = '';
-            document.getElementById('logoFileInput').value = '';
-            renderLogoIntoContainer(document.getElementById('editorLogoPreview'), '', draftThemeColor);
-            showToast('Reset to Anime Duck emblem (Save to apply)');
-        }
-
-        // 4. Owner Mode Unlock / Lock / Preview Flow
-        function handleOwnerButtonClick() {
-            if (isUnlocked) {
-                lockOwnerMode();
+            if (idDecrypted) {
+                lockedEl.classList.add('hidden');
+                decryptedEl.classList.remove('hidden');
+                labelEl.textContent = 'ID ENCRYPTION: DECRYPTED';
+                showToast('Identity decrypted // AKEO silhouette active');
             } else {
-                document.getElementById('pinInput').value = '';
-                document.getElementById('pinError').classList.add('hidden');
-                document.getElementById('pinModal').classList.remove('hidden');
-                document.getElementById('pinModal').classList.add('flex');
-                setTimeout(() => document.getElementById('pinInput').focus(), 100);
+                decryptedEl.classList.add('hidden');
+                lockedEl.classList.remove('hidden');
+                labelEl.textContent = 'ID ENCRYPTION: LOCKED';
+                showToast('Identity locked // SHA-256 sigil active');
             }
         }
 
-        function closePinModal() {
-            document.getElementById('pinModal').classList.add('hidden');
-            document.getElementById('pinModal').classList.remove('flex');
-        }
-
-        document.getElementById('pinForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const entered = document.getElementById('pinInput').value;
-            if (entered === getStoredPin()) {
-                closePinModal();
-                unlockOwnerMode();
-            } else {
-                document.getElementById('pinError').classList.remove('hidden');
-                document.getElementById('pinInput').value = '';
-                document.getElementById('pinInput').focus();
-            }
-        });
-
-        function unlockOwnerMode() {
-            isUnlocked = true;
-            isPreviewingVisitor = false;
-            populateEditorForm();
-            updateViewVisibility();
-            showToast('Owner Mode Unlocked');
-        }
-
-        function lockOwnerMode() {
-            isUnlocked = false;
-            isPreviewingVisitor = false;
-            // Revert unsaved draft color/logo changes back to saved config
-            applyThemeColor(currentConfig.themeColor);
-            renderVisitorView();
-            updateViewVisibility();
-            showToast('Locked to Public Visitor View');
-        }
-
-        function togglePreviewMode() {
-            if (!isUnlocked) return;
-            isPreviewingVisitor = !isPreviewingVisitor;
-            if (isPreviewingVisitor) {
-                // Show live preview of current draft edits
-                applyThemeColor(draftThemeColor);
-                renderLogoIntoContainer(document.getElementById('publicLogoContainer'), draftLogoValue, draftThemeColor);
-                document.getElementById('publicDisplayName').textContent = document.getElementById('editName').value.trim() || 'AKEO YOUTUBE';
-                document.getElementById('publicBio').textContent = document.getElementById('editBio').value.trim();
-            } else {
-                renderVisitorView();
-            }
-            updateViewVisibility();
-        }
-
-        function updateViewVisibility() {
-            const visitorView = document.getElementById('visitorView');
-            const ownerEditorView = document.getElementById('ownerEditorView');
-            const previewToggleBtn = document.getElementById('previewToggleBtn');
-            const previewBanner = document.getElementById('previewBanner');
-            const lockIcon = document.getElementById('ownerLockIcon');
-            const lockBtn = document.getElementById('ownerLockBtn');
-
-            if (!isUnlocked) {
-                // Default Public Visitor Mode
-                visitorView.classList.remove('hidden');
-                ownerEditorView.classList.add('hidden');
-                previewToggleBtn.classList.add('hidden');
-                previewBanner.classList.add('hidden');
-                lockIcon.className = 'fas fa-lock text-sm';
-                lockBtn.classList.remove('border-neonred', 'text-neonred');
-            } else {
-                // Owner Unlocked
-                previewToggleBtn.classList.remove('hidden');
-                lockIcon.className = 'fas fa-lock-open text-sm';
-                lockBtn.classList.add('border-neonred', 'text-neonred');
-
-                if (isPreviewingVisitor) {
-                    visitorView.classList.remove('hidden');
-                    ownerEditorView.classList.add('hidden');
-                    previewBanner.classList.remove('hidden');
-                    document.getElementById('previewToggleText').textContent = 'Back to Editor';
-                    document.getElementById('previewToggleIcon').className = 'fas fa-pen-to-square';
-                } else {
-                    visitorView.classList.add('hidden');
-                    ownerEditorView.classList.remove('hidden');
-                    previewBanner.classList.add('hidden');
-                    document.getElementById('previewToggleText').textContent = 'Visitor Preview';
-                    document.getElementById('previewToggleIcon').className = 'fas fa-eye';
+        /* =====================================================================
+5. CLIPBOARD, TOAST, & MODALS
+        ===================================================================== */
+        function copyToClipboard(text) {
+            const buf = document.getElementById('copy-buffer');
+            buf.value = text;
+            buf.select();
+            buf.setSelectionRange(0, 99999);
+            try {
+                document.execCommand('copy');
+            } catch (e) {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).catch(() => {});
                 }
             }
         }
 
-        // 5. Save Owner Edits to LocalStorage
-        document.getElementById('ownerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            currentConfig = {
-                themeColor: normalizeHex(draftThemeColor),
-                logo: draftLogoValue || '',
-                name: document.getElementById('editName').value.trim() || 'AKEO YOUTUBE',
-                bio: document.getElementById('editBio').value.trim(),
-                links: {
-                    youtube: {
-                        enabled: document.getElementById('visYoutube').checked,
-                        value: document.getElementById('urlYoutube').value.trim()
-                    },
-                    facebook: {
-                        enabled: document.getElementById('visFacebook').checked,
-                        value: document.getElementById('urlFacebook').value.trim()
-                    },
-                    instagram: {
-                        enabled: document.getElementById('visInstagram').checked,
-                        value: document.getElementById('urlInstagram').value.trim()
-                    },
-                    discord: {
-                        enabled: document.getElementById('visDiscord').checked,
-                        value: document.getElementById('urlDiscord').value.trim()
-                    }
-                }
-            };
-
-            const newPin = document.getElementById('editPin').value.trim();
-            if (newPin.length >= 4) {
-                localStorage.setItem(PIN_STORAGE_KEY, newPin);
-            }
-
-            localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(currentConfig));
-            renderVisitorView();
-            showToast('Saved! Changes updated for visitors.');
-        });
-
-        // 6. Export Config into Shareable Visitor Link
-        function copyShareableLink() {
-            // Save latest form values first
-            document.getElementById('ownerForm').dispatchEvent(new Event('submit'));
-
-            const sharePayload = JSON.parse(JSON.stringify(currentConfig));
-            let omittedLargeLogo = false;
-
-            // Keep URL length practical if an uploaded data URL is too large
-            if (sharePayload.logo && sharePayload.logo.startsWith('data:') && sharePayload.logo.length > 14000) {
-                sharePayload.logo = '';
-                omittedLargeLogo = true;
-            }
-
-            const jsonStr = JSON.stringify(sharePayload);
-            const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
-            const baseUrl = window.location.href.split('#')[0];
-            const shareUrl = `${baseUrl}#profile=${encoded}`;
-
-            copyTextToClipboard(shareUrl);
-            if (omittedLargeLogo) {
-                showToast('Link copied! (Use an image URL to include custom logo in links)');
-            } else {
-                showToast('Shareable Visitor Link copied to clipboard!');
-            }
-        }
-
-        // Reliable Clipboard Helper
-        function copyTextToClipboard(text) {
-            const tempInput = document.createElement('textarea');
-            tempInput.value = text;
-            tempInput.style.position = 'fixed';
-            tempInput.style.opacity = '0';
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-        }
-
-        // Toast Helper
-        let toastTimer;
+        let toastTimeout = null;
         function showToast(msg) {
             const toast = document.getElementById('toast');
-            document.getElementById('toastMessage').textContent = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
+            document.getElementById('toast-text').textContent = msg;
+            toast.classList.remove('opacity-0', 'translate-y-3');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-3');
+                toast.classList.remove('opacity-100', 'translate-y-0');
+            }, 2400);
         }
 
-        // Close PIN modal on outside click
-        document.getElementById('pinModal').addEventListener('click', function(e) {
-            if (e.target === this) closePinModal();
+        function copyDiscordHandle() {
+            copyToClipboard('.doctorissadist');
+            const pill = document.getElementById('discord-copy-pill');
+            pill.textContent = 'COPIED!';
+            showToast('Discord copied: .doctorissadist');
+            setTimeout(() => {
+                pill.textContent = 'COPY';
+            }, 1800);
+        }
+
+        function copyMlbbGameId() {
+            copyToClipboard('156854879');
+            showToast('MLBB Game ID copied: 156854879');
+        }
+
+        function openModal(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.remove('hidden');
+            el.classList.add('flex');
+        }
+
+        function closeModal(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.add('hidden');
+            el.classList.remove('flex');
+        }
+
+        function closeBackdrop(event, id) {
+            if (event.target === document.getElementById(id)) {
+                closeModal(id);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal('gaming-modal');
+                closeModal('cv-modal');
+            }
         });
 
-        // Initialize on load
-        initApp();
+        /* =====================================================================
+6. INTERACTIVE MLBB HERO ROSTER SKILL ANIMATIONS
+        ===================================================================== */
+        const HERO_SKILLS = {
+            martis: {
+                title: 'MARTIS // ASHURA\'S WRATH & DECIMATION',
+                desc: 'Twin-blade true-damage execution triggered — resets cooldown on kill with +100% movement speed burst.',
+                fx: `<div class="w-full h-4 bg-gradient-to-r from-transparent via-purple-400 to-white shadow-[0_0_18px_#c084fc] fx-martis"></div>`
+            },
+            lolita: {
+                title: 'LOLITA // GUARDIAN\'S REFLECTION & NOUMENON BLAST',
+                desc: 'Noumenon Energy Core deploys an aegis shield that blocks and reflects incoming projectiles before unleashing an AoE stun.',
+                fx: `<div class="w-20 h-20 rounded-full border-4 border-amber-300 bg-amber-400/25 shadow-[0_0_20px_#fbbf24] fx-lolita"></div>`
+            },
+            chou: {
+                title: 'CHOU // JEET KUNE DO & THE WAY OF DRAGON',
+                desc: 'Three-stage knockup combo chained into a roundhouse dragon kick isolating the enemy carry.',
+                fx: `<div class="w-full h-full bg-gradient-to-r from-transparent via-sky-400/45 to-amber-300/55 fx-chou"></div>`
+            }
+        };
+
+        function activateHeroSkill(hero) {
+            const info = HERO_SKILLS[hero];
+            if (!info) return;
+
+            const fxBox = document.getElementById(`skill-fx-${hero}`);
+            if (fxBox) {
+                fxBox.innerHTML = info.fx;
+                setTimeout(() => { fxBox.innerHTML = ''; }, 750);
+            }
+
+            document.getElementById('hero-readout-title').textContent = info.title;
+            document.getElementById('hero-readout-desc').textContent = info.desc;
+        }
+
+        /* =====================================================================
+7. UNOBTRUSIVE NOC DUCK NETWORKING TIPS
+        ===================================================================== */
+        const NOC_TIPS = [
+            "Subnetting Tip: A /30 mask (255.255.255.252) provides 2 usable host IPs—ideal for point-to-point CISCO router serial or fiber links.",
+            "CISCO CLI Tip: Always run 'copy running-config startup-config' (or 'wr mem') after VLAN edits so changes persist across power cycles.",
+            "802.1Q Trunking: Inserts a 4-byte VLAN tag into Ethernet frames so a single uplink port carries isolated department traffic.",
+            "Single-Mode OS2 Fiber: Uses a 9-micron core with 1310nm/1550nm lasers to carry NICNET backbone traffic over long distances with ultra-low loss.",
+            "Port Security: Enabling 'switchport port-security mac-address sticky' locks sensitive government LAN ports to authorized MAC addresses.",
+            "OSPF Routing: Calculates shortest paths via Dijkstra's SPF algorithm using Cost = Reference Bandwidth / Interface Bandwidth."
+        ];
+
+        let tipIdx = 0;
+
+        function cycleNetworkingTip() {
+            tipIdx = (tipIdx + 1) % NOC_TIPS.length;
+            document.getElementById('tip-index').textContent = String(tipIdx + 1).padStart(2, '0');
+            document.getElementById('noc-tip-text').textContent = NOC_TIPS[tipIdx];
+        }
+
+        /* =====================================================================
+8. ADAPTIVE BACKGROUND CANVAS (MATRIX / TOPOLOGY / GRID / EMBERS)
+        ===================================================================== */
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        const GLYPHS = '0123456789ABCDEFｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿ';
+        let drops = [];
+        let nodes = [];
+        let gridShift = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            resetCanvasState();
+        }
+
+        function resetCanvasState() {
+            ctx.fillStyle = currentTheme.bg || '#050a07';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const cols = Math.floor(canvas.width / 16) + 1;
+            drops = Array.from({ length: cols }, () => Math.random() * -35);
+
+            const count = Math.min(55, Math.max(24, Math.floor((canvas.width * canvas.height) / 24000)));
+            nodes = Array.from({ length: count }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.45,
+                vy: currentTheme.mode === 'embers' ? -(Math.random() * 0.75 + 0.25) : (Math.random() - 0.5) * 0.45,
+                r: Math.random() * 2 + 1,
+                gold: Math.random() > 0.45
+            }));
+        }
+
+        function animateCanvas() {
+            const mode = currentTheme.mode;
+
+            if (mode === 'matrix') {
+                ctx.fillStyle = currentTheme.bgFade;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.font = '14px "JetBrains Mono", monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const ch = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+                    const x = i * 16;
+                    const y = drops[i] * 16;
+                    ctx.fillStyle = Math.random() > 0.94 ? '#ffffff' : currentTheme.accent;
+                    ctx.fillText(ch, x, y);
+                    if (y > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i] += 0.65;
+                }
+            } else if (mode === 'topology') {
+                ctx.fillStyle = currentTheme.bg;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                for (let i = 0; i < nodes.length; i++) {
+                    const a = nodes[i];
+                    a.x += a.vx;
+                    a.y += a.vy;
+                    if (a.x < 0 || a.x > canvas.width) a.vx *= -1;
+                    if (a.y < 0 || a.y > canvas.height) a.vy *= -1;
+
+                    ctx.beginPath();
+                    ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${currentTheme.rgb}, 0.65)`;
+                    ctx.fill();
+
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const b = nodes[j];
+                        const d = Math.hypot(a.x - b.x, a.y - b.y);
+                        if (d < 140) {
+                            ctx.beginPath();
+                            ctx.moveTo(a.x, a.y);
+                            ctx.lineTo(b.x, b.y);
+                            ctx.strokeStyle = `rgba(${currentTheme.rgb}, ${(1 - d / 140) * 0.25})`;
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            } else if (mode === 'grid') {
+                ctx.fillStyle = currentTheme.bg;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                const step = 44;
+                gridShift = (gridShift + 0.3) % step;
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+                ctx.lineWidth = 1;
+
+                for (let x = gridShift; x < canvas.width; x += step) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                    ctx.stroke();
+                }
+                for (let y = gridShift; y < canvas.height; y += step) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                    ctx.stroke();
+                }
+            } else if (mode === 'embers') {
+                ctx.fillStyle = currentTheme.bg;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                for (let i = 0; i < nodes.length; i++) {
+                    const p = nodes[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.y < -10) {
+                        p.y = canvas.height + 10;
+                        p.x = Math.random() * canvas.width;
+                    }
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = p.gold ? 'rgba(245, 158, 11, 0.65)' : 'rgba(239, 68, 68, 0.55)';
+                    ctx.fill();
+                }
+            }
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        window.onload = function () {
+            resizeCanvas();
+            applyTheme('matrix-green');
+            animateCanvas();
+        };
     </script>
 </body>
 </html>
